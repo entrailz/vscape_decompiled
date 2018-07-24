@@ -12,18 +12,18 @@ public final class IsaacCipher
     public IsaacCipher(final int[] array) {
         this.c = new int[256];
         System.arraycopy(array, 0, this.b = new int[256], 0, 4);
-        this.c();
+        this.initializeKeySet();
     }
     
-    public final int a() {
+    public final int getNextKey() {
         if (this.a-- == 0) {
-            this.b();
+            this.isaac();
             this.a = 255;
         }
         return this.b[this.a];
     }
     
-    private void b() {
+    private void isaac() {
         this.e += ++this.f;
         for (int i = 0; i < 256; ++i) {
             final int n = this.c[i];
@@ -46,7 +46,7 @@ public final class IsaacCipher
         }
     }
     
-    private void c() {
+    private void initializeKeySet() {
         int n8;
         int n7;
         int n6;
@@ -144,7 +144,7 @@ public final class IsaacCipher
             this.c[k + 6] = n7;
             this.c[k + 7] = n8;
         }
-        this.b();
+        this.isaac();
         this.a = 256;
     }
 }

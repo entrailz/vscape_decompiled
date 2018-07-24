@@ -17,7 +17,7 @@ public final class Frame
     	uwotm8.Frame.g = new Hashtable();
     }
     
-    public static void a(final byte[] array, final int n) {
+    public static void decode(final byte[] array, final int n) {
         final Buffer i;
         (i = new Buffer(array)).b = array.length - 12;
         final int j = i.j();
@@ -102,16 +102,16 @@ public final class Frame
         }
     }
     
-    public static void a() {
+    public static void clearFrames() {
     	uwotm8.Frame.g = null;
     }
     
-    public static Frame a(final int n) {
+    public static Frame lookup(final int n) {
         try {
             final int n2 = n >> 16;
             final Frame e;
             if ((e = (uwotm8.Frame) uwotm8.Frame.g.get(n)) == null) {
-                Client.k.E.a(1, n2);
+                Client.k.E.provide(1, n2);
                 return null;
             }
             return e;
@@ -122,7 +122,7 @@ public final class Frame
         }
     }
     
-    public static boolean b(final int n) {
+    public static boolean isValid(final int n) {
         return n == -1;
     }
 }

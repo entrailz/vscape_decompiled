@@ -8,12 +8,12 @@ public final class SceneTile extends Node
     final int d;
     public SimpleTile e;
     public ShapedTile f;
-    public ab g;
-    public ac h;
-    public Z_1 i;
-    public R_1 j;
+    public Wall g;
+    public WallDecoration h;
+    public GroundDecoration i;
+    public GroundItem j;
     int k;
-    public final v[] l;
+    public final GameObject[] l;
     final int[] m;
     int n;
     int o;
@@ -27,7 +27,7 @@ public final class SceneTile extends Node
     public SceneTile w;
     
     public SceneTile(final int n, final int b, final int c) {
-        this.l = new v[5];
+        this.l = new GameObject[5];
         this.m = new int[5];
         this.a = n;
         this.d = n;

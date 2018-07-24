@@ -16,31 +16,31 @@ public final class Cache
         this.d = new HashTable();
     }
     
-    public final CacheableNode a(final long n) {
+    public final CacheableNode get(final long n) {
         final CacheableNode n2;
-        if ((n2 = (CacheableNode)this.d.a(n)) != null) {
-            this.e.a(n2);
+        if ((n2 = (CacheableNode)this.d.get(n)) != null) {
+            this.e.insertHead(n2);
         }
         return n2;
     }
     
-    public final void a(final CacheableNode n, final long n2) {
+    public final void put(final CacheableNode n, final long n2) {
         try {
             if (this.c == 0) {
                 final CacheableNode a;
-                (a = this.e.a()).D();
-                a.E();
+                (a = this.e.popTail()).unlink();
+                a.clear();
                 if (a == this.a) {
                     final CacheableNode a2;
-                    (a2 = this.e.a()).D();
-                    a2.E();
+                    (a2 = this.e.popTail()).unlink();
+                    a2.clear();
                 }
             }
             else {
                 --this.c;
             }
-            this.d.a(n, n2);
-            this.e.a(n);
+            this.d.remove(n, n2);
+            this.e.insertHead(n);
         }
         catch (RuntimeException ex) {
             SignLink.b("47547, " + n + ", " + n2 + ", 2" + ", " + ex.toString());
@@ -48,11 +48,11 @@ public final class Cache
         }
     }
     
-    public final void a() {
+    public final void removeAll() {
         CacheableNode a;
-        while ((a = this.e.a()) != null) {
-            a.D();
-            a.E();
+        while ((a = this.e.popTail()) != null) {
+            a.unlink();
+            a.clear();
         }
         this.c = this.b;
     }

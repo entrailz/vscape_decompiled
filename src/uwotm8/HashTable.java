@@ -20,7 +20,7 @@ final class HashTable
         }
     }
     
-    public final Node a(final long n) {
+    public final Node get(final long n) {
     	Node i;
         for (Node k = (i = this.b[(int)(n & 0x3FFL)]).aF; k != i; k = k.aF) {
             if (k.aE == n) {
@@ -30,10 +30,10 @@ final class HashTable
         return null;
     }
     
-    public final void a(final Node k, final long ae) {
+    public final void remove(final Node k, final long ae) {
         try {
             if (k.aG != null) {
-                k.D();
+                k.unlink();
             }
             final Node af = this.b[(int)(ae & 0x3FFL)];
             k.aG = af.aG;

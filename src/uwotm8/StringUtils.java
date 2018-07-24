@@ -10,7 +10,7 @@ public final class StringUtils
         b = new char[] { ' ', 'e', 't', 'a', 'o', 'i', 'h', 'n', 's', 'r', 'd', 'l', 'u', 'm', 'w', 'c', 'y', 'f', 'g', 'p', 'b', 'v', 'k', 'x', 'j', 'q', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '!', '?', '.', ',', ':', ';', '(', ')', '-', '&', '*', '\\', '\'', '@', '#', '+', '=', '$', '%', '\"', '[', ']', '_', '<', '>', '^', '/', '{', '|', '}', '~', '`', '£' };
     }
     
-    public static long a(final String s) {
+    public static long encodeBase37(final String s) {
         long n = 0L;
         for (int i = 0; i < s.length(); ++i) {
             if (i >= 12) {
@@ -37,7 +37,7 @@ public final class StringUtils
         return n;
     }
     
-    public static String a(long n) {
+    public static String decodeBase37(long n) {
         if (n <= 0L || n >= 9065737908494995456L) {
             return "invalid_name";
         }
@@ -59,7 +59,7 @@ public final class StringUtils
         }
     }
     
-    public static long b(String upperCase) {
+    public static long hashSpriteName(String upperCase) {
         upperCase = upperCase.toUpperCase();
         long n = 0L;
         for (int i = 0; i < upperCase.length(); ++i) {
@@ -69,11 +69,11 @@ public final class StringUtils
         return n;
     }
     
-    public static String a(final int n) {
+    public static String decodeIp(final int n) {
         return String.valueOf(n >>> 24) + "." + (n >> 16 & 0xFF) + "." + (n >> 8 & 0xFF) + "." + (n & 0xFF);
     }
     
-    public static String c(final String s) {
+    public static String format(final String s) {
         if (s.length() > 0) {
             final char[] charArray = s.toCharArray();
             for (int i = 0; i < charArray.length; ++i) {
@@ -89,7 +89,7 @@ public final class StringUtils
         return s;
     }
     
-    public static String d(final String s) {
+    public static String getAsterisks(final String s) {
         final StringBuffer sb = new StringBuffer();
         for (int i = 0; i < s.length(); ++i) {
             sb.append("*");

@@ -19,9 +19,9 @@ public final class Index
         this.c = c;
     }
     
-    public final synchronized byte[] a(final int n) {
+    public final synchronized byte[] decompress(final int n) {
         try {
-            this.a(this.c, n * 6);
+            this.seek(this.c, n * 6);
             int read;
             for (int i = 0; i < 6; i += read) {
                 if ((read = this.c.read(uwotm8.Index.a, i, 6 - i)) == -1) {
@@ -40,7 +40,7 @@ public final class Index
                 if (n3 == 0) {
                     return null;
                 }
-                this.a(this.b, n3 * 520);
+                this.seek(this.b, n3 * 520);
                 int k = 0;
                 int n5;
                 if ((n5 = n2 - j) > 512) {
@@ -76,19 +76,19 @@ public final class Index
         }
     }
     
-    public final synchronized boolean a(final int n, final byte[] array, final int n2) {
+    public final synchronized boolean put(final int n, final byte[] array, final int n2) {
         boolean b;
-        if (!(b = this.a(true, n2, n, array))) {
-            b = this.a(false, n2, n, array);
+        if (!(b = this.put(true, n2, n, array))) {
+            b = this.put(false, n2, n, array);
         }
         return b;
     }
     
-    private synchronized boolean a(boolean b, final int n, final int n2, final byte[] array) {
+    private synchronized boolean put(boolean b, final int n, final int n2, final byte[] array) {
         try {
             int n3;
             if (b) {
-                this.a(this.c, n * 6);
+                this.seek(this.c, n * 6);
                 int read;
                 for (int i = 0; i < 6; i += read) {
                     if ((read = this.c.read(uwotm8.Index.a, i, 6 - i)) == -1) {
@@ -108,14 +108,14 @@ public final class Index
             uwotm8.Index.a[3] = (byte)(n3 >> 16);
             uwotm8.Index.a[4] = (byte)(n3 >> 8);
             uwotm8.Index.a[5] = (byte)n3;
-            this.a(this.c, n * 6);
+            this.seek(this.c, n * 6);
             this.c.write(uwotm8.Index.a, 0, 6);
             int n5;
             int n10;
             for (int j = 0, n4 = 0; j < n2; j += n10, n3 = n5, ++n4) {
                 n5 = 0;
                 if (b) {
-                    this.a(this.b, n3 * 520);
+                    this.seek(this.b, n3 * 520);
                     int n6;
                     int read2;
                     for (n6 = 0; n6 < 8 && (read2 = this.b.read(uwotm8.Index.a, n6, 8 - n6)) != -1; n6 += read2) {}
@@ -152,7 +152,7 @@ public final class Index
                 uwotm8.Index.a[5] = (byte)(n5 >> 8);
                 uwotm8.Index.a[6] = (byte)n5;
                 uwotm8.Index.a[7] = (byte)this.d;
-                this.a(this.b, n3 * 520);
+                this.seek(this.b, n3 * 520);
                 this.b.write(uwotm8.Index.a, 0, 8);
                 if ((n10 = n2 - j) > 512) {
                     n10 = 512;
@@ -166,7 +166,7 @@ public final class Index
         }
     }
     
-    private synchronized void a(final RandomAccessFile randomAccessFile, final int n) {
+    private synchronized void seek(final RandomAccessFile randomAccessFile, final int n) {
         try {
             randomAccessFile.seek(n);
         }

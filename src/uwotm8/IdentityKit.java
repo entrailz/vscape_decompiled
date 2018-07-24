@@ -11,9 +11,9 @@ public final class IdentityKit
     private final int[] h;
     public boolean d;
     
-    public static void a(final Archive g) {
+    public static void init(final Archive g) {
         final Buffer i;
-        IdentityKit.a = (i = new Buffer(g.b("idk.dat"))).g();
+        IdentityKit.a = (i = new Buffer(g.getEntry("idk.dat"))).g();
         if (IdentityKit.b == null) {
         	IdentityKit.b = new IdentityKit[IdentityKit.a];
         }
@@ -55,7 +55,7 @@ public final class IdentityKit
         }
     }
     
-    public final boolean a() {
+    public final boolean bodyLoaded() {
         if (this.e == null) {
             return true;
         }
@@ -68,7 +68,7 @@ public final class IdentityKit
         return b;
     }
     
-    public final Model b() {
+    public final Model bodyModel() {
         if (this.e == null) {
             return null;
         }
@@ -89,7 +89,7 @@ public final class IdentityKit
         return d;
     }
     
-    public final boolean c() {
+    public final boolean loaded() {
         boolean b = true;
         for (int i = 0; i < 5; ++i) {
             if (this.h[i] != -1 && !Model.b(this.h[i])) {
@@ -99,7 +99,7 @@ public final class IdentityKit
         return b;
     }
     
-    public final Model d() {
+    public final Model headModel() {
         final Model[] array = new Model[5];
         int n = 0;
         for (int i = 0; i < 5; ++i) {

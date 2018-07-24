@@ -45,7 +45,7 @@ public final class MapRegion {
       this.h = new int[104];
    }
 
-   private static int b(int var0, int var1) {
+   private static int perlinNoise(int var0, int var1) {
       return ((var0 ^= (var0 += var1 * 57) << 13) * (var0 * var0 * 15731 + 789221) + 1376312589 & Integer.MAX_VALUE) >> 19 & 255;
    }
 
@@ -65,7 +65,7 @@ public final class MapRegion {
                      }
 
                      if (var6 >= 0) {
-                        var1[var6].a(var5, var4);
+                        var1[var6].block(var5, var4);
                      }
                   }
                }
@@ -155,7 +155,7 @@ public final class MapRegion {
                         var14 -= this.h[var27];
                      }
 
-                     if (var15 > 0 && var15 < 103 && (!c || (this.v[0][var10][var15] & 2) != 0 || (this.v[var3][var10][var15] & 16) == 0 && this.c(var15, var3, var10) == a)) {
+                     if (var15 > 0 && var15 < 103 && (!c || (this.v[0][var10][var15] & 2) != 0 || (this.v[var3][var10][var15] & 16) == 0 && this.getCollisionPlane(var15, var3, var10) == a)) {
                         if (var3 < b) {
                            b = var3;
                         }
@@ -178,8 +178,8 @@ public final class MapRegion {
                               var22 = (var11 << 8) / var13;
                               var21 = var12 / var14;
                               int var23 = var8 / var14;
-                              var20 = b(var22, var21, var23);
-                              var21 = b(var22, var21, var23);
+                              var20 = encode(var22, var21, var23);
+                              var21 = encode(var22, var21, var23);
                            }
 
                            if (var3 > 0) {
@@ -199,11 +199,11 @@ public final class MapRegion {
 
                            var22 = 0;
                            if (var20 != -1) {
-                              var22 = uwotm8.Rasterizer3D.x[f(var21, 96)];
+                              var22 = uwotm8.Rasterizer3D.x[light(var21, 96)];
                            }
 
                            if (var27 == 0) {
-                              var2.a(var3, var10, var15, 0, 0, -1, var4, var6, var7, var9, f(var20, var16), f(var20, var17), f(var20, var18), f(var20, var19), 0, 0, 0, 0, var22, 0);
+                              var2.a(var3, var10, var15, 0, 0, -1, var4, var6, var7, var9, light(var20, var16), light(var20, var17), light(var20, var18), light(var20, var19), 0, 0, 0, 0, var22, 0);
                            } else {
                               var21 = this.m[var3][var10][var15] + 1;
                               byte var34 = this.u[var3][var10][var15];
@@ -226,20 +226,20 @@ public final class MapRegion {
                                  var24 = -2;
                                  var5 = -1;
                               } else if (var29.c == 3355443) {
-                                 var25 = uwotm8.Rasterizer3D.x[d(var29.l, 96)];
+                                 var25 = uwotm8.Rasterizer3D.x[checkedLight(var29.l, 96)];
                                  var24 = -2;
                                  var5 = -1;
                               } else {
-                                 var24 = b(var29.f, var29.g, var29.h);
-                                 var25 = uwotm8.Rasterizer3D.x[d(var29.l, 96)];
+                                 var24 = encode(var29.f, var29.g, var29.h);
+                                 var25 = uwotm8.Rasterizer3D.x[checkedLight(var29.l, 96)];
                               }
 
                               if (var25 == 0 && var29.e != -1) {
-                                 var27 = b(var29.i, var29.j, var29.k);
-                                 var25 = uwotm8.Rasterizer3D.x[d(var27, 96)];
+                                 var27 = encode(var29.i, var29.j, var29.k);
+                                 var25 = uwotm8.Rasterizer3D.x[checkedLight(var27, 96)];
                               }
 
-                              var2.a(var3, var10, var15, var21, var34, var5, var4, var6, var7, var9, f(var20, var16), f(var20, var17), f(var20, var18), f(var20, var19), d(var24, var16), d(var24, var17), d(var24, var18), d(var24, var19), var22, var25);
+                              var2.a(var3, var10, var15, var21, var34, var5, var4, var6, var7, var9, light(var20, var16), light(var20, var17), light(var20, var18), light(var20, var19), checkedLight(var24, var16), checkedLight(var24, var17), checkedLight(var24, var18), checkedLight(var24, var19), var22, var25);
                            }
                         }
                      }
@@ -249,7 +249,7 @@ public final class MapRegion {
 
             for(var10 = 1; var10 < 103; ++var10) {
                for(var11 = 1; var11 < 103; ++var11) {
-                  var2.a(var3, var11, var10, this.c(var10, var3, var11));
+                  var2.setCollisionPlane(var3, var11, var10, this.getCollisionPlane(var10, var3, var11));
                }
             }
          }
@@ -431,7 +431,7 @@ public final class MapRegion {
    }
 
    private static int c(int var0, int var1) {
-      if ((var0 = (int)((double)(a(var0 + 'ë', var1 + 91923, 4) - 128 + (a(var0 + 10294, var1 + 'é', 2) - 128 >> 1) + (a(var0, var1, 1) - 128 >> 2)) * 0.3D) + 35) < 10) {
+      if ((var0 = (int)((double)(interpolatedNoise(var0 + 'ë', var1 + 91923, 4) - 128 + (interpolatedNoise(var0 + 10294, var1 + 'é', 2) - 128 >> 1) + (interpolatedNoise(var0, var1, 1) - 128 >> 2)) * 0.3D) + 35) < 10) {
          var0 = 10;
       } else if (var0 > 60) {
          var0 = 60;
@@ -440,7 +440,7 @@ public final class MapRegion {
       return var0;
    }
 
-   public static void a(Buffer var0, ResourceProvider var1) {
+   public static void decode(Buffer var0, ResourceProvider var1) {
       int var2 = -1;
 
       while(true) {
@@ -450,7 +450,7 @@ public final class MapRegion {
             if ((var3 = var0.c()) == 0) {
                return;
             }
-         } while((var6 = uwotm8.ObjectDefinition.a(var2 += var3)) == null);
+         } while((var6 = uwotm8.ObjectDefinition.decode(var2 += var3)) == null);
 
          ObjectDefinition var10000 = var6;
          ResourceProvider var4 = var1;
@@ -493,13 +493,13 @@ public final class MapRegion {
 
    }
 
-   private void a(int var1, SceneGraph var2, CollisionMap var3, int var4, int var5, int var6, int var7, int var8) {
+   private void placeObject(int var1, SceneGraph var2, CollisionMap var3, int var4, int var5, int var6, int var7, int var8) {
       if (c && (this.v[0][var6][var1] & 2) == 0) {
          if ((this.v[var5][var6][var1] & 16) != 0) {
             return;
          }
 
-         if (this.c(var1, var5, var6) != a) {
+         if (this.getCollisionPlane(var1, var5, var6) != a) {
             return;
          }
       }
@@ -514,7 +514,7 @@ public final class MapRegion {
       int var12 = this.i[var5][var6][var1 + 1];
       int var13 = var9 + var10 + var11 + var12 >> 2;
       ObjectDefinition var14;
-      if ((var14 = uwotm8.ObjectDefinition.a(var7)) != null) {
+      if ((var14 = uwotm8.ObjectDefinition.decode(var7)) != null) {
          int var15 = var6 + (var1 << 7) + (var7 << 14) + 1073741824;
          if (!var14.w) {
             var15 += Integer.MIN_VALUE;
@@ -525,14 +525,14 @@ public final class MapRegion {
          if (var4 == 22) {
             if (!c || var14.w || var14.b) {
                if (var14.z == -1 && var14.k == null) {
-                  var17 = var14.a(22, var8, var9, var10, var11, var12, -1);
+                  var17 = var14.modelAt(22, var8, var9, var10, var11, var12, -1);
                } else {
                   var17 = new RenderableObject(var7, var8, 22, var10, var11, var9, var12, var14.z, true);
                }
 
-               var2.a(var5, var13, var1, (Renderable)var17, var16, var15, var6);
+               var2.addFloorDecoration(var5, var13, var1, (Renderable)var17, var16, var15, var6);
                if (var14.p && var14.w && var3 != null) {
-                  var3.a(var1, var6);
+                  var3.block(var1, var6);
                }
 
             }
@@ -541,28 +541,28 @@ public final class MapRegion {
             if (var4 != 10 && var4 != 11) {
                if (var4 >= 12) {
                   if (var14.z == -1 && var14.k == null) {
-                     var17 = var14.a(var4, var8, var9, var10, var11, var12, -1);
+                     var17 = var14.modelAt(var4, var8, var9, var10, var11, var12, -1);
                   } else {
                      var17 = new RenderableObject(var7, var8, var4, var10, var11, var9, var12, var14.z, true);
                   }
 
-                  var2.a(var15, var16, var13, 1, (Renderable)var17, 1, var5, 0, var1, var6);
+                  var2.addObject(var15, var16, var13, 1, (Renderable)var17, 1, var5, 0, var1, var6);
                   if (var4 >= 12 && var4 <= 17 && var4 != 13 && var5 > 0) {
                      this.l[var5][var6][var1] |= 2340;
                   }
 
                   if (var14.p && var3 != null) {
-                     var3.a(var14.i, var14.d, var14.l, var6, var1, var8);
+                     var3.flagObject(var14.i, var14.d, var14.l, var6, var1, var8);
                   }
 
                } else if (var4 == 0) {
                   if (var14.z == -1 && var14.k == null) {
-                     var17 = var14.a(0, var8, var9, var10, var11, var12, -1);
+                     var17 = var14.modelAt(0, var8, var9, var10, var11, var12, -1);
                   } else {
                      var17 = new RenderableObject(var7, var8, 0, var10, var11, var9, var12, var14.z, true);
                   }
 
-                  var2.a(w[var8], (Renderable)var17, var15, var1, var16, var6, (Renderable)null, var13, 0, var5);
+                  var2.addWall(w[var8], (Renderable)var17, var15, var1, var16, var6, (Renderable)null, var13, 0, var5);
                   if (var8 == 0) {
                      if (var14.x) {
                         this.k[var5][var6][var1] = 50;
@@ -602,21 +602,21 @@ public final class MapRegion {
                   }
 
                   if (var14.p && var3 != null) {
-                     var3.a(var1, var8, var6, var4, var14.i);
+                     var3.flagObject(var1, var8, var6, var4, var14.i);
                   }
 
                   if (var14.t != 16) {
-                     var2.b(var1, var14.t, var6, var5);
+                     var2.displaceWallDecor(var1, var14.t, var6, var5);
                   }
 
                } else if (var4 == 1) {
                   if (var14.z == -1 && var14.k == null) {
-                     var17 = var14.a(1, var8, var9, var10, var11, var12, -1);
+                     var17 = var14.modelAt(1, var8, var9, var10, var11, var12, -1);
                   } else {
                      var17 = new RenderableObject(var7, var8, 1, var10, var11, var9, var12, var14.z, true);
                   }
 
-                  var2.a(p[var8], (Renderable)var17, var15, var1, var16, var6, (Renderable)null, var13, 0, var5);
+                  var2.addWall(p[var8], (Renderable)var17, var15, var1, var16, var6, (Renderable)null, var13, 0, var5);
                   if (var14.x) {
                      if (var8 == 0) {
                         this.k[var5][var6][var1 + 1] = 50;
@@ -630,7 +630,7 @@ public final class MapRegion {
                   }
 
                   if (var14.p && var3 != null) {
-                     var3.a(var1, var8, var6, var4, var14.i);
+                     var3.flagObject(var1, var8, var6, var4, var14.i);
                   }
 
                } else {
@@ -640,14 +640,14 @@ public final class MapRegion {
                      var21 = var8 + 1 & 3;
                      Object var22;
                      if (var14.z == -1 && var14.k == null) {
-                        var22 = var14.a(2, var8 + 4, var9, var10, var11, var12, -1);
-                        var24 = var14.a(2, var21, var9, var10, var11, var12, -1);
+                        var22 = var14.modelAt(2, var8 + 4, var9, var10, var11, var12, -1);
+                        var24 = var14.modelAt(2, var21, var9, var10, var11, var12, -1);
                      } else {
                         var22 = new RenderableObject(var7, var8 + 4, 2, var10, var11, var9, var12, var14.z, true);
                         var24 = new RenderableObject(var7, var21, 2, var10, var11, var9, var12, var14.z, true);
                      }
 
-                     var2.a(w[var8], (Renderable)var22, var15, var1, var16, var6, (Renderable)var24, var13, w[var21], var5);
+                     var2.addWall(w[var8], (Renderable)var22, var15, var1, var16, var6, (Renderable)var24, var13, w[var21], var5);
                      if (var14.n) {
                         if (var8 == 0) {
                            this.l[var5][var6][var1] |= 585;
@@ -665,21 +665,21 @@ public final class MapRegion {
                      }
 
                      if (var14.p && var3 != null) {
-                        var3.a(var1, var8, var6, var4, var14.i);
+                        var3.flagObject(var1, var8, var6, var4, var14.i);
                      }
 
                      if (var14.t != 16) {
-                        var2.b(var1, var14.t, var6, var5);
+                        var2.displaceWallDecor(var1, var14.t, var6, var5);
                      }
 
                   } else if (var4 == 3) {
                      if (var14.z == -1 && var14.k == null) {
-                        var17 = var14.a(3, var8, var9, var10, var11, var12, -1);
+                        var17 = var14.modelAt(3, var8, var9, var10, var11, var12, -1);
                      } else {
                         var17 = new RenderableObject(var7, var8, 3, var10, var11, var9, var12, var14.z, true);
                      }
 
-                     var2.a(p[var8], (Renderable)var17, var15, var1, var16, var6, (Renderable)null, var13, 0, var5);
+                     var2.addWall(p[var8], (Renderable)var17, var15, var1, var16, var6, (Renderable)null, var13, 0, var5);
                      if (var14.x) {
                         if (var8 == 0) {
                            this.k[var5][var6][var1 + 1] = 50;
@@ -693,19 +693,19 @@ public final class MapRegion {
                      }
 
                      if (var14.p && var3 != null) {
-                        var3.a(var1, var8, var6, var4, var14.i);
+                        var3.flagObject(var1, var8, var6, var4, var14.i);
                      }
 
                   } else if (var4 == 9) {
                      if (var14.z == -1 && var14.k == null) {
-                        var17 = var14.a(var4, var8, var9, var10, var11, var12, -1);
+                        var17 = var14.modelAt(var4, var8, var9, var10, var11, var12, -1);
                      } else {
                         var17 = new RenderableObject(var7, var8, var4, var10, var11, var9, var12, var14.z, true);
                      }
 
-                     var2.a(var15, var16, var13, 1, (Renderable)var17, 1, var5, 0, var1, var6);
+                     var2.addObject(var15, var16, var13, 1, (Renderable)var17, 1, var5, 0, var1, var6);
                      if (var14.p && var3 != null) {
-                        var3.a(var14.i, var14.d, var14.l, var6, var1, var8);
+                        var3.flagObject(var14.i, var14.d, var14.l, var6, var1, var8);
                      }
 
                   } else {
@@ -734,51 +734,51 @@ public final class MapRegion {
 
                      if (var4 == 4) {
                         if (var14.z == -1 && var14.k == null) {
-                           var17 = var14.a(4, 0, var9, var10, var11, var12, -1);
+                           var17 = var14.modelAt(4, 0, var9, var10, var11, var12, -1);
                         } else {
                            var17 = new RenderableObject(var7, 0, 4, var10, var11, var9, var12, var14.z, true);
                         }
 
-                        var2.a(var15, var1, var8 << 9, var5, 0, var13, (Renderable)var17, var6, var16, 0, w[var8]);
+                        var2.addWallDecoration(var15, var1, var8 << 9, var5, 0, var13, (Renderable)var17, var6, var16, 0, w[var8]);
                      } else if (var4 == 5) {
                         var21 = 16;
                         ObjectDefinition var23;
-                        if ((var18 = var2.i(var5, var6, var1)) > 0 && (var23 = uwotm8.ObjectDefinition.a(var18 >> 14 & 32767)) != null) {
+                        if ((var18 = var2.getWallKey(var5, var6, var1)) > 0 && (var23 = uwotm8.ObjectDefinition.decode(var18 >> 14 & 32767)) != null) {
                            var21 = var23.t;
                         }
 
                         if (var14.z == -1 && var14.k == null) {
-                           var24 = var14.a(4, 0, var9, var10, var11, var12, -1);
+                           var24 = var14.modelAt(4, 0, var9, var10, var11, var12, -1);
                         } else {
                            var24 = new RenderableObject(var7, 0, 4, var10, var11, var9, var12, var14.z, true);
                         }
 
-                        var2.a(var15, var1, var8 << 9, var5, n[var8] * var21, var13, (Renderable)var24, var6, var16, r[var8] * var21, w[var8]);
+                        var2.addWallDecoration(var15, var1, var8 << 9, var5, n[var8] * var21, var13, (Renderable)var24, var6, var16, r[var8] * var21, w[var8]);
                      } else if (var4 == 6) {
                         if (var14.z == -1 && var14.k == null) {
-                           var17 = var14.a(4, 0, var9, var10, var11, var12, -1);
+                           var17 = var14.modelAt(4, 0, var9, var10, var11, var12, -1);
                         } else {
                            var17 = new RenderableObject(var7, 0, 4, var10, var11, var9, var12, var14.z, true);
                         }
 
-                        var2.a(var15, var1, var8, var5, 0, var13, (Renderable)var17, var6, var16, 0, 256);
+                        var2.addWallDecoration(var15, var1, var8, var5, 0, var13, (Renderable)var17, var6, var16, 0, 256);
                      } else if (var4 == 7) {
                         if (var14.z == -1 && var14.k == null) {
-                           var17 = var14.a(4, 0, var9, var10, var11, var12, -1);
+                           var17 = var14.modelAt(4, 0, var9, var10, var11, var12, -1);
                         } else {
                            var17 = new RenderableObject(var7, 0, 4, var10, var11, var9, var12, var14.z, true);
                         }
 
-                        var2.a(var15, var1, var8, var5, 0, var13, (Renderable)var17, var6, var16, 0, 512);
+                        var2.addWallDecoration(var15, var1, var8, var5, 0, var13, (Renderable)var17, var6, var16, 0, 512);
                      } else {
                         if (var4 == 8) {
                            if (var14.z == -1 && var14.k == null) {
-                              var17 = var14.a(4, 0, var9, var10, var11, var12, -1);
+                              var17 = var14.modelAt(4, 0, var9, var10, var11, var12, -1);
                            } else {
                               var17 = new RenderableObject(var7, 0, 4, var10, var11, var9, var12, var14.z, true);
                            }
 
-                           var2.a(var15, var1, var8, var5, 0, var13, (Renderable)var17, var6, var16, 0, 768);
+                           var2.addWallDecoration(var15, var1, var8, var5, 0, var13, (Renderable)var17, var6, var16, 0, 768);
                         }
 
                      }
@@ -786,7 +786,7 @@ public final class MapRegion {
                }
             } else {
                if (var14.z == -1 && var14.k == null) {
-                  var17 = var14.a(10, var8, var9, var10, var11, var12, -1);
+                  var17 = var14.modelAt(10, var8, var9, var10, var11, var12, -1);
                } else {
                   var17 = new RenderableObject(var7, var8, 10, var10, var11, var9, var12, var14.z, true);
                }
@@ -806,12 +806,12 @@ public final class MapRegion {
                      var4 = var14.d;
                   }
 
-                  if (var2.a(var15, var16, var13, var4, (Renderable)var17, var19, var5, var18, var1, var6) && var14.x) {
+                  if (var2.addObject(var15, var16, var13, var4, (Renderable)var17, var19, var5, var18, var1, var6) && var14.x) {
                      Model var20;
                      if (var17 instanceof Model) {
                         var20 = (Model)var17;
                      } else {
-                        var20 = var14.a(10, var8, var9, var10, var11, var12, -1);
+                        var20 = var14.modelAt(10, var8, var9, var10, var11, var12, -1);
                      }
 
                      if (var20 != null) {
@@ -831,7 +831,7 @@ public final class MapRegion {
                }
 
                if (var14.p && var3 != null) {
-                  var3.a(var14.i, var14.d, var14.l, var6, var1, var8);
+                  var3.flagObject(var14.i, var14.d, var14.l, var6, var1, var8);
                }
 
             }
@@ -839,21 +839,21 @@ public final class MapRegion {
       }
    }
 
-   private static int a(int var0, int var1, int var2) {
+   private static int interpolatedNoise(int var0, int var1, int var2) {
       int var3 = var0 / var2;
       var0 &= var2 - 1;
       int var4 = var1 / var2;
       var1 &= var2 - 1;
-      int var5 = e(var3, var4);
-      int var6 = e(var3 + 1, var4);
-      int var7 = e(var3, var4 + 1);
-      var3 = e(var3 + 1, var4 + 1);
-      var4 = b(var5, var6, var0, var2);
-      var0 = b(var7, var3, var0, var2);
-      return b(var4, var0, var1, var2);
+      int var5 = smoothNoise(var3, var4);
+      int var6 = smoothNoise(var3 + 1, var4);
+      int var7 = smoothNoise(var3, var4 + 1);
+      var3 = smoothNoise(var3 + 1, var4 + 1);
+      var4 = interpolate(var5, var6, var0, var2);
+      var0 = interpolate(var7, var3, var0, var2);
+      return interpolate(var4, var0, var1, var2);
    }
 
-   private static int b(int var0, int var1, int var2) {
+   private static int encode(int var0, int var1, int var2) {
       if (var2 > 179) {
          var1 /= 2;
       }
@@ -873,8 +873,8 @@ public final class MapRegion {
       return (var0 / 4 << 10) + (var1 / 32 << 7) + var2 / 2;
    }
 
-   public static boolean a(int var0, int var1) {
-      ObjectDefinition var3 = uwotm8.ObjectDefinition.a(var0);
+   public static boolean modelReady(int var0, int var1) {
+      ObjectDefinition var3 = uwotm8.ObjectDefinition.decode(var0);
       if (var1 == 11) {
          var1 = 10;
       }
@@ -911,7 +911,7 @@ public final class MapRegion {
       }
    }
 
-   public final void a(int var1, int var2, CollisionMap[] var3, int var4, int var5, byte[] var6, int var7, int var8, int var9) {
+   public final void decodeConstructedMapData(int var1, int var2, CollisionMap[] var3, int var4, int var5, byte[] var6, int var7, int var8, int var9) {
       int var11;
       for(int var10 = 0; var10 < 8; ++var10) {
          for(var11 = 0; var11 < 8; ++var11) {
@@ -935,9 +935,9 @@ public final class MapRegion {
                   int var10006 = var15 & 7;
                   var14 = var16 & 7;
                   var13 = var10006;
-                  this.a(var10001, 0, var17, var4 + ((var12 = var2 & 3) == 0 ? var13 : (var12 == 1 ? var14 : (var12 == 2 ? 7 - var13 : 7 - var14))), var8, var2, 0);
+                  this.decodeMapData(var10001, 0, var17, var4 + ((var12 = var2 & 3) == 0 ? var13 : (var12 == 1 ? var14 : (var12 == 2 ? 7 - var13 : 7 - var14))), var8, var2, 0);
                } else {
-                  this.a(-1, 0, var17, -1, 0, 0, 0);
+                  this.decodeMapData(-1, 0, var17, -1, 0, 0, 0);
                }
             }
          }
@@ -945,7 +945,7 @@ public final class MapRegion {
 
    }
 
-   public final void a(byte[] var1, int var2, int var3, int var4, int var5, CollisionMap[] var6) {
+   public final void decodeRegionMapData(byte[] var1, int var2, int var3, int var4, int var5, CollisionMap[] var6) {
       int var8;
       int var9;
       for(int var7 = 0; var7 < 4; ++var7) {
@@ -963,14 +963,14 @@ public final class MapRegion {
       for(var8 = 0; var8 < 4; ++var8) {
          for(var9 = 0; var9 < 64; ++var9) {
             for(int var10 = 0; var10 < 64; ++var10) {
-               this.a(var10 + var2, var5, var11, var9 + var3, var8, 0, var4);
+               this.decodeMapData(var10 + var2, var5, var11, var9 + var3, var8, 0, var4);
             }
          }
       }
 
    }
 
-   private void a(int var1, int var2, Buffer var3, int var4, int var5, int var6, int var7) {
+   private void decodeMapData(int var1, int var2, Buffer var3, int var4, int var5, int var6, int var7) {
       try {
          int var8;
          if (var4 >= 0 && var4 < 104 && var1 >= 0 && var1 < 104) {
@@ -1027,7 +1027,7 @@ public final class MapRegion {
 
    }
 
-   private int c(int var1, int var2, int var3) {
+   private int getCollisionPlane(int var1, int var2, int var3) {
       if ((this.v[var2][var3][var1] & 8) != 0) {
          return 0;
       } else {
@@ -1035,7 +1035,7 @@ public final class MapRegion {
       }
    }
 
-   public final void a(CollisionMap[] var1, SceneGraph var2, int var3, int var4, int var5, int var6, byte[] var7, int var8, int var9, int var10) {
+   public final void decodeConstructedLandscapes(CollisionMap[] var1, SceneGraph var2, int var3, int var4, int var5, int var6, byte[] var7, int var8, int var9, int var10) {
       Buffer var25 = new Buffer(var7);
       int var11 = -1;
 
@@ -1072,7 +1072,7 @@ public final class MapRegion {
                      } while(var14 >= var8 + 8);
                   } while(var13 < var5);
                } while(var13 >= var5 + 8);
-            } while((var18 = uwotm8.ObjectDefinition.a(var11)) == null);
+            } while((var18 = uwotm8.ObjectDefinition.decode(var11)) == null);
 
             int var10002 = var16 != 0 && var16 != 2 ? var18.d : var18.l;
             int var10003 = var14 & 7;
@@ -1102,19 +1102,19 @@ public final class MapRegion {
                   var26 = var1[var6];
                }
 
-               this.a(var13, var2, var26, var17, var6, var19, var11, var16 + var9 & 3);
+               this.placeObject(var13, var2, var26, var17, var6, var19, var11, var16 + var9 & 3);
             }
          }
       }
 
    }
 
-   private static int b(int var0, int var1, int var2, int var3) {
+   private static int interpolate(int var0, int var1, int var2, int var3) {
       var2 = 65536 - uwotm8.Rasterizer3D.s[(var2 << 10) / var3] >> 1;
       return (var0 * (65536 - var2) >> 16) + (var1 * var2 >> 16);
    }
 
-   private static int d(int var0, int var1) {
+   private static int checkedLight(int var0, int var1) {
       if (var0 == -2) {
          return 12345678;
       } else if (var0 == -1) {
@@ -1136,14 +1136,14 @@ public final class MapRegion {
       }
    }
 
-   private static int e(int var0, int var1) {
-      int var2 = b(var0 - 1, var1 - 1) + b(var0 + 1, var1 - 1) + b(var0 - 1, var1 + 1) + b(var0 + 1, var1 + 1);
-      int var3 = b(var0 - 1, var1) + b(var0 + 1, var1) + b(var0, var1 - 1) + b(var0, var1 + 1);
-      var0 = b(var0, var1);
+   private static int smoothNoise(int var0, int var1) {
+      int var2 = perlinNoise(var0 - 1, var1 - 1) + perlinNoise(var0 + 1, var1 - 1) + perlinNoise(var0 - 1, var1 + 1) + perlinNoise(var0 + 1, var1 + 1);
+      int var3 = perlinNoise(var0 - 1, var1) + perlinNoise(var0 + 1, var1) + perlinNoise(var0, var1 - 1) + perlinNoise(var0, var1 + 1);
+      var0 = perlinNoise(var0, var1);
       return var2 / 16 + var3 / 8 + var0 / 4;
    }
 
-   private static int f(int var0, int var1) {
+   private static int light(int var0, int var1) {
       if (var0 == -1) {
          return 12345678;
       } else {
@@ -1157,14 +1157,14 @@ public final class MapRegion {
       }
    }
 
-   public static void a(SceneGraph var0, int var1, int var2, int var3, int var4, CollisionMap var5, int[][][] var6, int var7, int var8, int var9) {
+   public static void placeObject(SceneGraph var0, int var1, int var2, int var3, int var4, CollisionMap var5, int[][][] var6, int var7, int var8, int var9) {
       int var10 = var6[var4][var7][var2];
       int var11 = var6[var4][var7 + 1][var2];
       int var12 = var6[var4][var7 + 1][var2 + 1];
       var4 = var6[var4][var7][var2 + 1];
       int var19 = var10 + var11 + var12 + var4 >> 2;
       ObjectDefinition var13;
-      if ((var13 = uwotm8.ObjectDefinition.a(var8)) != null) {
+      if ((var13 = uwotm8.ObjectDefinition.decode(var8)) != null) {
          int var14 = var7 + (var2 << 7) + (var8 << 14) + 1073741824;
          if (!var13.w) {
             var14 += Integer.MIN_VALUE;
@@ -1174,14 +1174,14 @@ public final class MapRegion {
          Object var16;
          if (var3 == 22) {
             if (var13.z == -1 && var13.k == null) {
-               var16 = var13.a(22, var1, var10, var11, var12, var4, -1);
+               var16 = var13.modelAt(22, var1, var10, var11, var12, var4, -1);
             } else {
                var16 = new RenderableObject(var8, var1, 22, var11, var12, var10, var4, var13.z, true);
             }
 
-            var0.a(var9, var19, var2, (Renderable)var16, var15, var14, var7);
+            var0.addFloorDecoration(var9, var19, var2, (Renderable)var16, var15, var14, var7);
             if (var13.p && var13.w) {
-               var5.a(var2, var7);
+               var5.block(var2, var7);
             }
 
          } else {
@@ -1189,38 +1189,38 @@ public final class MapRegion {
             if (var3 != 10 && var3 != 11) {
                if (var3 >= 12) {
                   if (var13.z == -1 && var13.k == null) {
-                     var16 = var13.a(var3, var1, var10, var11, var12, var4, -1);
+                     var16 = var13.modelAt(var3, var1, var10, var11, var12, var4, -1);
                   } else {
                      var16 = new RenderableObject(var8, var1, var3, var11, var12, var10, var4, var13.z, true);
                   }
 
-                  var0.a(var14, var15, var19, 1, (Renderable)var16, 1, var9, 0, var2, var7);
+                  var0.addObject(var14, var15, var19, 1, (Renderable)var16, 1, var9, 0, var2, var7);
                   if (var13.p) {
-                     var5.a(var13.i, var13.d, var13.l, var7, var2, var1);
+                     var5.flagObject(var13.i, var13.d, var13.l, var7, var2, var1);
                   }
 
                } else if (var3 == 0) {
                   if (var13.z == -1 && var13.k == null) {
-                     var16 = var13.a(0, var1, var10, var11, var12, var4, -1);
+                     var16 = var13.modelAt(0, var1, var10, var11, var12, var4, -1);
                   } else {
                      var16 = new RenderableObject(var8, var1, 0, var11, var12, var10, var4, var13.z, true);
                   }
 
-                  var0.a(w[var1], (Renderable)var16, var14, var2, var15, var7, (Renderable)null, var19, 0, var9);
+                  var0.addWall(w[var1], (Renderable)var16, var14, var2, var15, var7, (Renderable)null, var19, 0, var9);
                   if (var13.p) {
-                     var5.a(var2, var1, var7, var3, var13.i);
+                     var5.flagObject(var2, var1, var7, var3, var13.i);
                   }
 
                } else if (var3 == 1) {
                   if (var13.z == -1 && var13.k == null) {
-                     var16 = var13.a(1, var1, var10, var11, var12, var4, -1);
+                     var16 = var13.modelAt(1, var1, var10, var11, var12, var4, -1);
                   } else {
                      var16 = new RenderableObject(var8, var1, 1, var11, var12, var10, var4, var13.z, true);
                   }
 
-                  var0.a(p[var1], (Renderable)var16, var14, var2, var15, var7, (Renderable)null, var19, 0, var9);
+                  var0.addWall(p[var1], (Renderable)var16, var14, var2, var15, var7, (Renderable)null, var19, 0, var9);
                   if (var13.p) {
-                     var5.a(var2, var1, var7, var3, var13.i);
+                     var5.flagObject(var2, var1, var7, var3, var13.i);
                   }
 
                } else {
@@ -1230,40 +1230,40 @@ public final class MapRegion {
                      var20 = var1 + 1 & 3;
                      Object var21;
                      if (var13.z == -1 && var13.k == null) {
-                        var21 = var13.a(2, var1 + 4, var10, var11, var12, var4, -1);
-                        var23 = var13.a(2, var20, var10, var11, var12, var4, -1);
+                        var21 = var13.modelAt(2, var1 + 4, var10, var11, var12, var4, -1);
+                        var23 = var13.modelAt(2, var20, var10, var11, var12, var4, -1);
                      } else {
                         var21 = new RenderableObject(var8, var1 + 4, 2, var11, var12, var10, var4, var13.z, true);
                         var23 = new RenderableObject(var8, var20, 2, var11, var12, var10, var4, var13.z, true);
                      }
 
-                     var0.a(w[var1], (Renderable)var21, var14, var2, var15, var7, (Renderable)var23, var19, w[var20], var9);
+                     var0.addWall(w[var1], (Renderable)var21, var14, var2, var15, var7, (Renderable)var23, var19, w[var20], var9);
                      if (var13.p) {
-                        var5.a(var2, var1, var7, var3, var13.i);
+                        var5.flagObject(var2, var1, var7, var3, var13.i);
                      }
 
                   } else if (var3 == 3) {
                      if (var13.z == -1 && var13.k == null) {
-                        var16 = var13.a(3, var1, var10, var11, var12, var4, -1);
+                        var16 = var13.modelAt(3, var1, var10, var11, var12, var4, -1);
                      } else {
                         var16 = new RenderableObject(var8, var1, 3, var11, var12, var10, var4, var13.z, true);
                      }
 
-                     var0.a(p[var1], (Renderable)var16, var14, var2, var15, var7, (Renderable)null, var19, 0, var9);
+                     var0.addWall(p[var1], (Renderable)var16, var14, var2, var15, var7, (Renderable)null, var19, 0, var9);
                      if (var13.p) {
-                        var5.a(var2, var1, var7, var3, var13.i);
+                        var5.flagObject(var2, var1, var7, var3, var13.i);
                      }
 
                   } else if (var3 == 9) {
                      if (var13.z == -1 && var13.k == null) {
-                        var16 = var13.a(var3, var1, var10, var11, var12, var4, -1);
+                        var16 = var13.modelAt(var3, var1, var10, var11, var12, var4, -1);
                      } else {
                         var16 = new RenderableObject(var8, var1, var3, var11, var12, var10, var4, var13.z, true);
                      }
 
-                     var0.a(var14, var15, var19, 1, (Renderable)var16, 1, var9, 0, var2, var7);
+                     var0.addObject(var14, var15, var19, 1, (Renderable)var16, 1, var9, 0, var2, var7);
                      if (var13.p) {
-                        var5.a(var13.i, var13.d, var13.l, var7, var2, var1);
+                        var5.flagObject(var13.i, var13.d, var13.l, var7, var2, var1);
                      }
 
                   } else {
@@ -1292,51 +1292,51 @@ public final class MapRegion {
 
                      if (var3 == 4) {
                         if (var13.z == -1 && var13.k == null) {
-                           var16 = var13.a(4, 0, var10, var11, var12, var4, -1);
+                           var16 = var13.modelAt(4, 0, var10, var11, var12, var4, -1);
                         } else {
                            var16 = new RenderableObject(var8, 0, 4, var11, var12, var10, var4, var13.z, true);
                         }
 
-                        var0.a(var14, var2, var1 << 9, var9, 0, var19, (Renderable)var16, var7, var15, 0, w[var1]);
+                        var0.addWallDecoration(var14, var2, var1 << 9, var9, 0, var19, (Renderable)var16, var7, var15, 0, w[var1]);
                      } else if (var3 == 5) {
                         var20 = 16;
                         ObjectDefinition var22;
-                        if ((var17 = var0.i(var9, var7, var2)) > 0 && (var22 = uwotm8.ObjectDefinition.a(var17 >> 14 & 32767)) != null) {
+                        if ((var17 = var0.getWallKey(var9, var7, var2)) > 0 && (var22 = uwotm8.ObjectDefinition.decode(var17 >> 14 & 32767)) != null) {
                            var20 = var22.t;
                         }
 
                         if (var13.z == -1 && var13.k == null) {
-                           var23 = var13.a(4, 0, var10, var11, var12, var4, -1);
+                           var23 = var13.modelAt(4, 0, var10, var11, var12, var4, -1);
                         } else {
                            var23 = new RenderableObject(var8, 0, 4, var11, var12, var10, var4, var13.z, true);
                         }
 
-                        var0.a(var14, var2, var1 << 9, var9, n[var1] * var20, var19, (Renderable)var23, var7, var15, r[var1] * var20, w[var1]);
+                        var0.addWallDecoration(var14, var2, var1 << 9, var9, n[var1] * var20, var19, (Renderable)var23, var7, var15, r[var1] * var20, w[var1]);
                      } else if (var3 == 6) {
                         if (var13.z == -1 && var13.k == null) {
-                           var16 = var13.a(4, 0, var10, var11, var12, var4, -1);
+                           var16 = var13.modelAt(4, 0, var10, var11, var12, var4, -1);
                         } else {
                            var16 = new RenderableObject(var8, 0, 4, var11, var12, var10, var4, var13.z, true);
                         }
 
-                        var0.a(var14, var2, var1, var9, 0, var19, (Renderable)var16, var7, var15, 0, 256);
+                        var0.addWallDecoration(var14, var2, var1, var9, 0, var19, (Renderable)var16, var7, var15, 0, 256);
                      } else if (var3 == 7) {
                         if (var13.z == -1 && var13.k == null) {
-                           var16 = var13.a(4, 0, var10, var11, var12, var4, -1);
+                           var16 = var13.modelAt(4, 0, var10, var11, var12, var4, -1);
                         } else {
                            var16 = new RenderableObject(var8, 0, 4, var11, var12, var10, var4, var13.z, true);
                         }
 
-                        var0.a(var14, var2, var1, var9, 0, var19, (Renderable)var16, var7, var15, 0, 512);
+                        var0.addWallDecoration(var14, var2, var1, var9, 0, var19, (Renderable)var16, var7, var15, 0, 512);
                      } else {
                         if (var3 == 8) {
                            if (var13.z == -1 && var13.k == null) {
-                              var16 = var13.a(4, 0, var10, var11, var12, var4, -1);
+                              var16 = var13.modelAt(4, 0, var10, var11, var12, var4, -1);
                            } else {
                               var16 = new RenderableObject(var8, 0, 4, var11, var12, var10, var4, var13.z, true);
                            }
 
-                           var0.a(var14, var2, var1, var9, 0, var19, (Renderable)var16, var7, var15, 0, 768);
+                           var0.addWallDecoration(var14, var2, var1, var9, 0, var19, (Renderable)var16, var7, var15, 0, 768);
                         }
 
                      }
@@ -1344,7 +1344,7 @@ public final class MapRegion {
                }
             } else {
                if (var13.z == -1 && var13.k == null) {
-                  var16 = var13.a(10, var1, var10, var11, var12, var4, -1);
+                  var16 = var13.modelAt(10, var1, var10, var11, var12, var4, -1);
                } else {
                   var16 = new RenderableObject(var8, var1, 10, var11, var12, var10, var4, var13.z, true);
                }
@@ -1364,11 +1364,11 @@ public final class MapRegion {
                      var3 = var13.d;
                   }
 
-                  var0.a(var14, var15, var19, var3, (Renderable)var16, var18, var9, var17, var2, var7);
+                  var0.addObject(var14, var15, var19, var3, (Renderable)var16, var18, var9, var17, var2, var7);
                }
 
                if (var13.p) {
-                  var5.a(var13.i, var13.d, var13.l, var7, var2, var1);
+                  var5.flagObject(var13.i, var13.d, var13.l, var7, var2, var1);
                }
 
             }
@@ -1376,7 +1376,7 @@ public final class MapRegion {
       }
    }
 
-   public static boolean a(int var0, byte[] var1, int var2) {
+   public static boolean objectsReady(int var0, byte[] var1, int var2) {
       boolean var3 = true;
       Buffer var10 = new Buffer(var1);
       int var4 = -1;
@@ -1401,7 +1401,7 @@ public final class MapRegion {
                var8 += var0;
                var7 += var2;
                ObjectDefinition var12;
-               if (var8 > 0 && var7 > 0 && var8 < 103 && var7 < 103 && (var12 = uwotm8.ObjectDefinition.a(var4)) != null && (var9 != 22 || !c || var12.w || var12.b)) {
+               if (var8 > 0 && var7 > 0 && var8 < 103 && var7 < 103 && (var12 = uwotm8.ObjectDefinition.decode(var4)) != null && (var9 != 22 || !c || var12.w || var12.b)) {
                   ObjectDefinition var11 = var12;
                   boolean var10001;
                   if (var12.r == null) {
@@ -1432,7 +1432,7 @@ public final class MapRegion {
       return var3;
    }
 
-   public final void a(int var1, CollisionMap[] var2, int var3, SceneGraph var4, byte[] var5) {
+   public final void decodeLandscapes(int var1, CollisionMap[] var2, int var3, SceneGraph var4, byte[] var5) {
       Buffer var15 = new Buffer(var5);
       int var6 = -1;
 
@@ -1462,7 +1462,7 @@ public final class MapRegion {
                   var14 = var2[var13];
                }
 
-               this.a(var8, var4, var14, var12, var10, var9, var6, var11);
+               this.placeObject(var8, var4, var14, var12, var10, var9, var6, var11);
             }
          }
       }

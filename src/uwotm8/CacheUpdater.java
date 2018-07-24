@@ -14,7 +14,7 @@ public final class CacheUpdater
     
     public CacheUpdater(final Client a) {
         this.c = 0;
-        this.d = String.valueOf(SignLink.a()) + d();
+        this.d = String.valueOf(SignLink.getLocalCacheDirectory()) + d();
         this.a = a;
     }
     
@@ -37,7 +37,7 @@ public final class CacheUpdater
     }
     
     public static int b() throws IOException {
-        final File file = new File(String.valueOf(SignLink.a()) + "cacheVersion.dat");
+        final File file = new File(String.valueOf(SignLink.getLocalCacheDirectory()) + "cacheVersion.dat");
         final BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
         if (!file.exists()) {
             bufferedReader.close();
@@ -60,7 +60,7 @@ public final class CacheUpdater
     
     public final CacheUpdater c() {
         try {
-            final File file = new File(String.valueOf(SignLink.a()) + "cacheVersion.dat");
+            final File file = new File(String.valueOf(SignLink.getLocalCacheDirectory()) + "cacheVersion.dat");
             final int a = a();
             if (!file.exists()) {
                 this.a("http://vidyascape.org/files/cache/live.zip", d());
@@ -97,7 +97,7 @@ public final class CacheUpdater
         int n = 0;
         try {
             final URL url = new URL(s);
-            outputStream = new BufferedOutputStream(new FileOutputStream(String.valueOf(SignLink.a()) + s2));
+            outputStream = new BufferedOutputStream(new FileOutputStream(String.valueOf(SignLink.getLocalCacheDirectory()) + s2));
             final URLConnection openConnection;
             inputStream = (openConnection = url.openConnection()).getInputStream();
             final byte[] array = new byte[1024];
@@ -169,14 +169,14 @@ public final class CacheUpdater
             ZipEntry nextEntry;
             while ((nextEntry = zipInputStream.getNextEntry()) != null) {
                 if (nextEntry.isDirectory()) {
-                    new File(String.valueOf(SignLink.a()) + nextEntry.getName()).mkdir();
+                    new File(String.valueOf(SignLink.getLocalCacheDirectory()) + nextEntry.getName()).mkdir();
                 }
                 else {
                     if (nextEntry.getName().equals(this.d)) {
                         a(zipInputStream, this.d);
                         break;
                     }
-                    a(zipInputStream, String.valueOf(SignLink.a()) + nextEntry.getName());
+                    a(zipInputStream, String.valueOf(SignLink.getLocalCacheDirectory()) + nextEntry.getName());
                 }
             }
             zipInputStream.close();

@@ -45,7 +45,7 @@ public class Archive {
       int var4;
       if ((var4 = var2.i()) != var3) {
          byte[] var5;
-         uwotm8.BZip2Decompressor.a(var5 = new byte[var3], var3, var1, var4, 6);
+         uwotm8.BZip2Decompressor.decompress(var5 = new byte[var3], var3, var1, var4, 6);
          this.a = var5;
          var2 = new Buffer(this.a);
          this.g = true;
@@ -71,7 +71,7 @@ public class Archive {
 
    }
 
-   public byte[] b(String var1) {
+   public byte[] getEntry(String var1) {
       Object var2 = null;
       int var4 = 0;
       var1 = var1.toUpperCase();
@@ -85,7 +85,7 @@ public class Archive {
          if (this.c[var3] == var4) {
             byte[] var5 = new byte[this.d[var3]];
             if (!this.g) {
-               uwotm8.BZip2Decompressor.a(var5, this.d[var3], this.a, this.e[var3], this.f[var3]);
+               uwotm8.BZip2Decompressor.decompress(var5, this.d[var3], this.a, this.e[var3], this.f[var3]);
             } else {
                System.arraycopy(this.a, this.f[var3], var5, 0, this.d[var3]);
             }

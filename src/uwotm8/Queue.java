@@ -11,9 +11,9 @@ public final class Queue
         this.a.aI = this.a;
     }
     
-    public final void a(final CacheableNode n) {
+    public final void insertHead(final CacheableNode n) {
         if (n.aI != null) {
-            n.E();
+            n.clear();
         }
         n.aI = this.a.aI;
         n.aH = this.a;
@@ -21,16 +21,16 @@ public final class Queue
         n.aH.aI = n;
     }
     
-    public final CacheableNode a() {
+    public final CacheableNode popTail() {
         final CacheableNode ah;
         if ((ah = this.a.aH) == this.a) {
             return null;
         }
-        ah.E();
+        ah.clear();
         return ah;
     }
     
-    public final CacheableNode b() {
+    public final CacheableNode reverseGetFirst() {
         final CacheableNode ah;
         if ((ah = this.a.aH) == this.a) {
             return this.b = null;
@@ -39,7 +39,7 @@ public final class Queue
         return ah;
     }
     
-    public final CacheableNode c() {
+    public final CacheableNode reverseGetNext() {
         final CacheableNode b;
         if ((b = this.b) == this.a) {
             return this.b = null;
@@ -48,7 +48,7 @@ public final class Queue
         return b;
     }
     
-    public final int d() {
+    public final int getNodeCount() {
         int n = 0;
         for (CacheableNode n2 = this.a.aH; n2 != this.a; n2 = n2.aH) {
             ++n;

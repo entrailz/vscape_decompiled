@@ -6,7 +6,7 @@ public class Node
     public Node aF;
     public Node aG;
     
-    public final void D() {
+    public final void unlink() {
         if (this.aG != null) {
             this.aG.aF = this.aF;
             this.aF.aG = this.aG;

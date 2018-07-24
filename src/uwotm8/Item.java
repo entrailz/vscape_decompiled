@@ -5,7 +5,7 @@ public final class Item extends Renderable
     public int a;
     public int b;
     
-    public final Model a() {
-        return ItemDefinition.c(this.a).d(this.b);
+    public final Model getRotatedModel() {
+        return ItemDefinition.c(this.a).getAmountModel(this.b);
     }
 }

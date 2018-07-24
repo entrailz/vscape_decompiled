@@ -59,7 +59,7 @@ public final class ResourceProvider extends ag implements Runnable
         this.F = new LinkedList();
     }
     
-    private void f() {
+    private void respond() {
         try {
             final int available = this.y.available();
             if (this.o == 0 && available >= 6) {
@@ -70,7 +70,7 @@ public final class ResourceProvider extends ag implements Runnable
                 final int n3 = ((this.i[3] & 0xFF) << 8) + (this.i[4] & 0xFF);
                 final int n4 = this.i[5] & 0xFF;
                 this.E = null;
-                for (Resource e = (Resource)this.c.b(); e != null; e = (Resource)this.c.d()) {
+                for (Resource e = (Resource)this.c.getBack(); e != null; e = (Resource)this.c.getPrevious()) {
                     if (e.a == n && e.c == n2) {
                         this.E = e;
                     }
@@ -86,11 +86,11 @@ public final class ResourceProvider extends ag implements Runnable
                         if (this.E.d) {
                             final LinkedList v = this.v;
                             synchronized (this.v) {
-                                this.v.a(this.E);
+                                this.v.insertBack(this.E);
                             }
                         }
                         else {
-                            this.E.D();
+                            this.E.unlink();
                         }
                         this.E = null;
                     }
@@ -120,7 +120,7 @@ public final class ResourceProvider extends ag implements Runnable
                 for (int j = 0; j < this.o; j += this.y.read(array, j + n5, this.o - j)) {}
                 if (this.o + this.n >= array.length && this.E != null) {
                     if (this.l.z[0] != null) {
-                        this.l.z[this.E.a + 1].a(array.length, array, this.E.c);
+                        this.l.z[this.E.a + 1].put(array.length, array, this.E.c);
                     }
                     if (!this.E.d && this.E.a == 3) {
                         this.E.d = true;
@@ -129,11 +129,11 @@ public final class ResourceProvider extends ag implements Runnable
                     if (this.E.d) {
                         final LinkedList v2 = this.v;
                         synchronized (this.v) {
-                            this.v.a(this.E);
+                            this.v.insertBack(this.E);
                         }
                     }
                     else {
-                        this.E.D();
+                        this.E.unlink();
                     }
                 }
                 this.o = 0;
@@ -155,7 +155,7 @@ public final class ResourceProvider extends ag implements Runnable
         for (int i = 0; i < this.h.length; ++i) {
             try {
                 final FileOutputStream fileOutputStream;
-                (fileOutputStream = new FileOutputStream(new File("Configs/mapdata/" + this.h[i] + ".gz"))).write(this.l.z[4].a(this.h[i]));
+                (fileOutputStream = new FileOutputStream(new File("Configs/mapdata/" + this.h[i] + ".gz"))).write(this.l.z[4].decompress(this.h[i]));
                 fileOutputStream.close();
             }
             catch (Exception ex) {
@@ -165,7 +165,7 @@ public final class ResourceProvider extends ag implements Runnable
         for (int j = 0; j < this.q.length; ++j) {
             try {
                 final FileOutputStream fileOutputStream2;
-                (fileOutputStream2 = new FileOutputStream(new File("Configs/mapdata/" + this.q[j] + ".gz"))).write(this.l.z[4].a(this.q[j]));
+                (fileOutputStream2 = new FileOutputStream(new File("Configs/mapdata/" + this.q[j] + ".gz"))).write(this.l.z[4].decompress(this.q[j]));
                 fileOutputStream2.close();
             }
             catch (Exception ex2) {
@@ -174,8 +174,8 @@ public final class ResourceProvider extends ag implements Runnable
         }
     }
     
-    public final void a(final Archive g, final Client l) {
-        final byte[] b = g.b("map_index");
+    public final void init(final Archive g, final Client l) {
+        final byte[] b = g.getEntry("map_index");
         final Buffer i = new Buffer(b);
         final int n = b.length / 6;
         this.G = new int[n];
@@ -187,7 +187,7 @@ public final class ResourceProvider extends ag implements Runnable
             this.h[j] = i.g();
             ++this.b;
         }
-        final byte[] b2 = g.b("midi_index");
+        final byte[] b2 = g.getEntry("midi_index");
         final Buffer k = new Buffer(b2);
         final int length = b2.length;
         this.p = new int[length];
@@ -199,10 +199,10 @@ public final class ResourceProvider extends ag implements Runnable
         this.l.a(this, 2);
     }
     
-    public final int b() {
+    public final int getNodeCount() {
         final Queue x = this.x;
         synchronized (this.x) {
-            return this.x.d();
+            return this.x.getNodeCount();
         }
     }
     
@@ -256,10 +256,10 @@ public final class ResourceProvider extends ag implements Runnable
         }
     }
     
-    public final void a(final int a, final int c) {
+    public final void provide(final int a, final int c) {
         final Queue x = this.x;
         synchronized (this.x) {
-            for (Resource ae = (Resource)this.x.b(); ae != null; ae = (Resource)this.x.c()) {
+            for (Resource ae = (Resource)this.x.reverseGetFirst(); ae != null; ae = (Resource)this.x.reverseGetNext()) {
                 if (ae.a == a && ae.c == c) {
                     return;
                 }
@@ -270,9 +270,9 @@ public final class ResourceProvider extends ag implements Runnable
             ae2.d = true;
             final LinkedList f = this.F;
             synchronized (this.F) {
-                this.F.a(ae2);
+                this.F.insertBack(ae2);
             }
-            this.x.a(ae2);
+            this.x.insertHead(ae2);
         }
     }
     
@@ -295,7 +295,7 @@ public final class ResourceProvider extends ag implements Runnable
                     this.g();
                     this.B = 0;
                     this.C = 0;
-                    for (Resource ae = (Resource)this.c.b(); ae != null; ae = (Resource)this.c.d()) {
+                    for (Resource ae = (Resource)this.c.getBack(); ae != null; ae = (Resource)this.c.getPrevious()) {
                         if (ae.d) {
                             ++this.B;
                             System.out.println("Error: model is incomplete or missing  [ type = " + ae.a + "]  [id = " + ae.c + "]");
@@ -307,14 +307,14 @@ public final class ResourceProvider extends ag implements Runnable
                     while (this.B < 10) {
                         try {
                             final Resource ae2;
-                            if ((ae2 = (Resource)this.D.a()) == null) {
+                            if ((ae2 = (Resource)this.D.popTail()) == null) {
                                 break;
                             }
                             if (this.k[ae2.a][ae2.c] != 0) {
                                 ++this.r;
                             }
                             this.k[ae2.a][ae2.c] = 0;
-                            this.c.a(ae2);
+                            this.c.insertBack(ae2);
                             ++this.B;
                             this.a(ae2);
                             this.u = true;
@@ -327,11 +327,11 @@ public final class ResourceProvider extends ag implements Runnable
                     }
                     this.h();
                     if (this.y != null) {
-                        this.f();
+                        this.respond();
                     }
                 }
                 int n3 = 0;
-                for (Resource ae3 = (Resource)this.c.b(); ae3 != null; ae3 = (Resource)this.c.d()) {
+                for (Resource ae3 = (Resource)this.c.getBack(); ae3 != null; ae3 = (Resource)this.c.getPrevious()) {
                     if (ae3.d) {
                         n3 = 1;
                         final Resource ae4 = ae3;
@@ -343,7 +343,7 @@ public final class ResourceProvider extends ag implements Runnable
                     }
                 }
                 if (n3 == 0) {
-                    for (Resource ae5 = (Resource)this.c.b(); ae5 != null; ae5 = (Resource)this.c.d()) {
+                    for (Resource ae5 = (Resource)this.c.getBack(); ae5 != null; ae5 = (Resource)this.c.getPrevious()) {
                         n3 = 1;
                         final Resource ae6 = ae5;
                         ++ae6.e;
@@ -402,7 +402,7 @@ public final class ResourceProvider extends ag implements Runnable
             ae.d = false;
             final LinkedList m = this.m;
             synchronized (this.m) {
-                this.m.a(ae);
+                this.m.insertBack(ae);
             }
         }
     }
@@ -411,14 +411,14 @@ public final class ResourceProvider extends ag implements Runnable
         final LinkedList v = this.v;
         final Resource ae;
         synchronized (this.v) {
-            ae = (Resource)this.v.a();
+            ae = (Resource)this.v.popTail();
         }
         if (ae == null) {
             return null;
         }
         final Queue x = this.x;
         synchronized (this.x) {
-            ae.E();
+            ae.clear();
         }
         if (ae.b == null) {
             return ae;
@@ -465,8 +465,8 @@ public final class ResourceProvider extends ag implements Runnable
     }
     
     @Override
-    public final void a(final int n) {
-        this.a(0, n);
+    public final void provide(final int n) {
+        this.provide(0, n);
     }
     
     public final boolean b(final int n) {
@@ -481,7 +481,7 @@ public final class ResourceProvider extends ag implements Runnable
     public final void e() {
         final LinkedList m = this.m;
         synchronized (this.m) {
-            this.m.f();
+            this.m.clear();
         }
     }
     
@@ -489,27 +489,27 @@ public final class ResourceProvider extends ag implements Runnable
         final LinkedList f = this.F;
         Resource ae;
         synchronized (this.F) {
-            ae = (Resource)this.F.a();
+            ae = (Resource)this.F.popTail();
         }
         while (ae != null) {
             this.u = true;
             byte[] a = null;
             if (this.l.z[0] != null) {
-                a = this.l.z[ae.a + 1].a(ae.c);
+                a = this.l.z[ae.a + 1].decompress(ae.c);
             }
             final LinkedList f2 = this.F;
             synchronized (this.F) {
                 if (a == null) {
-                    this.D.a(ae);
+                    this.D.insertBack(ae);
                 }
                 else {
                     ae.b = a;
                     final LinkedList v = this.v;
                     synchronized (this.v) {
-                        this.v.a(ae);
+                        this.v.insertBack(ae);
                     }
                 }
-                ae = (Resource)this.F.a();
+                ae = (Resource)this.F.popTail();
             }
         }
     }
@@ -519,12 +519,12 @@ public final class ResourceProvider extends ag implements Runnable
             final LinkedList m = this.m;
             Resource ae;
             synchronized (this.m) {
-                ae = (Resource)this.m.a();
+                ae = (Resource)this.m.popTail();
             }
             while (ae != null) {
                 if (this.k[ae.a][ae.c] != 0) {
                     this.k[ae.a][ae.c] = 0;
-                    this.c.a(ae);
+                    this.c.insertBack(ae);
                     this.a(ae);
                     this.u = true;
                     if (this.r < 0) {
@@ -538,7 +538,7 @@ public final class ResourceProvider extends ag implements Runnable
                 }
                 final LinkedList i = this.m;
                 synchronized (this.m) {
-                    ae = (Resource)this.m.a();
+                    ae = (Resource)this.m.popTail();
                 }
             }
             for (int j = 0; j < 4; ++j) {
@@ -550,7 +550,7 @@ public final class ResourceProvider extends ag implements Runnable
                         (ae2 = new Resource()).a = j;
                         ae2.c = k;
                         ae2.d = false;
-                        this.c.a(ae2);
+                        this.c.insertBack(ae2);
                         this.a(ae2);
                         this.u = true;
                         if (this.r < 0) {

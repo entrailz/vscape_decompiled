@@ -75,13 +75,13 @@ public final class aD_1 extends aE_1
         final a a = Client.a;
         final a a2 = com.runescape.a.a;
         final int n2 = y2 + 82;
-        aD_1.a.a(33, client.V, client.D, 256, client.y, 25, b2.y + ((Client.a == com.runescape.a.a) ? 3 : 4), b2.x + ((Client.a == com.runescape.a.a) ? 28 : 29), 33, 25);
+        aD_1.a.drawSpriteRotated(33, client.V, client.D, 256, client.y, 25, b2.y + ((Client.a == com.runescape.a.a) ? 3 : 4), b2.x + ((Client.a == com.runescape.a.a) ? 28 : 29), 33, 25);
         if (b) {
-        	SpriteGroupLoader.a("frame_default", "map", (Client.a == com.runescape.a.a) ? 1 : 3).d(x, y);
+        	SpriteGroupLoader.a("frame_default", "map", (Client.a == com.runescape.a.a) ? 1 : 3).drawSprite(x, y);
             return;
         }
-        uwotm8.Rasterizer2D.b(3, n2, n, 16777215, 3);
-        SpriteGroupLoader.a("frame_default", "map", (Client.a == com.runescape.a.a) ? 0 : 2).d(x, y);
+        uwotm8.Rasterizer2D.fillRectangle(3, n2, n, 16777215, 3);
+        SpriteGroupLoader.a("frame_default", "map", (Client.a == com.runescape.a.a) ? 0 : 2).drawSprite(x, y);
     }
     
     @Override
@@ -89,21 +89,21 @@ public final class aD_1 extends aE_1
         final Rectangle t = aD_1.t;
         final boolean b = Client.c >= Client.h;
         if (Client.a == com.runescape.a.a) {
-        	SpriteGroupLoader.a("frame_default", "tabs", 0).d(0, 0);
+        	SpriteGroupLoader.a("frame_default", "tabs", 0).drawSprite(0, 0);
             client.r.a(30, 37);
         }
         else {
             final int n = b ? (Client.c - 461) : (Client.c - 231);
             final int n2 = b ? (Client.d - 36) : (Client.d - 73);
-            SpriteGroupLoader.a("frame_default", "tabs", b ? 3 : 2).d(n, n2);
+            SpriteGroupLoader.a("frame_default", "tabs", b ? 3 : 2).drawSprite(n, n2);
             if (Client.f) {
                 final int n3 = Client.c - ((int)t.getWidth() + (b ? 0 : 14));
                 final int n4 = (int)t.getHeight();
                 final int n5 = n3 + 7;
                 final int n6 = n2 - (n4 - 7);
-                uwotm8.Rasterizer2D.a(5260860, n2 - n4, t.width - 1, t.height - 1, 200, n3);
+                uwotm8.Rasterizer2D.fillRectangle(5260860, n2 - n4, t.width - 1, t.height - 1, 200, n3);
                 client.r.a(n5, n6);
-                SpriteGroupLoader.a("frame_default", "tabs", 1).d(n3, n2 - n4);
+                SpriteGroupLoader.a("frame_default", "tabs", 1).drawSprite(n3, n2 - n4);
             }
         }
         if (client.W == -1) {
@@ -112,7 +112,7 @@ public final class aD_1 extends aE_1
                     if (Client.a == com.runescape.a.a) {
                         final Sprite n7;
                         if ((n7 = this.c[aD_1.d[Client.aa]]) != null) {
-                            n7.d(aD_1.e[Client.aa % 7], aD_1.f[Client.aa]);
+                            n7.drawSprite(aD_1.e[Client.aa % 7], aD_1.f[Client.aa]);
                         }
                     }
                     else {
@@ -124,7 +124,7 @@ public final class aD_1 extends aE_1
                             if (!b2 && Client.aa > 6) {
                                 n10 += 36;
                             }
-                            n8.d(n9 + 33 * (b2 ? Client.aa : (Client.aa % 7)), n10);
+                            n8.drawSprite(n9 + 33 * (b2 ? Client.aa : (Client.aa % 7)), n10);
                         }
                     }
                 }
@@ -151,7 +151,7 @@ public final class aD_1 extends aE_1
                     b4 = (Client.R % 20 < 10);
                 }
                 if (b4) {
-                	SpriteGroupLoader.a("frame_default", "sideicons", i).d(n13, n14);
+                	SpriteGroupLoader.a("frame_default", "sideicons", i).drawSprite(n13, n14);
                 }
             }
         }
@@ -233,24 +233,24 @@ public final class aD_1 extends aE_1
         final int a = this.a(false);
         if (Client.e) {
             if (Client.g) {
-                uwotm8.Rasterizer2D.a(13417370, a, 520, 143, 200, 0);
-                SpriteGroupLoader.a("frame_default", "chat", 1).d(0, a);
+                uwotm8.Rasterizer2D.fillRectangle(13417370, a, 520, 143, 200, 0);
+                SpriteGroupLoader.a("frame_default", "chat", 1).drawSprite(0, a);
                 client.s.a(7, a + 6);
             }
             else {
-            	SpriteGroupLoader.a("frame_default", "chat", 0).d(0, a);
+            	SpriteGroupLoader.a("frame_default", "chat", 0).drawSprite(0, a);
                 client.s.a(7, a + 6);
             }
         }
         if (Client.g) {
-        	SpriteGroupLoader.a("frame_default", "chat", 2).d(0, Client.d - 23);
+        	SpriteGroupLoader.a("frame_default", "chat", 2).drawSprite(0, Client.d - 23);
         }
         final int a2 = this.a(false);
         if (client.q >= 0 & client.q <= 6) {
-        	SpriteGroupLoader.a("frame_default", "chat", 4).d(aD_1.k[client.q], a2 + 142);
+        	SpriteGroupLoader.a("frame_default", "chat", 4).drawSprite(aD_1.k[client.q], a2 + 142);
         }
         if (client.p >= 0 & client.p <= 6) {
-        	SpriteGroupLoader.a("frame_default", "chat", (client.p == client.q) ? 5 : 3).d(aD_1.k[client.p], a2 + 142);
+        	SpriteGroupLoader.a("frame_default", "chat", (client.p == client.q) ? 5 : 3).drawSprite(aD_1.k[client.p], a2 + 142);
         }
         final int[] array = { client.o, client.aj, client.u, client.m, client.ae, client.n };
         for (int i = 0; i < 7; ++i) {

@@ -44,20 +44,20 @@ import uwotm8.MapRegion;
 import uwotm8.SceneGraph;
 import uwotm8.Floor;
 import uwotm8.Y_1;
-import uwotm8.Z_1;
+import uwotm8.GroundDecoration;
 import uwotm8.SpriteGroupLoader;
 import uwotm8.aE_1;
 import uwotm8.aF;
 import uwotm8.aG_1;
 import uwotm8.aH_1;
 import uwotm8.UnknownClass1;
-import uwotm8.ab;
-import uwotm8.ac;
+import uwotm8.Wall;
+import uwotm8.WallDecoration;
 import uwotm8.IsaacCipher;
 import uwotm8.Resource;
 import uwotm8.ResourceProvider;
 import uwotm8.ah;
-import uwotm8.BufferedStream;
+import uwotm8.BufferedConnection;
 import uwotm8.VariableBits;
 import uwotm8.VariableParameter;
 import uwotm8.SignLink;
@@ -88,7 +88,7 @@ import uwotm8.q;
 import uwotm8.Rasterizer3D;
 import uwotm8.AnimableObject;
 import uwotm8.Actor;
-import uwotm8.v;
+import uwotm8.GameObject;
 import uwotm8.Item;
 import uwotm8.Npc;
 import uwotm8.Player;
@@ -431,7 +431,7 @@ public class Client extends ScapeApplet {
    private static q gg;
    private static q gh;
    private int gi;
-   private BufferedStream gj;
+   private BufferedConnection gj;
    private int gk;
    public static String S;
    public static String T;
@@ -767,7 +767,7 @@ public class Client extends ScapeApplet {
                int var4 = this.V & 2047;
                int var5 = 48 + L.V / 32;
                int var6 = 464 - L.W / 32;
-               this.hs.a(151, var4, this.gT, 256, this.eu, var6, var18, var3, 146, var5);
+               this.hs.drawSpriteRotated(151, var4, this.gT, 256, this.eu, var6, var18, var3, 146, var5);
 
                for(var18 = 0; var18 < var1.eI; ++var18) {
                   var3 = (var1.eJ[var18] << 2) + 2 - L.V / 32;
@@ -784,7 +784,7 @@ public class Client extends ScapeApplet {
                         if ((var19 = var1.bs[var1.bu[var18]]) != null && var19.isVisible()) {
                            ActorDefinition var20 = var19.ad;
                            if (var19.ad.r != null) {
-                              var20 = var20.b();
+                              var20 = var20.morph();
                            }
 
                            if (var20 != null && var20.q && var20.p) {
@@ -804,13 +804,13 @@ public class Client extends ScapeApplet {
                            boolean var7 = false;
 
                            for(int var15 = 0; var15 < var1.cl; ++var15) {
-                              if (var1.cW[var15] > 0L && uwotm8.StringUtils.a(var1.cW[var15]).equalsIgnoreCase(var21.ai)) {
+                              if (var1.cW[var15] > 0L && uwotm8.StringUtils.decodeBase37(var1.cW[var15]).equalsIgnoreCase(var21.ai)) {
                                  var7 = true;
                                  break;
                               }
                            }
 
-                           long var26 = uwotm8.StringUtils.a(var21.ai);
+                           long var26 = uwotm8.StringUtils.encodeBase37(var21.ai);
 
                            for(int var8 = 0; var8 < var1.ck; ++var8) {
                               if (var26 == var1.cV[var8] && var1.bm[var8] != 0) {
@@ -1057,7 +1057,7 @@ public class Client extends ScapeApplet {
             var1 = var1.substring(5);
          }
 
-         long var5 = uwotm8.StringUtils.a(var1.trim());
+         long var5 = uwotm8.StringUtils.encodeBase37(var1.trim());
          int var6 = -1;
 
          for(int var4 = 0; var4 < this.ck; ++var4) {
@@ -1124,7 +1124,7 @@ public class Client extends ScapeApplet {
          this.gK[1].a(var2, var3);
          return 15;
       case 4:
-         SpriteGroupLoader.a("chaticons", 0).d(var2, var3);
+         SpriteGroupLoader.a("chaticons", 0).drawSprite(var2, var3);
          return 13;
       default:
          return 0;
@@ -1181,14 +1181,14 @@ public class Client extends ScapeApplet {
                      var4 = var5.k.toLowerCase();
                   } else if (this.ac == 4) {
                      ActorDefinition var8;
-                     if ((var8 = uwotm8.ActorDefinition.a(var3)) == null || var8.f == null || var8.f.isEmpty()) {
+                     if ((var8 = uwotm8.ActorDefinition.lookup(var3)) == null || var8.f == null || var8.f.isEmpty()) {
                         break label101;
                      }
 
                      var4 = var8.f.toLowerCase();
                   } else if (this.ac == 5) {
                      ObjectDefinition var9;
-                     if ((var9 = uwotm8.ObjectDefinition.a(var3)) == null || var9.c == null || var9.c.isEmpty()) {
+                     if ((var9 = uwotm8.ObjectDefinition.decode(var3)) == null || var9.c == null || var9.c.isEmpty()) {
                         break label101;
                      }
 
@@ -1231,11 +1231,11 @@ public class Client extends ScapeApplet {
       o var4 = this.hz;
       o var5 = this.hz;
       int var15 = this.hz.a;
-      uwotm8.Rasterizer2D.b(var3 + 20 + 3, var2, (int)var1.getWidth(), var3);
+      uwotm8.Rasterizer2D.setBounds(var3 + 20 + 3, var2, (int)var1.getWidth(), var3);
       var3 += var15 - 1;
       this.hF.b("SEARCH NAME: <col=255>" + this.dG + "*</col>", (int)var1.getCenterX(), var3, 0, -1);
-      uwotm8.Rasterizer2D.c(var3 += 4, g ? 5723991 : 8418912, (int)var1.getWidth() - 12, var2);
-      uwotm8.Rasterizer2D.b((int)var1.getHeight() + var3, var2, (int)var1.getWidth(), var3);
+      uwotm8.Rasterizer2D.drawHorizontal(var3 += 4, g ? 5723991 : 8418912, (int)var1.getWidth() - 12, var2);
+      uwotm8.Rasterizer2D.setBounds((int)var1.getHeight() + var3, var2, (int)var1.getWidth(), var3);
       if (this.dG.length() == 0) {
          this.hF.b("ENTER SEARCH NAME", (int)var1.getCenterX(), var3 + (int)var1.getCenterY() - 20, 255, -1);
       } else if (this.aF <= 0) {
@@ -1255,14 +1255,14 @@ public class Client extends ScapeApplet {
                      int var11 = var9 % 3;
                      int var12 = var2 + var6 * var11;
                      if (this.b(var12, var7 + var10, var6, 34)) {
-                        uwotm8.Rasterizer2D.a(16777215, var10, var6, 34, 64, var12);
+                        uwotm8.Rasterizer2D.fillRectangle(16777215, var10, var6, 34, 64, var12);
                      }
 
                      Sprite var13;
-                     if ((var13 = uwotm8.ItemDefinition.a(this.aH[var9], 64, 0)) != null) {
-                        var13.d(var12, var10);
+                     if ((var13 = uwotm8.ItemDefinition.sprite(this.aH[var9], 64, 0)) != null) {
+                        var13.drawSprite(var12, var10);
                      } else {
-                        uwotm8.Rasterizer2D.a(16711680, var10 + 2, 32, 32, 128, var12 + 2);
+                        uwotm8.Rasterizer2D.fillRectangle(16711680, var10 + 2, 32, 32, 128, var12 + 2);
                      }
 
                      var10 += 2;
@@ -1278,7 +1278,7 @@ public class Client extends ScapeApplet {
                }
             }
 
-            uwotm8.Rasterizer2D.e();
+            uwotm8.Rasterizer2D.setDefaultBounds();
             var9 = (int)var1.getHeight() + 1;
             if (this.ac == 3) {
                if ((j = (var8 + 1) * 34) < (int)var1.getHeight() - 1) {
@@ -1299,7 +1299,7 @@ public class Client extends ScapeApplet {
          }
       }
 
-      uwotm8.Rasterizer2D.e();
+      uwotm8.Rasterizer2D.setDefaultBounds();
    }
 
    private void a(String var1, String var2, int var3, int var4) {
@@ -1341,7 +1341,7 @@ public class Client extends ScapeApplet {
          o var6 = this.hz;
          int var17 = this.hz.a;
          int var7 = 0;
-         uwotm8.Rasterizer2D.b((int)var1.getMaxY() + var2, var3, (int)var1.getWidth(), var4);
+         uwotm8.Rasterizer2D.setBounds((int)var1.getMaxY() + var2, var3, (int)var1.getWidth(), var4);
 
          int var8;
          String var9;
@@ -1461,7 +1461,7 @@ public class Client extends ScapeApplet {
             }
          }
 
-         uwotm8.Rasterizer2D.e();
+         uwotm8.Rasterizer2D.setDefaultBounds();
          var8 = (int)var1.getHeight();
          if ((Z = var7 * (var17 + 3) + 3) < (int)var1.getHeight() - 1) {
             Z = (int)var1.getHeight() - 1;
@@ -1471,17 +1471,17 @@ public class Client extends ScapeApplet {
          if (L != null && L.ai != null) {
             var9 = L.ai;
          } else {
-            var9 = uwotm8.StringUtils.c(S);
+            var9 = uwotm8.StringUtils.format(S);
          }
 
          var3 = (int)var1.getX();
-         uwotm8.Rasterizer2D.b((var4 = var2 + (int)var1.getMaxY()) + 20, var3, (int)var1.getWidth(), var4);
-         uwotm8.Rasterizer2D.c(var4, g ? 5723991 : 8418912, (int)var1.getWidth() - 12, var3);
+         uwotm8.Rasterizer2D.setBounds((var4 = var2 + (int)var1.getMaxY()) + 20, var3, (int)var1.getWidth(), var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var4, g ? 5723991 : 8418912, (int)var1.getWidth() - 12, var3);
          var4 += var17;
          var3 += this.d(this.bL, L.aB ? 4 : 0, var3, var4 - 12);
          var5.b(0, var9 + ":", var4, var3);
          var5.b(255, var3 + var5.a(var9 + ":") + 2, this.ca + "*", var4, false);
-         uwotm8.Rasterizer2D.e();
+         uwotm8.Rasterizer2D.setDefaultBounds();
       }
 
       if (this.bY) {
@@ -1693,15 +1693,15 @@ public class Client extends ScapeApplet {
       try {
          this.ds = -1;
          this.dr = false;
-         this.ex.f();
-         this.dO.f();
+         this.ex.clear();
+         this.dO.clear();
          uwotm8.Rasterizer3D.c();
          u();
-         this.cO.b();
+         this.cO.reset();
          System.gc();
 
          for(var1 = 0; var1 < 4; ++var1) {
-            this.gU[var1].a();
+            this.gU[var1].init();
          }
 
          for(var1 = 0; var1 < 4; ++var1) {
@@ -1721,7 +1721,7 @@ public class Client extends ScapeApplet {
                var5 = ((this.gV[var3] & 255) << 6) - this.eh;
                byte[] var6;
                if ((var6 = this.gt[var3]) != null) {
-                  var12.a(var6, var5, var4, this.eG - 6 << 3, this.eH - 6 << 3, this.gU);
+                  var12.decodeRegionMapData(var6, var5, var4, this.eG - 6 << 3, this.eH - 6 << 3, this.gU);
                }
             }
 
@@ -1746,7 +1746,7 @@ public class Client extends ScapeApplet {
                if ((var15 = this.hf[var3]) != null) {
                   var5 = (this.gV[var3] >> 8 << 6) - this.eg;
                   var16 = ((this.gV[var3] & 255) << 6) - this.eh;
-                  var12.a(var5, this.gU, var16, this.cO, var15);
+                  var12.decodeLandscapes(var5, this.gU, var16, this.cO, var15);
                }
             }
          }
@@ -1786,7 +1786,7 @@ public class Client extends ScapeApplet {
 
                               for(var10 = 0; var10 < this.gV.length; ++var10) {
                                  if (this.gV[var10] == var9 && this.hf[var10] != null) {
-                                    var12.a(this.gU, this.cO, var7, var4 << 3, (var16 & 7) << 3, var3, this.hf[var10], (var2 & 7) << 3, var8, var5 << 3);
+                                    var12.decodeConstructedLandscapes(this.gU, this.cO, var7, var4 << 3, (var16 & 7) << 3, var3, this.hf[var10], (var2 & 7) << 3, var8, var5 << 3);
                                     break;
                                  }
                               }
@@ -1809,7 +1809,7 @@ public class Client extends ScapeApplet {
 
                         for(var10 = 0; var10 < this.gV.length; ++var10) {
                            if (this.gV[var10] == var9 && this.gt[var10] != null) {
-                              var12.a(var2, var16, this.gU, var4 << 3, (var7 & 7) << 3, this.gt[var10], (var8 & 7) << 3, var3, var5 << 3);
+                              var12.decodeConstructedMapData(var2, var16, this.gU, var4 << 3, (var7 & 7) << 3, this.gt[var10], (var8 & 7) << 3, var3, var5 << 3);
                               break;
                            }
                         }
@@ -1841,19 +1841,19 @@ public class Client extends ScapeApplet {
 
          Client var13 = this;
 
-         for(UnknownClass1 var14 = (UnknownClass1)this.gp.b(); var14 != null; var14 = (UnknownClass1)var13.gp.d()) {
+         for(UnknownClass1 var14 = (UnknownClass1)this.gp.getBack(); var14 != null; var14 = (UnknownClass1)var13.gp.getPrevious()) {
             if (var14.d == -1) {
                var14.l = 0;
                var13.a(var14);
             } else {
-               var14.D();
+               var14.unlink();
             }
          }
       } catch (Exception var11) {
          ;
       }
 
-      uwotm8.ObjectDefinition.A.a();
+      uwotm8.ObjectDefinition.A.removeAll();
       if (super.aq != null) {
          this.gy.writeOpCode(210);
          this.gy.f(1057001181);
@@ -1890,13 +1890,13 @@ public class Client extends ScapeApplet {
    }
 
    private static void u() {
-      uwotm8.ObjectDefinition.A.a();
-      uwotm8.ObjectDefinition.y.a();
-      uwotm8.ActorDefinition.t.a();
-      uwotm8.ItemDefinition.e.a();
-      uwotm8.ItemDefinition.d.a();
-      uwotm8.Player.aj.a();
-      uwotm8.SpotAnimation.h.a();
+      uwotm8.ObjectDefinition.A.removeAll();
+      uwotm8.ObjectDefinition.y.removeAll();
+      uwotm8.ActorDefinition.t.removeAll();
+      uwotm8.ItemDefinition.e.removeAll();
+      uwotm8.ItemDefinition.d.removeAll();
+      uwotm8.Player.aj.removeAll();
+      uwotm8.SpotAnimation.h.removeAll();
    }
 
    private void h(int var1) {
@@ -1926,7 +1926,7 @@ public class Client extends ScapeApplet {
       }
 
       Sprite var8 = this.hs;
-      uwotm8.Rasterizer2D.a(this.hs.c, var8.b, var8.a);
+      uwotm8.Rasterizer2D.init(this.hs.c, var8.b, var8.a);
 
       for(var5 = 1; var5 < 103; ++var5) {
          for(int var9 = 1; var9 < 103; ++var9) {
@@ -1948,7 +1948,7 @@ public class Client extends ScapeApplet {
       for(var3 = 0; var3 < 104; ++var3) {
          for(var4 = 0; var4 < 104; ++var4) {
             ObjectDefinition var11;
-            if ((var5 = var10.cO.l(var1, var3, var4)) != 0 && (var11 = uwotm8.ObjectDefinition.a(var5 >> 14 & 32767)) != null && (var5 = var11.e) >= 0) {
+            if ((var5 = var10.cO.l(var1, var3, var4)) != 0 && (var11 = uwotm8.ObjectDefinition.decode(var5 >> 14 & 32767)) != null && (var5 = var11.e) >= 0) {
                var10.fR[var10.eI] = var10.ef[var5];
                var10.eJ[var10.eI] = var3;
                var10.eK[var10.eI] = var4;
@@ -1969,7 +1969,7 @@ public class Client extends ScapeApplet {
 
          Item var6;
          int var8;
-         for(var6 = (Item)var3.b(); var6 != null; var6 = (Item)var3.d()) {
+         for(var6 = (Item)var3.getBack(); var6 != null; var6 = (Item)var3.getPrevious()) {
             ItemDefinition var7;
             var8 = (var7 = uwotm8.ItemDefinition.c(var6.a)).a;
             if (var7.n) {
@@ -1982,11 +1982,11 @@ public class Client extends ScapeApplet {
             }
          }
 
-         var3.b((Node)var5);
+         var3.insertFront((Node)var5);
          var6 = null;
          Item var9 = null;
 
-         for(Item var10 = (Item)var3.b(); var10 != null; var10 = (Item)var3.d()) {
+         for(Item var10 = (Item)var3.getBack(); var10 != null; var10 = (Item)var3.getPrevious()) {
             if (var10.a != ((Item)var5).a && var6 == null) {
                var6 = var10;
             }
@@ -2021,7 +2021,7 @@ public class Client extends ScapeApplet {
                   var4 += Integer.MIN_VALUE;
                }
 
-               this.cO.a(this.cu, var3.X, this.b(this.cu, var3.W, var3.V), var4, var3.W, (var3.L - 1 << 6) + 60, var3.V, var3, var3.M);
+               this.cO.addEntity(this.cu, var3.X, this.b(this.cu, var3.W, var3.V), var4, var3.W, (var3.L - 1 << 6) + 60, var3.V, var3, var3.M);
             }
          }
       }
@@ -2106,12 +2106,12 @@ public class Client extends ScapeApplet {
                                  label556: {
                                     var13 = var14 - 20001;
                                     String var20;
-                                    if (this.d(L.ai) > 0 && !(var20 = uwotm8.StringUtils.a(this.cW[var13])).isEmpty()) {
+                                    if (this.d(L.ai) > 0 && !(var20 = uwotm8.StringUtils.decodeBase37(this.cW[var13])).isEmpty()) {
                                        if (var20.startsWith("@cc1@") || var20.startsWith("@cc2@") || var20.startsWith("@cc3@")) {
                                           var20 = var20.substring(5);
                                        }
 
-                                       var20 = uwotm8.StringUtils.c(var20);
+                                       var20 = uwotm8.StringUtils.format(var20);
                                        if (this.cX[var13] >= 2 || var20.equalsIgnoreCase(L.ai)) {
                                           var10000 = true;
                                           break label556;
@@ -2385,139 +2385,139 @@ public class Client extends ScapeApplet {
       if (t.d()) {
          this.ea.a(var4, var3);
          this.eb.a(var4, var3 + var1 - 16);
-         uwotm8.Rasterizer2D.a(var1 - 32, var3 + 16, var4, 2301979, 16);
+         uwotm8.Rasterizer2D.fillRectangle(var1 - 32, var3 + 16, var4, 2301979, 16);
          if ((var6 = (var1 - 32) * var1 / var5) < 8) {
             var6 = 8;
          }
 
          var1 = (var1 - 32 - var6) * var2 / (var5 - var1);
-         uwotm8.Rasterizer2D.a(var6, var3 + 16 + var1, var4, 5063219, 16);
-         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 7759444, var6, var4);
-         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 7759444, var6, var4 + 1);
-         uwotm8.Rasterizer2D.c(var3 + 16 + var1, 7759444, 16, var4);
-         uwotm8.Rasterizer2D.c(var3 + 17 + var1, 7759444, 16, var4);
-         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 3353893, var6, var4 + 15);
-         uwotm8.Rasterizer2D.d(var3 + 17 + var1, 3353893, var6 - 1, var4 + 14);
-         uwotm8.Rasterizer2D.c(var3 + 15 + var1 + var6, 3353893, 16, var4);
-         uwotm8.Rasterizer2D.c(var3 + 14 + var1 + var6, 3353893, 15, var4 + 1);
+         uwotm8.Rasterizer2D.fillRectangle(var6, var3 + 16 + var1, var4, 5063219, 16);
+         uwotm8.Rasterizer2D.drawVertical(var3 + 16 + var1, 7759444, var6, var4);
+         uwotm8.Rasterizer2D.drawVertical(var3 + 16 + var1, 7759444, var6, var4 + 1);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 16 + var1, 7759444, 16, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 17 + var1, 7759444, 16, var4);
+         uwotm8.Rasterizer2D.drawVertical(var3 + 16 + var1, 3353893, var6, var4 + 15);
+         uwotm8.Rasterizer2D.drawVertical(var3 + 17 + var1, 3353893, var6 - 1, var4 + 14);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 15 + var1 + var6, 3353893, 16, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 14 + var1 + var6, 3353893, 15, var4 + 1);
       } else {
-         this.dY.d(var4, var3);
-         this.dZ.d(var4, var3 + var1 - 16);
-         uwotm8.Rasterizer2D.b(var1 - 32, var3 + 16, var4, 1, 16);
-         uwotm8.Rasterizer2D.b(var1 - 32, var3 + 16, var4, 4011046, 15);
-         uwotm8.Rasterizer2D.b(var1 - 32, var3 + 16, var4, 3419425, 13);
-         uwotm8.Rasterizer2D.b(var1 - 32, var3 + 16, var4, 3024925, 11);
-         uwotm8.Rasterizer2D.b(var1 - 32, var3 + 16, var4, 2696219, 10);
-         uwotm8.Rasterizer2D.b(var1 - 32, var3 + 16, var4, 2433049, 9);
-         uwotm8.Rasterizer2D.b(var1 - 32, var3 + 16, var4, 1, 1);
+         this.dY.drawSprite(var4, var3);
+         this.dZ.drawSprite(var4, var3 + var1 - 16);
+         uwotm8.Rasterizer2D.fillRectangle(var1 - 32, var3 + 16, var4, 1, 16);
+         uwotm8.Rasterizer2D.fillRectangle(var1 - 32, var3 + 16, var4, 4011046, 15);
+         uwotm8.Rasterizer2D.fillRectangle(var1 - 32, var3 + 16, var4, 3419425, 13);
+         uwotm8.Rasterizer2D.fillRectangle(var1 - 32, var3 + 16, var4, 3024925, 11);
+         uwotm8.Rasterizer2D.fillRectangle(var1 - 32, var3 + 16, var4, 2696219, 10);
+         uwotm8.Rasterizer2D.fillRectangle(var1 - 32, var3 + 16, var4, 2433049, 9);
+         uwotm8.Rasterizer2D.fillRectangle(var1 - 32, var3 + 16, var4, 1, 1);
          if ((var6 = (var1 - 32) * var1 / var5) < 8) {
             var6 = 8;
          }
 
          var1 = (var1 - 32 - var6) * var2 / (var5 - var1);
-         uwotm8.Rasterizer2D.b(var6, var3 + 16 + var1, var4, 5063219, 16);
-         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 1, var6, var4);
-         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 8482897, var6, var4 + 1);
-         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 7562570, var6, var4 + 2);
-         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 6970435, var6, var4 + 3);
-         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 6970435, var6, var4 + 4);
-         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 6641729, var6, var4 + 5);
-         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 6641729, var6, var4 + 6);
-         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 6378814, var6, var4 + 7);
-         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 6378814, var6, var4 + 8);
-         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 6115644, var6, var4 + 9);
-         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 6115644, var6, var4 + 10);
-         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 5852730, var6, var4 + 11);
-         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 5852730, var6, var4 + 12);
-         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 5326389, var6, var4 + 13);
-         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 4931889, var6, var4 + 14);
-         uwotm8.Rasterizer2D.c(var3 + 16 + var1, 1, 15, var4);
-         uwotm8.Rasterizer2D.c(var3 + 17 + var1, 1, 15, var4);
-         uwotm8.Rasterizer2D.c(var3 + 17 + var1, 6641729, 14, var4);
-         uwotm8.Rasterizer2D.c(var3 + 17 + var1, 6970435, 13, var4);
-         uwotm8.Rasterizer2D.c(var3 + 17 + var1, 7167816, 11, var4);
-         uwotm8.Rasterizer2D.c(var3 + 17 + var1, 7562570, 10, var4);
-         uwotm8.Rasterizer2D.c(var3 + 17 + var1, 7759947, 7, var4);
-         uwotm8.Rasterizer2D.c(var3 + 17 + var1, 8088141, 5, var4);
-         uwotm8.Rasterizer2D.c(var3 + 17 + var1, 8285776, 4, var4);
-         uwotm8.Rasterizer2D.c(var3 + 17 + var1, 8482897, 3, var4);
-         uwotm8.Rasterizer2D.c(var3 + 17 + var1, 1, 2, var4);
-         uwotm8.Rasterizer2D.c(var3 + 18 + var1, 1, 16, var4);
-         uwotm8.Rasterizer2D.c(var3 + 18 + var1, 5655352, 15, var4);
-         uwotm8.Rasterizer2D.c(var3 + 18 + var1, 6115644, 14, var4);
-         uwotm8.Rasterizer2D.c(var3 + 18 + var1, 6444608, 11, var4);
-         uwotm8.Rasterizer2D.c(var3 + 18 + var1, 6641729, 10, var4);
-         uwotm8.Rasterizer2D.c(var3 + 18 + var1, 6970435, 7, var4);
-         uwotm8.Rasterizer2D.c(var3 + 18 + var1, 7233606, 5, var4);
-         uwotm8.Rasterizer2D.c(var3 + 18 + var1, 7430727, 4, var4);
-         uwotm8.Rasterizer2D.c(var3 + 18 + var1, 8088141, 3, var4);
-         uwotm8.Rasterizer2D.c(var3 + 18 + var1, 8482897, 2, var4);
-         uwotm8.Rasterizer2D.c(var3 + 18 + var1, 1, 1, var4);
-         uwotm8.Rasterizer2D.c(var3 + 19 + var1, 1, 16, var4);
-         uwotm8.Rasterizer2D.c(var3 + 19 + var1, 5326389, 15, var4);
-         uwotm8.Rasterizer2D.c(var3 + 19 + var1, 5655352, 14, var4);
-         uwotm8.Rasterizer2D.c(var3 + 19 + var1, 6115644, 11, var4);
-         uwotm8.Rasterizer2D.c(var3 + 19 + var1, 6378814, 9, var4);
-         uwotm8.Rasterizer2D.c(var3 + 19 + var1, 6641729, 7, var4);
-         uwotm8.Rasterizer2D.c(var3 + 19 + var1, 6970435, 5, var4);
-         uwotm8.Rasterizer2D.c(var3 + 19 + var1, 7233606, 4, var4);
-         uwotm8.Rasterizer2D.c(var3 + 19 + var1, 7562570, 3, var4);
-         uwotm8.Rasterizer2D.c(var3 + 19 + var1, 8482897, 2, var4);
-         uwotm8.Rasterizer2D.c(var3 + 19 + var1, 1, 1, var4);
-         uwotm8.Rasterizer2D.c(var3 + 20 + var1, 1, 16, var4);
-         uwotm8.Rasterizer2D.c(var3 + 20 + var1, 4931889, 15, var4);
-         uwotm8.Rasterizer2D.c(var3 + 20 + var1, 5523766, 14, var4);
-         uwotm8.Rasterizer2D.c(var3 + 20 + var1, 5852730, 13, var4);
-         uwotm8.Rasterizer2D.c(var3 + 20 + var1, 6115644, 10, var4);
-         uwotm8.Rasterizer2D.c(var3 + 20 + var1, 6378814, 8, var4);
-         uwotm8.Rasterizer2D.c(var3 + 20 + var1, 6641729, 6, var4);
-         uwotm8.Rasterizer2D.c(var3 + 20 + var1, 6970435, 4, var4);
-         uwotm8.Rasterizer2D.c(var3 + 20 + var1, 7562570, 3, var4);
-         uwotm8.Rasterizer2D.c(var3 + 20 + var1, 8482897, 2, var4);
-         uwotm8.Rasterizer2D.c(var3 + 20 + var1, 1, 1, var4);
-         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 1, var6, var4 + 15);
-         uwotm8.Rasterizer2D.c(var3 + 15 + var1 + var6, 1, 16, var4);
-         uwotm8.Rasterizer2D.c(var3 + 14 + var1 + var6, 1, 15, var4);
-         uwotm8.Rasterizer2D.c(var3 + 14 + var1 + var6, 4142890, 14, var4);
-         uwotm8.Rasterizer2D.c(var3 + 14 + var1 + var6, 4471853, 10, var4);
-         uwotm8.Rasterizer2D.c(var3 + 14 + var1 + var6, 4734511, 9, var4);
-         uwotm8.Rasterizer2D.c(var3 + 14 + var1 + var6, 4866095, 7, var4);
-         uwotm8.Rasterizer2D.c(var3 + 14 + var1 + var6, 4931889, 4, var4);
-         uwotm8.Rasterizer2D.c(var3 + 14 + var1 + var6, 5655352, 3, var4);
-         uwotm8.Rasterizer2D.c(var3 + 14 + var1 + var6, 1, 2, var4);
-         uwotm8.Rasterizer2D.c(var3 + 13 + var1 + var6, 1, 16, var4);
-         uwotm8.Rasterizer2D.c(var3 + 13 + var1 + var6, 4471853, 15, var4);
-         uwotm8.Rasterizer2D.c(var3 + 13 + var1 + var6, 4931889, 11, var4);
-         uwotm8.Rasterizer2D.c(var3 + 13 + var1 + var6, 5326389, 9, var4);
-         uwotm8.Rasterizer2D.c(var3 + 13 + var1 + var6, 5523766, 7, var4);
-         uwotm8.Rasterizer2D.c(var3 + 13 + var1 + var6, 5655352, 6, var4);
-         uwotm8.Rasterizer2D.c(var3 + 13 + var1 + var6, 5852730, 4, var4);
-         uwotm8.Rasterizer2D.c(var3 + 13 + var1 + var6, 6444608, 3, var4);
-         uwotm8.Rasterizer2D.c(var3 + 13 + var1 + var6, 6970435, 2, var4);
-         uwotm8.Rasterizer2D.c(var3 + 13 + var1 + var6, 1, 1, var4);
-         uwotm8.Rasterizer2D.c(var3 + 12 + var1 + var6, 1, 16, var4);
-         uwotm8.Rasterizer2D.c(var3 + 12 + var1 + var6, 4471853, 15, var4);
-         uwotm8.Rasterizer2D.c(var3 + 12 + var1 + var6, 4931889, 14, var4);
-         uwotm8.Rasterizer2D.c(var3 + 12 + var1 + var6, 5523766, 12, var4);
-         uwotm8.Rasterizer2D.c(var3 + 12 + var1 + var6, 5655352, 11, var4);
-         uwotm8.Rasterizer2D.c(var3 + 12 + var1 + var6, 5852730, 10, var4);
-         uwotm8.Rasterizer2D.c(var3 + 12 + var1 + var6, 6115644, 7, var4);
-         uwotm8.Rasterizer2D.c(var3 + 12 + var1 + var6, 6378814, 4, var4);
-         uwotm8.Rasterizer2D.c(var3 + 12 + var1 + var6, 7233606, 3, var4);
-         uwotm8.Rasterizer2D.c(var3 + 12 + var1 + var6, 8088141, 2, var4);
-         uwotm8.Rasterizer2D.c(var3 + 12 + var1 + var6, 1, 1, var4);
-         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 1, 16, var4);
-         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 4931889, 15, var4);
-         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 5326389, 14, var4);
-         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 5655352, 13, var4);
-         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 5852730, 11, var4);
-         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 6115644, 9, var4);
-         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 6378814, 7, var4);
-         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 6641729, 5, var4);
-         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 6970435, 4, var4);
-         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 7562570, 3, var4);
-         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 8088141, 2, var4);
-         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 1, 1, var4);
+         uwotm8.Rasterizer2D.fillRectangle(var6, var3 + 16 + var1, var4, 5063219, 16);
+         uwotm8.Rasterizer2D.drawVertical(var3 + 16 + var1, 1, var6, var4);
+         uwotm8.Rasterizer2D.drawVertical(var3 + 16 + var1, 8482897, var6, var4 + 1);
+         uwotm8.Rasterizer2D.drawVertical(var3 + 16 + var1, 7562570, var6, var4 + 2);
+         uwotm8.Rasterizer2D.drawVertical(var3 + 16 + var1, 6970435, var6, var4 + 3);
+         uwotm8.Rasterizer2D.drawVertical(var3 + 16 + var1, 6970435, var6, var4 + 4);
+         uwotm8.Rasterizer2D.drawVertical(var3 + 16 + var1, 6641729, var6, var4 + 5);
+         uwotm8.Rasterizer2D.drawVertical(var3 + 16 + var1, 6641729, var6, var4 + 6);
+         uwotm8.Rasterizer2D.drawVertical(var3 + 16 + var1, 6378814, var6, var4 + 7);
+         uwotm8.Rasterizer2D.drawVertical(var3 + 16 + var1, 6378814, var6, var4 + 8);
+         uwotm8.Rasterizer2D.drawVertical(var3 + 16 + var1, 6115644, var6, var4 + 9);
+         uwotm8.Rasterizer2D.drawVertical(var3 + 16 + var1, 6115644, var6, var4 + 10);
+         uwotm8.Rasterizer2D.drawVertical(var3 + 16 + var1, 5852730, var6, var4 + 11);
+         uwotm8.Rasterizer2D.drawVertical(var3 + 16 + var1, 5852730, var6, var4 + 12);
+         uwotm8.Rasterizer2D.drawVertical(var3 + 16 + var1, 5326389, var6, var4 + 13);
+         uwotm8.Rasterizer2D.drawVertical(var3 + 16 + var1, 4931889, var6, var4 + 14);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 16 + var1, 1, 15, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 17 + var1, 1, 15, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 17 + var1, 6641729, 14, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 17 + var1, 6970435, 13, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 17 + var1, 7167816, 11, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 17 + var1, 7562570, 10, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 17 + var1, 7759947, 7, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 17 + var1, 8088141, 5, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 17 + var1, 8285776, 4, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 17 + var1, 8482897, 3, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 17 + var1, 1, 2, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 18 + var1, 1, 16, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 18 + var1, 5655352, 15, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 18 + var1, 6115644, 14, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 18 + var1, 6444608, 11, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 18 + var1, 6641729, 10, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 18 + var1, 6970435, 7, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 18 + var1, 7233606, 5, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 18 + var1, 7430727, 4, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 18 + var1, 8088141, 3, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 18 + var1, 8482897, 2, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 18 + var1, 1, 1, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 19 + var1, 1, 16, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 19 + var1, 5326389, 15, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 19 + var1, 5655352, 14, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 19 + var1, 6115644, 11, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 19 + var1, 6378814, 9, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 19 + var1, 6641729, 7, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 19 + var1, 6970435, 5, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 19 + var1, 7233606, 4, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 19 + var1, 7562570, 3, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 19 + var1, 8482897, 2, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 19 + var1, 1, 1, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 20 + var1, 1, 16, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 20 + var1, 4931889, 15, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 20 + var1, 5523766, 14, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 20 + var1, 5852730, 13, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 20 + var1, 6115644, 10, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 20 + var1, 6378814, 8, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 20 + var1, 6641729, 6, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 20 + var1, 6970435, 4, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 20 + var1, 7562570, 3, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 20 + var1, 8482897, 2, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 20 + var1, 1, 1, var4);
+         uwotm8.Rasterizer2D.drawVertical(var3 + 16 + var1, 1, var6, var4 + 15);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 15 + var1 + var6, 1, 16, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 14 + var1 + var6, 1, 15, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 14 + var1 + var6, 4142890, 14, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 14 + var1 + var6, 4471853, 10, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 14 + var1 + var6, 4734511, 9, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 14 + var1 + var6, 4866095, 7, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 14 + var1 + var6, 4931889, 4, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 14 + var1 + var6, 5655352, 3, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 14 + var1 + var6, 1, 2, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 13 + var1 + var6, 1, 16, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 13 + var1 + var6, 4471853, 15, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 13 + var1 + var6, 4931889, 11, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 13 + var1 + var6, 5326389, 9, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 13 + var1 + var6, 5523766, 7, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 13 + var1 + var6, 5655352, 6, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 13 + var1 + var6, 5852730, 4, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 13 + var1 + var6, 6444608, 3, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 13 + var1 + var6, 6970435, 2, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 13 + var1 + var6, 1, 1, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 12 + var1 + var6, 1, 16, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 12 + var1 + var6, 4471853, 15, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 12 + var1 + var6, 4931889, 14, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 12 + var1 + var6, 5523766, 12, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 12 + var1 + var6, 5655352, 11, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 12 + var1 + var6, 5852730, 10, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 12 + var1 + var6, 6115644, 7, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 12 + var1 + var6, 6378814, 4, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 12 + var1 + var6, 7233606, 3, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 12 + var1 + var6, 8088141, 2, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 12 + var1 + var6, 1, 1, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 11 + var1 + var6, 1, 16, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 11 + var1 + var6, 4931889, 15, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 11 + var1 + var6, 5326389, 14, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 11 + var1 + var6, 5655352, 13, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 11 + var1 + var6, 5852730, 11, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 11 + var1 + var6, 6115644, 9, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 11 + var1 + var6, 6378814, 7, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 11 + var1 + var6, 6641729, 5, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 11 + var1 + var6, 6970435, 4, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 11 + var1 + var6, 7562570, 3, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 11 + var1 + var6, 8088141, 2, var4);
+         uwotm8.Rasterizer2D.drawHorizontal(var3 + 11 + var1 + var6, 1, 1, var4);
       }
    }
 
@@ -2625,10 +2625,10 @@ public class Client extends ScapeApplet {
                this.gR = var3 > 0;
                if (this.gS != null && this.gP && this.hp <= 0) {
                   this.gS.a(this.gR);
-                  if (!this.gS.a()) {
+                  if (!this.gS.isSequencerRunning()) {
                      this.gO = this.cY;
                      this.gP = true;
-                     this.E.a(2, this.gO);
+                     this.E.provide(2, this.gO);
                      return;
                   }
                }
@@ -2681,8 +2681,8 @@ public class Client extends ScapeApplet {
                this.aX = 0.6D;
             }
 
-            uwotm8.Rasterizer3D.a(this.aX);
-            uwotm8.ItemDefinition.d.a();
+            uwotm8.Rasterizer3D.calculatePallette(this.aX);
+            uwotm8.ItemDefinition.d.removeAll();
             this.hm = true;
          }
 
@@ -2721,7 +2721,7 @@ public class Client extends ScapeApplet {
                if (fW) {
                   this.gO = this.cY;
                   this.gP = true;
-                  this.E.a(2, this.gO);
+                  this.E.provide(2, this.gO);
                } else {
                   this.B();
                }
@@ -2809,7 +2809,7 @@ public class Client extends ScapeApplet {
                if (var3 instanceof Npc) {
                   var4 = ((Npc)var3).ad;
                   if (((Npc)var3).ad.r != null) {
-                     var4 = var4.b();
+                     var4 = var4.morph();
                   }
 
                   if (var4 == null) {
@@ -2824,12 +2824,12 @@ public class Client extends ScapeApplet {
                      this.a((Actor)var3, ((Actor)var3).h + 15);
                      if (this.dd >= 0) {
                         if (var5.am < 2) {
-                           this.fi[var5.am].d(this.dd - 12, this.de - 30);
+                           this.fi[var5.am].drawSprite(this.dd - 12, this.de - 30);
                            var12 += 25;
                         }
 
                         if (var5.al < 7) {
-                           this.fh[var5.al].d(this.dd - 12, this.de - var12);
+                           this.fh[var5.al].drawSprite(this.dd - 12, this.de - var12);
                            var12 += 18;
                         }
                      }
@@ -2838,7 +2838,7 @@ public class Client extends ScapeApplet {
                   if (var2 >= 0 && this.bF == 10 && this.cD == this.cf[var2]) {
                      this.a((Actor)var3, ((Actor)var3).h + 15);
                      if (this.dd >= 0) {
-                        this.fj[0].d(this.dd - 12, this.de - var12);
+                        this.fj[0].drawSprite(this.dd - 12, this.de - var12);
                      }
                   }
                } else {
@@ -2846,14 +2846,14 @@ public class Client extends ScapeApplet {
                   if (((Npc)var3).ad.j >= 0 && var4.j < this.fh.length) {
                      this.a((Actor)var3, ((Actor)var3).h + 15);
                      if (this.dd >= 0) {
-                        this.fh[var4.j].d(this.dd - 12, this.de - 30);
+                        this.fh[var4.j].drawSprite(this.dd - 12, this.de - 30);
                      }
                   }
 
                   if (this.bF == 1 && this.gM == this.bu[var2 - this.ce] && R % 20 < 10) {
                      this.a((Actor)var3, ((Actor)var3).h + 15);
                      if (this.dd >= 0) {
-                        this.fj[0].d(this.dd - 12, this.de - 28);
+                        this.fj[0].drawSprite(this.dd - 12, this.de - 28);
                      }
                   }
                }
@@ -2892,8 +2892,8 @@ public class Client extends ScapeApplet {
                            var12 = 30;
                         }
 
-                        uwotm8.Rasterizer2D.b(5, this.de - 3, this.dd - 15, 65280, var12);
-                        uwotm8.Rasterizer2D.b(5, this.de - 3, this.dd - 15 + var12, 16711680, 30 - var12);
+                        uwotm8.Rasterizer2D.fillRectangle(5, this.de - 3, this.dd - 15, 65280, var12);
+                        uwotm8.Rasterizer2D.fillRectangle(5, this.de - 3, this.dd - 15 + var12, 16711680, 30 - var12);
                      }
                   } catch (Exception var9) {
                      ;
@@ -2918,7 +2918,7 @@ public class Client extends ScapeApplet {
                            this.de -= 10;
                         }
 
-                        this.du[((Actor)var3).n[var12]].d(this.dd - 12, this.de - 12);
+                        this.du[((Actor)var3).n[var12]].drawSprite(this.dd - 12, this.de - 12);
                         this.af.a(0, String.valueOf(((Actor)var3).m[var12]), this.de + 4, this.dd);
                         this.af.a(16777215, String.valueOf(((Actor)var3).m[var12]), this.de + 3, this.dd - 1);
                      }
@@ -3019,10 +3019,10 @@ public class Client extends ScapeApplet {
                if (this.dn[var2] == 4) {
                   var12 = this.hA.b(var14);
                   var13 = (150 - this.xD[var2]) * (var12 + 100) / 150;
-                  uwotm8.Rasterizer2D.b(334, this.dd - 50, this.dd + 50, 0);
+                  uwotm8.Rasterizer2D.setBounds(334, this.dd - 50, this.dd + 50, 0);
                   this.hA.b(0, var14, this.de + 1, this.dd + 50 - var13);
                   this.hA.b(var11, var14, this.de, this.dd + 50 - var13);
-                  uwotm8.Rasterizer2D.e();
+                  uwotm8.Rasterizer2D.setDefaultBounds();
                }
 
                if (this.dn[var2] == 5) {
@@ -3034,10 +3034,10 @@ public class Client extends ScapeApplet {
                      var13 = var12 - 125;
                   }
 
-                  uwotm8.Rasterizer2D.b(this.de + 5, 0, 512, this.de - this.hA.a - 1);
+                  uwotm8.Rasterizer2D.setBounds(this.de + 5, 0, 512, this.de - this.hA.a - 1);
                   this.hA.a(0, var14, this.de + 1 + var13, this.dd);
                   this.hA.a(var11, var14, this.de + var13, this.dd);
-                  uwotm8.Rasterizer2D.e();
+                  uwotm8.Rasterizer2D.setDefaultBounds();
                }
             } else {
                this.hA.a(0, var14, this.de + 1, this.dd);
@@ -3144,9 +3144,9 @@ public class Client extends ScapeApplet {
       ab = true;
       K = true;
       P = true;
-      uwotm8.Rasterizer2D.b(var6, var4, var3, 6116423, var5);
-      uwotm8.Rasterizer2D.b(16, var4 + 1, var3 + 1, 0, var5 - 2);
-      uwotm8.Rasterizer2D.c(var3 + 1, var5 - 2, var6 - 19, 0, var4 + 18);
+      uwotm8.Rasterizer2D.fillRectangle(var6, var4, var3, 6116423, var5);
+      uwotm8.Rasterizer2D.fillRectangle(16, var4 + 1, var3 + 1, 0, var5 - 2);
+      uwotm8.Rasterizer2D.drawRectangle(var3 + 1, var5 - 2, var6 - 19, 0, var4 + 18);
       this.hA.b(6116423, "Choose Option", var4 + 14, var3 + 3);
       var1 = super.au - var1;
       var2 = -var2 + super.av;
@@ -3155,7 +3155,7 @@ public class Client extends ScapeApplet {
          int var7 = var4 + 31 + (this.N - 1 - var6) * 15;
          int var8 = 16777215;
          if (var1 > var3 && var1 < var3 + var5 && var2 > var7 - 13 && var2 < var7 + 3) {
-            uwotm8.Rasterizer2D.b(15, var7 - 11, var3 + 3, 7301469, this.cR - 6);
+            uwotm8.Rasterizer2D.fillRectangle(15, var7 - 11, var3 + 3, 7301469, this.cR - 6);
             var8 = 16776960;
          }
 
@@ -3171,7 +3171,7 @@ public class Client extends ScapeApplet {
          if (var0.charAt(var2) == '@' && var2 + 4 < var0.length() && var0.charAt(var2 + 4) == '@') {
             String var3;
             String var4;
-            if (!(var4 = uwotm8.RSFont.b(var3 = var0.substring(var2 + 1, var2 + 4))).equals("")) {
+            if (!(var4 = uwotm8.RSFont.rgb(var3 = var0.substring(var2 + 1, var2 + 4))).equals("")) {
                var1 = var1.replaceAll(var0.substring(var2, var2 + 5), "<col=" + var4 + ">");
             } else if (var3.equals("str")) {
                var1 = var1.replaceAll(var0.substring(var2, var2 + 5), "<str>");
@@ -3188,7 +3188,7 @@ public class Client extends ScapeApplet {
             if (this.ck >= 200) {
                this.a("Your friendlist is full. Max of 100 for free users, and 200 for members", 0, "", true);
             } else {
-               String var3 = uwotm8.StringUtils.c(uwotm8.StringUtils.a(var1));
+               String var3 = uwotm8.StringUtils.format(uwotm8.StringUtils.decodeBase37(var1));
 
                int var4;
                for(var4 = 0; var4 < this.ck; ++var4) {
@@ -3251,7 +3251,7 @@ public class Client extends ScapeApplet {
    private void z() {
       try {
          if (this.gj != null) {
-            this.gj.a();
+            this.gj.stop();
          }
       } catch (Exception var2) {
          ;
@@ -3272,10 +3272,10 @@ public class Client extends ScapeApplet {
       this.aY = 0;
       this.aZ = 1;
       u();
-      this.cO.b();
+      this.cO.reset();
 
       for(int var1 = 0; var1 < 4; ++var1) {
-         this.gU[var1].a();
+         this.gU[var1].init();
       }
 
       System.gc();
@@ -3286,7 +3286,7 @@ public class Client extends ScapeApplet {
       if (O && !aW) {
          this.gQ = 256;
          this.gP = true;
-         this.E.a(2, this.gO);
+         this.E.provide(2, this.gO);
       }
 
       this.a(com.runescape.a.a);
@@ -3331,7 +3331,7 @@ public class Client extends ScapeApplet {
          }
 
          int var8 = var2.i(1);
-         var5.ad = uwotm8.ActorDefinition.a(var2.i(14));
+         var5.ad = uwotm8.ActorDefinition.lookup(var2.i(14));
          int var9;
          if ((var9 = var2.i(2)) != -1 && var4) {
             int[] var10 = new int[]{1024, 1536, 0, 512};
@@ -3388,7 +3388,7 @@ public class Client extends ScapeApplet {
                            this.gQ = 256;
                            this.gO = 0;
                            this.gP = true;
-                           this.E.a(2, this.gO);
+                           this.E.provide(2, this.gO);
                         } else {
                            this.B();
                         }
@@ -3524,7 +3524,7 @@ public class Client extends ScapeApplet {
                if (var4.au != null && R >= var4.an && R < var4.ao) {
                   var4.af = false;
                   var4.ap = this.b(this.cu, var4.W, var4.V);
-                  this.cO.a(this.cu, var4.W, var4, var4.X, var4.az, var4.V, var4.ap, var4.aw, var4.ay, var5, var4.ax);
+                  this.cO.addRenderable(this.cu, var4.W, var4, var4.X, var4.az, var4.V, var4.ap, var4.aw, var4.ay, var5, var4.ax);
                } else {
                   if ((var4.V & 127) == 64 && (var4.W & 127) == 64) {
                      if (this.cA[var6][var7] == this.hu) {
@@ -3535,7 +3535,7 @@ public class Client extends ScapeApplet {
                   }
 
                   var4.ap = this.b(this.cu, var4.W, var4.V);
-                  this.cO.a(this.cu, var4.X, var4.ap, var5, var4.W, 60, var4.V, var4, var4.M);
+                  this.cO.addEntity(this.cu, var4.X, var4.ap, var5, var4.W, 60, var4.V, var4, var4.M);
                }
             }
          }
@@ -3668,7 +3668,7 @@ public class Client extends ScapeApplet {
                this.ac();
                if (this.bW.length() > 0) {
                   this.gy.writeOpCode(218);
-                  this.gy.a(uwotm8.StringUtils.a(this.bW));
+                  this.gy.a(uwotm8.StringUtils.encodeBase37(this.bW));
                   this.gy.b(var5 - 601);
                   this.gy.b(this.ga ? 1 : 0);
                }
@@ -3784,7 +3784,7 @@ public class Client extends ScapeApplet {
             var10 = var1.t();
             int var11 = var1.b;
             if (var4.ai != null && var4.aq) {
-               long var15 = uwotm8.StringUtils.a(var4.ai);
+               long var15 = uwotm8.StringUtils.encodeBase37(var4.ai);
                boolean var12 = false;
                int var13;
                if (var9 <= 1) {
@@ -3808,7 +3808,7 @@ public class Client extends ScapeApplet {
                      }
 
                      var18.br.b = 0;
-                     String var23 = uwotm8.ChatMessageCodec.a(var10, var18.br);
+                     String var23 = uwotm8.ChatMessageCodec.decode(var10, var18.br);
                      var7.g = var23;
                      var7.l = var8 >> 8;
                      var7.ad = var9;
@@ -3841,7 +3841,7 @@ public class Client extends ScapeApplet {
             Buffer var21 = new Buffer(var20);
             var1.a(var8, 0, var20);
             var18.ci[var3] = var21;
-            var4.a(var21);
+            var4.updatePlayer(var21);
          }
 
          if ((var5 & 2) != 0) {
@@ -3874,7 +3874,7 @@ public class Client extends ScapeApplet {
       int var6;
       int var7;
       int var9;
-      if ((var2 = this.cO.i(var5, var3, var1)) != 0) {
+      if ((var2 = this.cO.getWallKey(var5, var3, var1)) != 0) {
          var6 = (var4 = this.cO.c(var5, var3, var1, var2)) >> 6 & 3;
          var4 &= 31;
          var7 = 16777215;
@@ -3885,7 +3885,7 @@ public class Client extends ScapeApplet {
          int[] var8 = this.hs.a;
          var9 = 24624 + (var3 << 2) + (103 - var1 << 9 << 2);
          ObjectDefinition var10;
-         if ((var10 = uwotm8.ObjectDefinition.a(var2 >> 14 & 32767)) != null && var10.j != -1) {
+         if ((var10 = uwotm8.ObjectDefinition.decode(var2 >> 14 & 32767)) != null && var10.j != -1) {
             IndexedImage var11;
             if ((var11 = this.ez[var10.j]) != null) {
                var4 = ((var10.d << 2) - var11.c) / 2;
@@ -3960,7 +3960,7 @@ public class Client extends ScapeApplet {
          var4 &= 31;
          ObjectDefinition var15;
          int var17;
-         if ((var15 = uwotm8.ObjectDefinition.a(var2 >> 14 & 32767)) != null && var15.j != -1) {
+         if ((var15 = uwotm8.ObjectDefinition.decode(var2 >> 14 & 32767)) != null && var15.j != -1) {
             IndexedImage var18;
             if ((var18 = this.ez[var15.j]) != null) {
                var2 = ((var15.d << 2) - var18.c) / 2;
@@ -3991,7 +3991,7 @@ public class Client extends ScapeApplet {
 
       IndexedImage var13;
       ObjectDefinition var14;
-      if ((var2 = this.cO.l(var5, var3, var1)) != 0 && (var14 = uwotm8.ObjectDefinition.a(var2 >> 14 & 32767)) != null && var14.j != -1 && (var13 = this.ez[var14.j]) != null) {
+      if ((var2 = this.cO.l(var5, var3, var1)) != 0 && (var14 = uwotm8.ObjectDefinition.decode(var2 >> 14 & 32767)) != null && var14.j != -1 && (var13 = this.ez[var14.j]) != null) {
          var7 = ((var14.d << 2) - var13.c) / 2;
          int var16 = ((var14.l << 2) - var13.d) / 2;
          var13.a(48 + (var3 << 2) + var7, 48 + (104 - var1 - var14.l << 2) + var16);
@@ -4055,7 +4055,7 @@ public class Client extends ScapeApplet {
 
    private void B() {
       if (!aW && this.gS != null) {
-         this.gS.b();
+         this.gS.stopPlayback();
       }
 
    }
@@ -4074,7 +4074,7 @@ public class Client extends ScapeApplet {
       Resource var1;
       while((var1 = this.E.d()) != null) {
          if (var1.a == 0) {
-            uwotm8.Model.a(var1.b, var1.c);
+            uwotm8.Model.load(var1.b, var1.c);
             P = true;
             if (this.ai != -1) {
                ab = true;
@@ -4082,7 +4082,7 @@ public class Client extends ScapeApplet {
          }
 
          if (var1.a == 1 && var1.b != null) {
-            uwotm8.Frame.a(var1.b, var1.c);
+            uwotm8.Frame.decode(var1.b, var1.c);
          }
 
          if (var1.a == 2 && var1.c == this.gO && var1.b != null) {
@@ -4091,9 +4091,9 @@ public class Client extends ScapeApplet {
             if (!aW && this.gS != null) {
                boolean var5 = this.hp > 0;
                if (var3 && !var5) {
-                  this.gS.a(var4, this.gR, this.gQ);
+                  this.gS.playMidi(var4, this.gR, this.gQ);
                } else {
-                  this.gS.a(var4, false, this.gQ);
+                  this.gS.playMidi(var4, false, this.gQ);
                }
             }
          }
@@ -4119,7 +4119,7 @@ public class Client extends ScapeApplet {
          }
 
          if (var1.a == 93 && this.E.b(var1.c)) {
-            uwotm8.MapRegion.a(new Buffer(var1.b), this.E);
+            uwotm8.MapRegion.decode(new Buffer(var1.b), this.E);
          }
       }
 
@@ -4230,7 +4230,7 @@ public class Client extends ScapeApplet {
                         var7 = 10;
                      }
 
-                     var15 &= uwotm8.MapRegion.a(var6, var5, var7);
+                     var15 &= uwotm8.MapRegion.objectsReady(var6, var5, var7);
                   }
                }
 
@@ -4249,7 +4249,7 @@ public class Client extends ScapeApplet {
 
             byte var11 = var10000;
             if (var10000 != 0 && System.currentTimeMillis() - this.bk > 360000L) {
-            	uwotm8.SignLink.b(S + " glcfb " + this.gI + "," + var11 + ",false" + "," + this.z[0] + "," + this.E.b() + "," + this.cu + "," + this.eG + "," + this.eH);
+            	uwotm8.SignLink.b(S + " glcfb " + this.gI + "," + var11 + ",false" + "," + this.z[0] + "," + this.E.getNodeCount() + "," + this.cu + "," + this.eG + "," + this.eH);
                this.bk = System.currentTimeMillis();
             }
          }
@@ -4560,7 +4560,7 @@ public class Client extends ScapeApplet {
 
          try {
             if (this.gj != null && this.gy.b > 0) {
-               this.gj.a(this.gy.b, this.gy.a);
+               this.gj.write(this.gy.b, this.gy.a);
                this.gy.b = 0;
                this.dM = 0;
                return;
@@ -4584,23 +4584,23 @@ public class Client extends ScapeApplet {
          gg = null;
          this.fH = null;
          this.fv = new q(128, 265);
-         uwotm8.Rasterizer2D.f();
+         uwotm8.Rasterizer2D.reset();
          this.fw = new q(128, 265);
-         uwotm8.Rasterizer2D.f();
+         uwotm8.Rasterizer2D.reset();
          this.fs = new q(509, 171);
-         uwotm8.Rasterizer2D.f();
+         uwotm8.Rasterizer2D.reset();
          this.ft = new q(360, 132);
-         uwotm8.Rasterizer2D.f();
+         uwotm8.Rasterizer2D.reset();
          this.fu = new q(c, d);
-         uwotm8.Rasterizer2D.f();
+         uwotm8.Rasterizer2D.reset();
          this.fx = new q(202, 238);
-         uwotm8.Rasterizer2D.f();
+         uwotm8.Rasterizer2D.reset();
          this.fy = new q(203, 238);
-         uwotm8.Rasterizer2D.f();
+         uwotm8.Rasterizer2D.reset();
          this.fz = new q(74, 94);
-         uwotm8.Rasterizer2D.f();
+         uwotm8.Rasterizer2D.reset();
          this.fA = new q(75, 94);
-         uwotm8.Rasterizer2D.f();
+         uwotm8.Rasterizer2D.reset();
          this.hm = true;
       }
    }
@@ -4620,10 +4620,10 @@ public class Client extends ScapeApplet {
          this.fA = null;
          gh = new q(519, 165);
          this.gf = new q(249, 168);
-         uwotm8.Rasterizer2D.f();
+         uwotm8.Rasterizer2D.reset();
          ge = new q(249, 335);
          gg = new q(512, 334);
-         uwotm8.Rasterizer2D.f();
+         uwotm8.Rasterizer2D.reset();
          this.fH = new q(249, 45);
          this.hm = true;
       }
@@ -4638,10 +4638,10 @@ public class Client extends ScapeApplet {
       } else {
          this.fu.a();
          this.hA.a(16777215, "vscape is loading - please wait...", 54, 180);
-         uwotm8.Rasterizer2D.c(28, 304, 34, 9179409, 62);
-         uwotm8.Rasterizer2D.c(29, 302, 32, 0, 63);
-         uwotm8.Rasterizer2D.b(30, 64, 30, 9179409, var1 * 3);
-         uwotm8.Rasterizer2D.b(30, 64, 30 + var1 * 3, 0, 300 - var1 * 3);
+         uwotm8.Rasterizer2D.drawRectangle(28, 304, 34, 9179409, 62);
+         uwotm8.Rasterizer2D.drawRectangle(29, 302, 32, 0, 63);
+         uwotm8.Rasterizer2D.fillRectangle(30, 64, 30, 9179409, var1 * 3);
+         uwotm8.Rasterizer2D.fillRectangle(30, 64, 30 + var1 * 3, 0, 300 - var1 * 3);
          this.hA.a(16777215, var2, 85, 180);
          this.fu.a(171, super.ao, 202);
       }
@@ -4696,7 +4696,7 @@ public class Client extends ScapeApplet {
             this.a(2, var1, 0, var5 + 1, L.b[0], 0, 0, var2, L.a[0], false, var3);
          } else {
             ObjectDefinition var7;
-            if ((var7 = uwotm8.ObjectDefinition.a(var4)) != null) {
+            if ((var7 = uwotm8.ObjectDefinition.decode(var4)) != null) {
                int var6;
                if (var1 != 0 && var1 != 2) {
                   var5 = var7.l;
@@ -4729,7 +4729,7 @@ public class Client extends ScapeApplet {
 
       try {
          if (this.z[0] != null) {
-            var6 = this.z[0].a(var1);
+            var6 = this.z[0].decompress(var1);
          }
       } catch (Exception var16) {
          ;
@@ -4775,7 +4775,7 @@ public class Client extends ScapeApplet {
 
                try {
                   if (this.z[0] != null) {
-                     this.z[0].a(var6.length, var6, var1);
+                     this.z[0].put(var6.length, var6, var1);
                   }
                } catch (Exception var15) {
                   this.z[0] = null;
@@ -4841,7 +4841,7 @@ public class Client extends ScapeApplet {
          gg.a(4, super.ao, 4);
          this.dW = 0;
          this.hq = 0;
-         BufferedStream var1 = this.gj;
+         BufferedConnection var1 = this.gj;
          Q = false;
          this.ek = 0;
          this.a(S, T, true);
@@ -4850,7 +4850,7 @@ public class Client extends ScapeApplet {
          }
 
          try {
-            var1.a();
+            var1.stop();
          } catch (Exception var2) {
             ;
          }
@@ -5074,7 +5074,7 @@ public class Client extends ScapeApplet {
          int var12;
          String var13;
          if ((var4 == 337 || var4 == 42 || var4 == 792 || var4 == 322) && (var12 = (var13 = this.X[var1]).indexOf("@whi@")) != -1) {
-            var8 = uwotm8.StringUtils.a(var13.substring(var12 + 5).trim());
+            var8 = uwotm8.StringUtils.encodeBase37(var13.substring(var12 + 5).trim());
             if (var4 == 337) {
                this.b(var8);
             }
@@ -5093,7 +5093,7 @@ public class Client extends ScapeApplet {
          }
 
          if ((var4 == 1500 || var4 == 1501 || var4 == 1502) && (var12 = (var13 = this.X[var1]).indexOf("@whi@")) != -1) {
-            var8 = uwotm8.StringUtils.a(var13.substring(var12 + 5).trim());
+            var8 = uwotm8.StringUtils.encodeBase37(var13.substring(var12 + 5).trim());
             if (var4 == 1500) {
                this.a(var8, 0);
             }
@@ -5157,7 +5157,7 @@ public class Client extends ScapeApplet {
          String var14;
          int var18;
          if ((var4 == 484 || var4 == 6) && (var12 = (var13 = this.X[var1]).indexOf("@whi@")) != -1) {
-            var14 = uwotm8.StringUtils.c(uwotm8.StringUtils.a(uwotm8.StringUtils.a(var13.substring(var12 + 5).trim())));
+            var14 = uwotm8.StringUtils.format(uwotm8.StringUtils.decodeBase37(uwotm8.StringUtils.encodeBase37(var13.substring(var12 + 5).trim())));
             boolean var9 = false;
 
             for(var18 = 0; var18 < this.ce; ++var18) {
@@ -5647,7 +5647,7 @@ public class Client extends ScapeApplet {
             if (var4 == 1025 && (var6 = this.bs[var5]) != null) {
                ActorDefinition var17 = var6.ad;
                if (var6.ad.r != null) {
-                  var17 = var17.b();
+                  var17 = var17.morph();
                }
 
                if (var17 != null) {
@@ -5802,7 +5802,7 @@ public class Client extends ScapeApplet {
             }
 
             if (var4 == 639 && (var12 = (var13 = this.X[var1]).indexOf("@whi@")) != -1) {
-               var8 = uwotm8.StringUtils.a(var13.substring(var12 + 5).trim());
+               var8 = uwotm8.StringUtils.encodeBase37(var13.substring(var12 + 5).trim());
                var18 = -1;
 
                for(var12 = 0; var12 < this.ck; ++var12) {
@@ -5923,7 +5923,7 @@ public class Client extends ScapeApplet {
             } else {
                if (var4 == 1226) {
                   ObjectDefinition var19;
-                  if ((var19 = uwotm8.ObjectDefinition.a(var18 = var5 >> 14 & 32767)) != null) {
+                  if ((var19 = uwotm8.ObjectDefinition.decode(var18 = var5 >> 14 & 32767)) != null) {
                      if (var19.v != null) {
                         var14 = new String(var19.v);
                      } else {
@@ -5995,7 +5995,7 @@ public class Client extends ScapeApplet {
             int var9;
             if (var6 == 2 && this.cO.c(this.cu, var4, var5, var3) >= 0) {
                ObjectDefinition var8;
-               if ((var8 = uwotm8.ObjectDefinition.a(var7)) == null) {
+               if ((var8 = uwotm8.ObjectDefinition.decode(var7)) == null) {
                   continue;
                }
 
@@ -6012,7 +6012,7 @@ public class Client extends ScapeApplet {
                      var9 = uwotm8.ObjectDefinition.o.A[var8.f];
                   }
 
-                  var8 = var9 >= 0 && var9 < var8.k.length && var8.k[var9] != -1 ? uwotm8.ObjectDefinition.a(var8.k[var9]) : null;
+                  var8 = var9 >= 0 && var9 < var8.k.length && var8.k[var9] != -1 ? uwotm8.ObjectDefinition.decode(var8.k[var9]) : null;
                }
 
                if (this.hN == 1) {
@@ -6125,7 +6125,7 @@ public class Client extends ScapeApplet {
 
             LinkedList var20;
             if (var6 == 3 && (var20 = this.bn[this.cu][var4][var5]) != null) {
-               for(Item var21 = (Item)var20.c(); var21 != null; var21 = (Item)var20.e()) {
+               for(Item var21 = (Item)var20.getFront(); var21 != null; var21 = (Item)var20.getNext()) {
                   ItemDefinition var16 = uwotm8.ItemDefinition.c(var21.a);
                   if (this.hN == 1) {
                      this.X[this.N] = "Use " + this.hR + " with @lre@" + var16.k;
@@ -6205,7 +6205,7 @@ public class Client extends ScapeApplet {
 
       try {
          if (this.gj != null) {
-            this.gj.a();
+            this.gj.stop();
          }
       } catch (Exception var2) {
          ;
@@ -6311,8 +6311,8 @@ public class Client extends ScapeApplet {
       this.fA = null;
       this.dF = null;
       this.bo = false;
-      uwotm8.ObjectDefinition.a();
-      uwotm8.ActorDefinition.c();
+      uwotm8.ObjectDefinition.dispose();
+      uwotm8.ActorDefinition.reset();
       uwotm8.ItemDefinition.a();
       uwotm8.Floor.a = null;
       uwotm8.IdentityKit.b = null;
@@ -6324,9 +6324,9 @@ public class Client extends ScapeApplet {
       super.ap = null;
       uwotm8.Player.aj = null;
       uwotm8.Rasterizer3D.a();
-      uwotm8.SceneGraph.a();
+      uwotm8.SceneGraph.dispose();
       uwotm8.Model.b();
-      uwotm8.Frame.a();
+      uwotm8.Frame.clearFrames();
       System.gc();
    }
 
@@ -6364,12 +6364,12 @@ public class Client extends ScapeApplet {
                   ab = true;
                   long var14;
                   if (this.eC == 1) {
-                     var14 = uwotm8.StringUtils.a(this.gF);
+                     var14 = uwotm8.StringUtils.encodeBase37(this.gF);
                      this.b(var14);
                   }
 
                   if (this.eC == 2 && this.ck > 0) {
-                     var14 = uwotm8.StringUtils.a(this.gF);
+                     var14 = uwotm8.StringUtils.encodeBase37(this.gF);
                      this.a(var14);
                   }
 
@@ -6378,10 +6378,10 @@ public class Client extends ScapeApplet {
                      this.gy.b(0);
                      var12 = this.gy.b;
                      this.gy.a(this.cT);
-                     uwotm8.ChatMessageCodec.a(this.gF, this.gy);
+                     uwotm8.ChatMessageCodec.encode(this.gF, this.gy);
                      this.gy.h(this.gy.b - var12);
-                     this.gF = uwotm8.ChatMessageCodec.a(this.gF);
-                     this.a(this.gF, 6, uwotm8.StringUtils.c(uwotm8.StringUtils.a(this.cT)));
+                     this.gF = uwotm8.ChatMessageCodec.verify(this.gF);
+                     this.a(this.gF, 6, uwotm8.StringUtils.format(uwotm8.StringUtils.decodeBase37(this.cT)));
                      if (this.u == 2) {
                         this.u = 1;
                         this.gy.writeOpCode(95);
@@ -6392,17 +6392,17 @@ public class Client extends ScapeApplet {
                   }
 
                   if (this.eC == 4 && this.bj < 100) {
-                     var14 = uwotm8.StringUtils.a(this.gF);
+                     var14 = uwotm8.StringUtils.encodeBase37(this.gF);
                      this.c(var14);
                   }
 
                   if (this.eC == 5 && this.bj > 0) {
-                     var14 = uwotm8.StringUtils.a(this.gF);
+                     var14 = uwotm8.StringUtils.encodeBase37(this.gF);
                      this.d(var14);
                   }
 
                   if (this.eC == 6) {
-                     var14 = uwotm8.StringUtils.a(this.gF);
+                     var14 = uwotm8.StringUtils.encodeBase37(this.gF);
                      long var7 = var14;
                      Client var13 = this;
                      if (var14 != 0L) {
@@ -6469,7 +6469,7 @@ public class Client extends ScapeApplet {
                if (var1 == 13 || var1 == 10) {
                   if (this.dG.length() > 0) {
                      this.gy.writeOpCode(60);
-                     this.gy.a(uwotm8.StringUtils.a(this.dG));
+                     this.gy.a(uwotm8.StringUtils.encodeBase37(this.dG));
                   }
 
                   this.ac = 0;
@@ -6615,10 +6615,10 @@ public class Client extends ScapeApplet {
                      this.gy.k(var11);
                      this.gy.k(var3);
                      this.br.b = 0;
-                     uwotm8.ChatMessageCodec.a(this.ca, this.br);
+                     uwotm8.ChatMessageCodec.encode(this.ca, this.br);
                      this.gy.a(0, this.br.a, this.br.b);
                      this.gy.h(this.gy.b - var12);
-                     this.ca = uwotm8.ChatMessageCodec.a(this.ca);
+                     this.ca = uwotm8.ChatMessageCodec.verify(this.ca);
                      L.g = this.ca;
                      L.l = var3;
                      L.D = var11;
@@ -7115,7 +7115,7 @@ public class Client extends ScapeApplet {
             this.hv = "Connecting to server...";
          }
 
-         File var4 = new File(uwotm8.SignLink.a() + "cacheVersion.dat");
+         File var4 = new File(uwotm8.SignLink.getLocalCacheDirectory() + "cacheVersion.dat");
          new CacheUpdater(this);
          int var5 = uwotm8.CacheUpdater.a();
          int var6;
@@ -7128,21 +7128,21 @@ public class Client extends ScapeApplet {
             }
          }
 
-         this.gj = new BufferedStream(this, a(43594));
-         int var12 = (int)(uwotm8.StringUtils.a(var1) >> 16 & 31L);
+         this.gj = new BufferedConnection(this, a(43594));
+         int var12 = (int)(uwotm8.StringUtils.encodeBase37(var1) >> 16 & 31L);
          this.gy.b = 0;
          this.gy.b(14);
          this.gy.b(var12);
-         this.gj.a(2, this.gy.a);
+         this.gj.write(2, this.gy.a);
 
          for(var12 = 0; var12 < 8; ++var12) {
-            this.gj.b();
+            this.gj.read();
          }
 
-         var5 = var12 = this.gj.b();
+         var5 = var12 = this.gj.read();
          int var7;
          if (var12 == 0) {
-            this.gj.a(this.eU.a, 8);
+            this.gj.flushInputStream(this.eU.a, 8);
             this.eU.b = 0;
             this.gI = this.eU.k();
             int[] var13;
@@ -7190,8 +7190,8 @@ public class Client extends ScapeApplet {
             }
 
             this.dD = new IsaacCipher(var13);
-            this.gj.a(this.bB.b, this.bB.a);
-            var12 = this.gj.b();
+            this.gj.write(this.bB.b, this.bB.a);
+            var12 = this.gj.read();
          }
 
          if (var12 == 1) {
@@ -7203,8 +7203,8 @@ public class Client extends ScapeApplet {
 
             this.a(var1, var2, var3);
          } else if (var12 == 2) {
-            this.bL = this.gj.b();
-            this.gj.b();
+            this.bL = this.gj.read();
+            this.gj.read();
             this.gL = 0L;
             this.bV.b = 0;
             super.ar = true;
@@ -7252,8 +7252,8 @@ public class Client extends ScapeApplet {
             }
 
             L = this.cd[2047] = new Player();
-            this.dO.f();
-            this.ex.f();
+            this.dO.clear();
+            this.ex.clear();
 
             for(var12 = 0; var12 < 4; ++var12) {
                for(var6 = 0; var6 < 104; ++var6) {
@@ -7390,7 +7390,7 @@ public class Client extends ScapeApplet {
                this.hw = "Please try again.";
             }
          } else {
-            for(var12 = this.gj.b(); var12 >= 0; --var12) {
+            for(var12 = this.gj.read(); var12 >= 0; --var12) {
                this.hv = "You have only just left another world";
                this.hw = "Your profile will be transferred in: " + var12 + " seconds";
 
@@ -7716,7 +7716,7 @@ public class Client extends ScapeApplet {
          }
 
          if ((var4 & 2) != 0) {
-            var7.ad = uwotm8.ActorDefinition.a(var1.y());
+            var7.ad = uwotm8.ActorDefinition.lookup(var1.y());
             var7.L = var7.ad.i;
             var7.e = var7.ad.m;
             var7.Z = var7.ad.h;
@@ -7737,7 +7737,7 @@ public class Client extends ScapeApplet {
    private void a(ActorDefinition var1, int var2, int var3, int var4) {
       if (this.N < 400) {
          if (var1.r != null) {
-            var1 = var1.b();
+            var1 = var1.morph();
          }
 
          if (var1 != null) {
@@ -7943,11 +7943,11 @@ public class Client extends ScapeApplet {
       int var4 = 0;
       int var5 = 0;
       if (var1.f == 0) {
-         var2 = this.cO.i(var1.e, var1.g, var1.h);
+         var2 = this.cO.getWallKey(var1.e, var1.g, var1.h);
       }
 
       if (var1.f == 1) {
-         var2 = this.cO.j(var1.e, var1.g, var1.h);
+         var2 = this.cO.getWallDecorationKey(var1.e, var1.g, var1.h);
       }
 
       if (var1.f == 2) {
@@ -8003,7 +8003,7 @@ public class Client extends ScapeApplet {
             if (this.hp == 0 && fW) {
                this.gO = this.cY;
                this.gP = true;
-               this.E.a(2, this.gO);
+               this.E.provide(2, this.gO);
             }
          }
 
@@ -8080,7 +8080,7 @@ public class Client extends ScapeApplet {
          Archive var33 = this.a(5, "update list", "versionlist", this.fc[5], 60);
          this.a(60, (String)"Connecting to update server");
          this.E = new ResourceProvider();
-         this.E.a(var33, this);
+         this.E.init(var33, this);
          uwotm8.Model.a(40000, this.E);
          if (O && !aW) {
             this.gO = 0;
@@ -8092,9 +8092,9 @@ public class Client extends ScapeApplet {
             }
 
             this.gP = true;
-            this.E.a(2, this.gO);
+            this.E.provide(2, this.gO);
 
-            while(this.E.b() > 0) {
+            while(this.E.getNodeCount() > 0) {
                this.C();
 
                try {
@@ -8134,7 +8134,7 @@ public class Client extends ScapeApplet {
 
          this.fE = new Sprite(var29, "compass", 0);
          this.dE = new Sprite(var29, "mapedge", 0);
-         this.dE.a();
+         this.dE.resize();
 
          try {
             for(var7 = 0; var7 < 100; ++var7) {
@@ -8216,7 +8216,7 @@ public class Client extends ScapeApplet {
 
          for(int var11 = 0; var11 < 100; ++var11) {
             if (this.ef[var11] != null) {
-               this.ef[var11].b(var7 + var10, var8 + var10, var9 + var10);
+               this.ef[var11].recolor(var7 + var10, var8 + var10, var9 + var10);
             }
 
             if (this.ez[var11] != null) {
@@ -8225,23 +8225,23 @@ public class Client extends ScapeApplet {
          }
 
          this.a(83, (String)"Unpacking textures");
-         uwotm8.Rasterizer3D.a(var4);
-         uwotm8.Rasterizer3D.a(0.8D);
+         uwotm8.Rasterizer3D.unpackTextures(var4);
+         uwotm8.Rasterizer3D.calculatePallette(0.8D);
          uwotm8.Rasterizer3D.d();
          this.a(86, (String)"Unpacking config");
-         uwotm8.Animation.a(var24);
-         uwotm8.ObjectDefinition.a(var24);
-         uwotm8.Floor.a(var24);
+         uwotm8.Animation.init(var24);
+         uwotm8.ObjectDefinition.init(var24);
+         uwotm8.Floor.init(var24);
          uwotm8.Y_1.a(var24);
-         uwotm8.ItemDefinition.a(var24);
-         uwotm8.ActorDefinition.a(var24);
-         uwotm8.IdentityKit.a(var24);
-         uwotm8.SpotAnimation.a(var24);
-         uwotm8.VariableParameter.a(var24);
-         uwotm8.VariableBits.a(var24);
+         uwotm8.ItemDefinition.init(var24);
+         uwotm8.ActorDefinition.init(var24);
+         uwotm8.IdentityKit.init(var24);
+         uwotm8.SpotAnimation.init(var24);
+         uwotm8.VariableParameter.init(var24);
+         uwotm8.VariableBits.init(var24);
          uwotm8.ItemDefinition.q = db;
          this.a(90, (String)"Unpacking sounds");
-         byte[] var34 = var6.b("sounds.dat");
+         byte[] var34 = var6.getEntry("sounds.dat");
          uwotm8.Track.a(new Buffer(var34));
          this.a(95, (String)"Unpacking interfaces");
          o[] var35 = new o[]{this.af, this.hz, this.hA, this.hB, this.hC, this.hD, this.hE};
@@ -8332,7 +8332,7 @@ public class Client extends ScapeApplet {
          if (this.cd[var3] == null) {
             this.cd[var3] = new Player();
             if (this.ci[var3] != null) {
-               this.cd[var3].a(this.ci[var3]);
+               this.cd[var3].updatePlayer(this.ci[var3]);
             }
          }
 
@@ -8472,7 +8472,7 @@ public class Client extends ScapeApplet {
    }
 
    private static void c(Actor var0) {
-      if (var0.T == R || var0.y == -1 || var0.B != 0 || var0.A + 1 > uwotm8.Animation.a[var0.y].a(var0.z)) {
+      if (var0.T == R || var0.y == -1 || var0.B != 0 || var0.A + 1 > uwotm8.Animation.a[var0.y].duration(var0.z)) {
          int var1 = var0.T - var0.S;
          int var2 = R - var0.S;
          int var3 = (var0.O << 7) + (var0.L << 6);
@@ -8708,7 +8708,7 @@ public class Client extends ScapeApplet {
       if (var0.p != -1) {
          var1 = uwotm8.Animation.a[var0.p];
          ++var0.r;
-         if (var0.q < var1.b && var0.r > var1.a(var0.q)) {
+         if (var0.q < var1.b && var0.r > var1.duration(var0.q)) {
             var0.r = 0;
             ++var0.q;
          }
@@ -8727,8 +8727,8 @@ public class Client extends ScapeApplet {
          var1 = uwotm8.SpotAnimation.a[var0.s].b;
          ++var0.u;
 
-         while(var0.t < var1.b && var0.u > var1.a(var0.t)) {
-            var0.u -= var1.a(var0.t);
+         while(var0.t < var1.b && var0.u > var1.duration(var0.t)) {
+            var0.u -= var1.duration(var0.t);
             ++var0.t;
          }
 
@@ -8744,8 +8744,8 @@ public class Client extends ScapeApplet {
             var1 = uwotm8.Animation.a[var0.y];
             ++var0.A;
 
-            while(var0.z < var1.b && var0.A > var1.a(var0.z)) {
-               var0.A -= var1.a(var0.z);
+            while(var0.z < var1.b && var0.A > var1.duration(var0.z)) {
+               var0.A -= var1.duration(var0.z);
                ++var0.z;
             }
 
@@ -8803,12 +8803,12 @@ public class Client extends ScapeApplet {
             Client var2 = var1;
 
             int var26;
-            for(Projectile var8 = (Projectile)var1.dO.b(); var8 != null; var8 = (Projectile)var2.dO.d()) {
+            for(Projectile var8 = (Projectile)var1.dO.getBack(); var8 != null; var8 = (Projectile)var2.dO.getPrevious()) {
                if (var8.i == var2.cu && R <= var8.b) {
                   if (R >= var8.a) {
                      Npc var9;
                      if (var8.g > 0 && (var9 = var2.bs[var8.g - 1]) != null && var9.V >= 0 && var9.V < 13312 && var9.W >= 0 && var9.W < 13312) {
-                        var8.a(R, var9.W, var2.b(var8.i, var9.W, var9.V) - var8.c, var9.V);
+                        var8.trackTarget(R, var9.W, var2.b(var8.i, var9.W, var9.V) - var8.c, var9.V);
                      }
 
                      if (var8.g < 0) {
@@ -8820,32 +8820,32 @@ public class Client extends ScapeApplet {
                         }
 
                         if (var10 != null && var10.V >= 0 && var10.V < 13312 && var10.W >= 0 && var10.W < 13312) {
-                           var8.a(R, var10.W, var2.b(var8.i, var10.W, var10.V) - var8.c, var10.V);
+                           var8.trackTarget(R, var10.W, var2.b(var8.i, var10.W, var10.V) - var8.c, var10.V);
                         }
                      }
 
-                     var8.a(var2.cN);
-                     var2.cO.a(var2.cu, var8.h, (int)var8.f, -1, (int)var8.e, 60, (int)var8.d, var8, false);
+                     var8.move(var2.cN);
+                     var2.cO.addEntity(var2.cu, var8.h, (int)var8.f, -1, (int)var8.e, 60, (int)var8.d, var8, false);
                   }
                } else {
-                  var8.D();
+                  var8.unlink();
                }
             }
 
             var2 = var1;
 
-            for(AnimableObject var24 = (AnimableObject)var1.ex.b(); var24 != null; var24 = (AnimableObject)var2.ex.d()) {
+            for(AnimableObject var24 = (AnimableObject)var1.ex.getBack(); var24 != null; var24 = (AnimableObject)var2.ex.getPrevious()) {
                if (var24.a == var2.cu && !var24.f) {
                   if (R >= var24.e) {
-                     var24.a(var2.cN);
+                     var24.nextFrame(var2.cN);
                      if (var24.f) {
-                        var24.D();
+                        var24.unlink();
                      } else {
-                        var2.cO.a(var24.a, 0, var24.d, -1, var24.c, 60, var24.b, var24, false);
+                        var2.cO.addEntity(var24.a, 0, var24.d, -1, var24.c, 60, var24.b, var24, false);
                      }
                   }
                } else {
-                  var24.D();
+                  var24.unlink();
                }
             }
 
@@ -9048,14 +9048,14 @@ public class Client extends ScapeApplet {
             uwotm8.Model.B = 0;
             uwotm8.Model.z = var1.au - 4;
             uwotm8.Model.A = var1.av - 4;
-            uwotm8.Rasterizer2D.f();
+            uwotm8.Rasterizer2D.reset();
             var1.cO.a(var1.bG, var1.bI, var1.bK, var1.bH, var22, var1.bJ);
             var1.cO.c();
             var1.v();
             if (var1.bF == 2) {
                var1.e((var1.cE - var1.eg << 7) + var1.cH, var1.cG << 1, (var1.cF - var1.eh << 7) + var1.cI);
                if (var1.dd >= 0 && R % 20 < 10) {
-                  var1.fj[0].d(var1.dd - 12, var1.de - 28);
+                  var1.fj[0].drawSprite(var1.dd - 12, var1.de - 28);
                }
             }
 
@@ -9141,7 +9141,7 @@ public class Client extends ScapeApplet {
             var1.co = var29;
             uwotm8.Rasterizer3D.b(40);
             if (var1.aO > 0 && a != com.runescape.a.a) {
-               uwotm8.Rasterizer2D.a(var1.aP, 0, c, d, var1.aO, 0);
+               uwotm8.Rasterizer2D.fillRectangle(var1.aP, 0, c, d, var1.aO, 0);
             }
 
             if (var1.aK && var1.aL != -10) {
@@ -9162,7 +9162,7 @@ public class Client extends ScapeApplet {
                }
 
                if (var1.aL > 0) {
-                  uwotm8.Rasterizer2D.a(var1.aM, 0, c, d, var1.aL, 0);
+                  uwotm8.Rasterizer2D.fillRectangle(var1.aM, 0, c, d, var1.aL, 0);
                }
             }
 
@@ -9250,17 +9250,17 @@ public class Client extends ScapeApplet {
 
             if (var1.ct == 1) {
                var25 = a == com.runescape.a.a ? 4 : 0;
-               var1.fV[var1.cs / 100].d(var1.cq - 8 - var25, var1.cr - 8 - var25);
+               var1.fV[var1.cs / 100].drawSprite(var1.cq - 8 - var25, var1.cr - 8 - var25);
             }
 
             if (var1.ct == 2) {
                var25 = a == com.runescape.a.a ? 4 : 0;
-               var1.fV[4 + var1.cs / 100].d(var1.cq - 8 - var25, var1.cr - 8 - var25);
+               var1.fV[4 + var1.cs / 100].drawSprite(var1.cq - 8 - var25, var1.cr - 8 - var25);
             }
 
             if (var1.ew == 1) {
                var25 = var1.dT == 4 ? c - 90 : c - 120;
-               var1.dF.d(a == com.runescape.a.a ? 472 : var25, a == com.runescape.a.a ? 296 : 174);
+               var1.dF.drawSprite(a == com.runescape.a.a ? 472 : var25, a == com.runescape.a.a ? 296 : 174);
             }
 
             if (var1.dT != -1) {
@@ -9577,7 +9577,7 @@ public class Client extends ScapeApplet {
    private int d(String var1) {
       for(int var2 = 0; var2 < this.cl; ++var2) {
          String var3;
-         if (this.cW[var2] > 0L && !(var3 = uwotm8.StringUtils.a(this.cW[var2])).isEmpty() && var3.equalsIgnoreCase(var1)) {
+         if (this.cW[var2] > 0L && !(var3 = uwotm8.StringUtils.decodeBase37(this.cW[var2])).isEmpty() && var3.equalsIgnoreCase(var1)) {
             return this.cX[var2];
          }
       }
@@ -9745,12 +9745,12 @@ public class Client extends ScapeApplet {
    }
 
    public final void a(int var1, int var2, int var3, int var4, m[] var5, int var6, int var7) {
-      int var8 = uwotm8.Rasterizer2D.k;
-      int var9 = uwotm8.Rasterizer2D.i;
-      int var10 = uwotm8.Rasterizer2D.l;
-      int var11 = uwotm8.Rasterizer2D.j;
+      int var8 = uwotm8.Rasterizer2D.clipLeft;
+      int var9 = uwotm8.Rasterizer2D.clipBottom;
+      int var10 = uwotm8.Rasterizer2D.clipRight;
+      int var11 = uwotm8.Rasterizer2D.clipTop;
       if (var5 != null) {
-         uwotm8.Rasterizer2D.b(var2 + var4, var1, var1 + var3, var2);
+         uwotm8.Rasterizer2D.setBounds(var2 + var4, var1, var1 + var3, var2);
 
          for(int var12 = 0; var12 < var5.length; ++var12) {
             m var13;
@@ -9811,7 +9811,7 @@ public class Client extends ScapeApplet {
                                  var13.R = "";
                                  var13.c = 0;
                               } else {
-                                 var13.R = uwotm8.StringUtils.c(uwotm8.StringUtils.a(this.cx[var27]));
+                                 var13.R = uwotm8.StringUtils.format(uwotm8.StringUtils.decodeBase37(this.cx[var27]));
                                  var13.c = 1;
                               }
                            }
@@ -9834,7 +9834,7 @@ public class Client extends ScapeApplet {
 
                                     for(var23 = 0; var23 < 7; ++var23) {
                                        if ((var17 = var24.eD[var23]) >= 0) {
-                                          var42[var22++] = uwotm8.IdentityKit.b[var17].b();
+                                          var42[var22++] = uwotm8.IdentityKit.b[var17].bodyModel();
                                        }
                                     }
 
@@ -9858,7 +9858,7 @@ public class Client extends ScapeApplet {
                                     break;
                                  }
 
-                                 if ((var22 = var24.eD[var21]) >= 0 && !uwotm8.IdentityKit.b[var22].a()) {
+                                 if ((var22 = var24.eD[var21]) >= 0 && !uwotm8.IdentityKit.b[var22].bodyLoaded()) {
                                     break;
                                  }
 
@@ -9870,7 +9870,7 @@ public class Client extends ScapeApplet {
                            var13.ae = 150;
                            var13.af = var23;
                            if (this.ee) {
-                              Model var29 = L.d();
+                              Model var29 = L.getAnimatedModel();
 
                               for(var18 = 0; var18 < 5; ++var18) {
                                  if (var24.dw[var18] != 0) {
@@ -10023,7 +10023,7 @@ public class Client extends ScapeApplet {
                               if (var27 >= 10000 && var27 <= 10022) {
                                  var27 -= 10000;
                                  String var19 = "";
-                                 var19 = var19 + uwotm8.StringUtils.c(uwotm8.SkillsConstants.a[aI[var27]]) + ": " + this.cv[aI[var27]] + "/" + this.en[aI[var27]] + "\\n";
+                                 var19 = var19 + uwotm8.StringUtils.format(uwotm8.SkillsConstants.SKILL_NAMES[aI[var27]]) + ": " + this.cv[aI[var27]] + "/" + this.en[aI[var27]] + "\\n";
                                  var19 = var19 + "Current XP: " + NumberFormat.getIntegerInstance().format((long)this.bM[aI[var27]]) + "\\n";
                                  if (this.en[aI[var27]] < 99) {
                                     var19 = var19 + "Next level: " + NumberFormat.getIntegerInstance().format((long)o(this.en[aI[var27]] + 1)) + "\\n";
@@ -10055,7 +10055,7 @@ public class Client extends ScapeApplet {
                                     var13.c = 0;
                                  } else {
                                     var23 = this.cX[var27];
-                                    String var30 = uwotm8.StringUtils.a(this.cW[var27]);
+                                    String var30 = uwotm8.StringUtils.decodeBase37(this.cW[var27]);
                                     switch(var23) {
                                     case 0:
                                        if (this.e(var30) && !var30.equalsIgnoreCase(L.ai)) {
@@ -10075,7 +10075,7 @@ public class Client extends ScapeApplet {
                                        var38.X = var38.Y = SpriteGroupLoader.a("clanchat", 2);
                                     }
 
-                                    var13.R = uwotm8.StringUtils.c(var30);
+                                    var13.R = uwotm8.StringUtils.format(var30);
                                     var18 = 0;
                                     if (var13.a() instanceof o) {
                                        var18 = ((o)var13.a()).a(var13.R);
@@ -10182,20 +10182,20 @@ public class Client extends ScapeApplet {
                            if (var13.w[var17] <= 0) {
                               Sprite var57;
                               if (var13.I != null && var17 < 20 && (var57 = var13.I[var17]) != null) {
-                                 var57.d(var34, var21);
+                                 var57.drawSprite(var34, var21);
                               }
                            } else {
                               var22 = 0;
                               var23 = 0;
                               var45 = var13.w[var17] - 1;
-                              if (var34 > uwotm8.Rasterizer2D.k - 32 && var34 < uwotm8.Rasterizer2D.l && var21 > uwotm8.Rasterizer2D.i - 32 && var21 < uwotm8.Rasterizer2D.j || this.eX != 0 && this.eW == var17) {
+                              if (var34 > uwotm8.Rasterizer2D.clipLeft - 32 && var34 < uwotm8.Rasterizer2D.clipRight && var21 > uwotm8.Rasterizer2D.clipBottom - 32 && var21 < uwotm8.Rasterizer2D.clipTop || this.eX != 0 && this.eW == var17) {
                                  var25 = 0;
                                  if (this.hN == 1 && this.hO == var17 && this.hP == var13.o) {
                                     var25 = 16777215;
                                  }
 
                                  Sprite var48;
-                                 if ((var48 = uwotm8.ItemDefinition.a(var45, var13.x[var17], var25)) != null) {
+                                 if ((var48 = uwotm8.ItemDefinition.sprite(var45, var13.x[var17], var25)) != null) {
                                     if (var14 != null && this.eX != 0 && this.eW == var17 && this.eV == var13.o) {
                                        var22 = super.au - this.eY;
                                        var23 = super.av - this.eZ;
@@ -10227,8 +10227,8 @@ public class Client extends ScapeApplet {
                                        }
 
                                        if (!var58) {
-                                          if (var21 + var23 < uwotm8.Rasterizer2D.i && var14.t > 0) {
-                                             if ((var25 = this.cN * (uwotm8.Rasterizer2D.i - var21 - var23) / 3) > this.cN * 10) {
+                                          if (var21 + var23 < uwotm8.Rasterizer2D.clipBottom && var14.t > 0) {
+                                             if ((var25 = this.cN * (uwotm8.Rasterizer2D.clipBottom - var21 - var23) / 3) > this.cN * 10) {
                                                 var25 = this.cN * 10;
                                              }
 
@@ -10240,8 +10240,8 @@ public class Client extends ScapeApplet {
                                              this.eZ += var25;
                                           }
 
-                                          if (var21 + var23 + 32 > uwotm8.Rasterizer2D.j && var14.t < var14.s - var14.h) {
-                                             if ((var25 = this.cN * (var21 + var23 + 32 - uwotm8.Rasterizer2D.j) / 3) > this.cN * 10) {
+                                          if (var21 + var23 + 32 > uwotm8.Rasterizer2D.clipTop && var14.t < var14.s - var14.h) {
+                                             if ((var25 = this.cN * (var21 + var23 + 32 - uwotm8.Rasterizer2D.clipTop) / 3) > this.cN * 10) {
                                                 var25 = this.cN * 10;
                                              }
 
@@ -10254,13 +10254,13 @@ public class Client extends ScapeApplet {
                                           }
                                        }
 
-                                       uwotm8.Rasterizer2D.b(var11, var8, var10, var9);
+                                       uwotm8.Rasterizer2D.setBounds(var11, var8, var10, var9);
                                        var48.c(var34 + var22, var21 + var23);
-                                       uwotm8.Rasterizer2D.b(var2 + var4, var1, var1 + var3, var2);
+                                       uwotm8.Rasterizer2D.setBounds(var2 + var4, var1, var1 + var3, var2);
                                     } else if (this.he != 0 && this.hd == var17 && this.hc == var13.o) {
                                        var48.c(var34, var21);
                                     } else {
-                                       var48.d(var34, var21);
+                                       var48.drawSprite(var34, var21);
                                     }
 
                                     if (var13.D && (var48.d == 33 || var13.x[var17] != 1)) {
@@ -10295,14 +10295,14 @@ public class Client extends ScapeApplet {
 
                      if (var13.k == 0) {
                         if (var13.K) {
-                           uwotm8.Rasterizer2D.b(var13.h, var16, var15, var18, var13.g);
+                           uwotm8.Rasterizer2D.fillRectangle(var13.h, var16, var15, var18, var13.g);
                         } else {
-                           uwotm8.Rasterizer2D.c(var15, var13.g, var13.h, var18, var16);
+                           uwotm8.Rasterizer2D.drawRectangle(var15, var13.g, var13.h, var18, var16);
                         }
                      } else if (var13.K) {
-                        uwotm8.Rasterizer2D.a(var18, var16, var13.g, var13.h, 256 - (var13.k & 255), var15);
+                        uwotm8.Rasterizer2D.fillRectangle(var18, var16, var13.g, var13.h, 256 - (var13.k & 255), var15);
                      } else {
-                        uwotm8.Rasterizer2D.b(var16, var13.h, 256 - (var13.k & 255), var18, var13.g, var15);
+                        uwotm8.Rasterizer2D.drawRectangle(var16, var13.h, 256 - (var13.k & 255), var18, var13.g, var15);
                      }
                   } else {
                      Rasterizer2D var31;
@@ -10400,7 +10400,7 @@ public class Client extends ScapeApplet {
                            if (this.fN == 1 && var13.o == fa && fa != 0) {
                               var32.c(var15, var16, 16777215);
                            } else {
-                              var32.d(var15, var16);
+                              var32.drawSprite(var15, var16);
                            }
                         }
                      } else if (var13.b == 6) {
@@ -10540,8 +10540,8 @@ public class Client extends ScapeApplet {
                            var22 = d - var18;
                         }
 
-                        uwotm8.Rasterizer2D.b(var18, var22, var21, 16777120, var17);
-                        uwotm8.Rasterizer2D.c(var21, var17, var18, 0, var22);
+                        uwotm8.Rasterizer2D.fillRectangle(var18, var22, var21, 16777120, var17);
+                        uwotm8.Rasterizer2D.drawRectangle(var21, var17, var18, 0, var22);
                         String var44 = this.a(var13, var20);
 
                         for(var45 = var22 + var36.a + 2; var44.length() > 0; var45 += var36.a + 1) {
@@ -10577,7 +10577,7 @@ public class Client extends ScapeApplet {
             }
          }
 
-         uwotm8.Rasterizer2D.b(var11, var8, var10, var9);
+         uwotm8.Rasterizer2D.setBounds(var11, var8, var10, var9);
       }
    }
 
@@ -10729,35 +10729,35 @@ public class Client extends ScapeApplet {
             int var2 = c / 2;
             int var3 = d / 2;
             if (this.bg != null) {
-               this.bg.d(0, 0);
+               this.bg.drawSprite(0, 0);
             }
 
             boolean var4 = this.b(c - 52, 10, 42, 42);
-            SpriteGroupLoader.a("login", "settings", var4 ? (this.bq == 1 ? 2 : 1) : (this.bq == 1 ? 1 : 0)).d(c - 52, 10);
+            SpriteGroupLoader.a("login", "settings", var4 ? (this.bq == 1 ? 2 : 1) : (this.bq == 1 ? 1 : 0)).drawSprite(c - 52, 10);
             if (!aW) {
                if (O) {
-                  SpriteGroupLoader.a("login", 4).d(c - 104, 10);
+                  SpriteGroupLoader.a("login", 4).drawSprite(c - 104, 10);
                } else {
-                  SpriteGroupLoader.a("login", 5).d(c - 104, 10);
+                  SpriteGroupLoader.a("login", 5).drawSprite(c - 104, 10);
                }
             }
 
             int var10;
             if (this.bq == 0) {
-               this.bf.d(var2 - this.bf.b / 2, 24);
+               this.bf.drawSprite(var2 - this.bf.b / 2, 24);
                var10 = var2 - 145;
                var3 -= 135;
                SpriteGroupLoader.a("login", "login_box", 0).a(var10, var3, 256);
                if (this.b(var10 + 35, var3 + 71, 218, 27)) {
-                  SpriteGroupLoader.a("login", "login_box", 1).d(var10 + 35, var3 + 71);
+                  SpriteGroupLoader.a("login", "login_box", 1).drawSprite(var10 + 35, var3 + 71);
                } else if (this.b(var10 + 35, var3 + 117, 218, 27)) {
-                  SpriteGroupLoader.a("login", "login_box", 1).d(var10 + 35, var3 + 117);
+                  SpriteGroupLoader.a("login", "login_box", 1).drawSprite(var10 + 35, var3 + 117);
                } else if (this.b(var10 + 55, var3 + 174, 179, 25)) {
-                  SpriteGroupLoader.a("login", "login_box", 2).d(var10 + 55, var3 + 174);
+                  SpriteGroupLoader.a("login", "login_box", 2).drawSprite(var10 + 55, var3 + 174);
                }
 
                this.hF.a(S + (this.gJ == 0 & R % 40 < 20 ? "|" : ""), var10 + 40, var3 + 90, 15970623, 0);
-               this.hF.a(uwotm8.StringUtils.d(T) + (this.gJ == 1 & R % 40 < 20 ? "|" : ""), var10 + 40, var3 + 138, 15970623, 0);
+               this.hF.a(uwotm8.StringUtils.getAsterisks(T) + (this.gJ == 1 & R % 40 < 20 ? "|" : ""), var10 + 40, var3 + 138, 15970623, 0);
                String var10000;
                int var10001;
                if (U) {
@@ -10769,7 +10769,7 @@ public class Client extends ScapeApplet {
                   var10001 = var12 ? 3 : 1;
                }
 
-               SpriteGroupLoader.a(var10000, var10001).d(var10 + 35, var3 + 147);
+               SpriteGroupLoader.a(var10000, var10001).drawSprite(var10 + 35, var3 + 147);
                this.hF.a("Remember Me", var10 + 52, var3 + 159, 15970623, 0);
                this.hF.b(this.hv, var2, var3 + 226, 15970623, 0);
                this.hF.b(this.hw, var2, var3 + 247, 15970623, 0);
@@ -10780,20 +10780,20 @@ public class Client extends ScapeApplet {
                var10 = var2 - 145;
                this.hI.b("SETTINGS", var2, 64, 16777215, 0);
                Rectangle var5 = new Rectangle(var2 - 138, 88, 276, 200);
-               uwotm8.Rasterizer2D.a(0, var5.y, var5.width, var5.height, 100, var5.x);
+               uwotm8.Rasterizer2D.fillRectangle(0, var5.y, var5.width, var5.height, 100, var5.x);
                this.hI.b("UI", (int)var5.getCenterX(), var5.y + 26, 16777215, 0);
                var2 = var5.y + 30;
                boolean var9 = uwotm8.aF.b(uwotm8.aG_1.a);
-               SpriteGroupLoader.a("login", "settings", !var9 && !this.b((int)var5.getCenterX() - 132, var2, 128, 96) ? 3 : 4).d((int)var5.getCenterX() - 132, var2);
+               SpriteGroupLoader.a("login", "settings", !var9 && !this.b((int)var5.getCenterX() - 132, var2, 128, 96) ? 3 : 4).drawSprite((int)var5.getCenterX() - 132, var2);
                this.hH.b("2007", (int)var5.getCenterX() - 68, var2 + 112, var9 ? 16776960 : 16777215, 0);
                var9 = uwotm8.aF.b(uwotm8.aG_1.b);
-               SpriteGroupLoader.a("login", "settings", !var9 && !this.b((int)var5.getCenterX() + 4, var2, 128, 96) ? 5 : 6).d((int)var5.getCenterX() + 4, var2);
+               SpriteGroupLoader.a("login", "settings", !var9 && !this.b((int)var5.getCenterX() + 4, var2, 128, 96) ? 5 : 6).drawSprite((int)var5.getCenterX() + 4, var2);
                this.hH.b("Pre-2007", (int)var5.getCenterX() + 68, var2 + 112, var9 ? 16776960 : 16777215, 0);
                if (b == 1) {
                   boolean var8 = this.b(var10 + 85, 244, 106, 13);
-                  SpriteGroupLoader.a("login", var8 ? 3 : 1).d(var10 + 85, 244);
+                  SpriteGroupLoader.a("login", var8 ? 3 : 1).drawSprite(var10 + 85, 244);
                } else if (b == 2) {
-                  SpriteGroupLoader.a("login", 2).d(var10 + 85, 244);
+                  SpriteGroupLoader.a("login", 2).drawSprite(var10 + 85, 244);
                }
 
                this.hF.a("Pixel doubling", var10 + 102, 256, 15970623, 0);
@@ -10823,7 +10823,7 @@ public class Client extends ScapeApplet {
                   var3 = var6;
                }
 
-               uwotm8.Rasterizer2D.a(0, var3 - var6, var10, var6, 200, var2);
+               uwotm8.Rasterizer2D.fillRectangle(0, var3 - var6, var10, var6, 200, var2);
                this.hF.a(this.aU, var2 + 4, var3 - 4 - 2, 16777215, 0);
             }
 
@@ -10913,7 +10913,7 @@ public class Client extends ScapeApplet {
             if (this.bj >= 100) {
                this.a("Your ignore list is full. Max of 100 hit", 0, "", true);
             } else {
-               String var3 = uwotm8.StringUtils.c(uwotm8.StringUtils.a(var1));
+               String var3 = uwotm8.StringUtils.format(uwotm8.StringUtils.decodeBase37(var1));
 
                int var4;
                for(var4 = 0; var4 < this.bj; ++var4) {
@@ -10963,28 +10963,28 @@ public class Client extends ScapeApplet {
 
    private void U() {
       if (this.dX == 2) {
-         for(UnknownClass1 var1 = (UnknownClass1)this.gp.b(); var1 != null; var1 = (UnknownClass1)this.gp.d()) {
+         for(UnknownClass1 var1 = (UnknownClass1)this.gp.getBack(); var1 != null; var1 = (UnknownClass1)this.gp.getPrevious()) {
             if (var1.d > 0) {
                --var1.d;
             }
 
             if (var1.d == 0) {
-               if (var1.i < 0 || uwotm8.MapRegion.a(var1.i, var1.k)) {
+               if (var1.i < 0 || uwotm8.MapRegion.modelReady(var1.i, var1.k)) {
                   this.a(var1.h, var1.e, var1.j, var1.k, var1.g, var1.f, var1.i);
-                  var1.D();
+                  var1.unlink();
                }
             } else {
                if (var1.l > 0) {
                   --var1.l;
                }
 
-               if (var1.l == 0 && var1.g > 0 && var1.h > 0 && var1.g <= 102 && var1.h <= 102 && (var1.a < 0 || uwotm8.MapRegion.a(var1.a, var1.c))) {
+               if (var1.l == 0 && var1.g > 0 && var1.h > 0 && var1.g <= 102 && var1.h <= 102 && (var1.a < 0 || uwotm8.MapRegion.modelReady(var1.a, var1.c))) {
                   this.a(var1.h, var1.e, var1.b, var1.c, var1.g, var1.f, var1.a);
                   var1.l = -1;
                   if (var1.a == var1.i && var1.i == -1) {
-                     var1.D();
+                     var1.unlink();
                   } else if (var1.a == var1.i && var1.b == var1.j && var1.c == var1.k) {
-                     var1.D();
+                     var1.unlink();
                   }
                }
             }
@@ -11050,8 +11050,8 @@ public class Client extends ScapeApplet {
             if (var6 != -1) {
                Animation var8 = uwotm8.Animation.a[var6];
 
-               for(var5.ak += var1; var5.ak > var8.a(var5.al); var3 = true) {
-                  var5.ak -= var8.a(var5.al) + 1;
+               for(var5.ak += var1; var5.ak > var8.duration(var5.al); var3 = true) {
+                  var5.ak -= var8.duration(var5.al) + 1;
                   ++var5.al;
                   if (var5.al >= var8.b) {
                      var5.al -= var8.e;
@@ -11170,7 +11170,7 @@ public class Client extends ScapeApplet {
 
                if (var5 == 9) {
                   for(var8 = 0; var8 < 25; ++var8) {
-                     if (uwotm8.SkillsConstants.b[var8]) {
+                     if (uwotm8.SkillsConstants.SKILL_TOGGLES[var8]) {
                         var6 += this.en[var8];
                      }
                   }
@@ -11304,7 +11304,7 @@ public class Client extends ScapeApplet {
             Point var7;
             var4 = (var7 = t.b(false)).x + t.c().x + 69;
             var3 = var7.y + t.c().y + 78;
-            var1.d(var4 + var6 - var1.d / 2 + 4, var3 - var2 - var1.e / 2 - 4);
+            var1.drawSprite(var4 + var6 - var1.d / 2 + 4, var3 - var2 - var1.e / 2 - 4);
          }
       }
    }
@@ -11361,7 +11361,7 @@ public class Client extends ScapeApplet {
       int var2 = (var1 = a == com.runescape.a.a) ? 0 : c - 240;
       int var4 = var1 ? 18 : 22;
       int var3 = uwotm8.aH_1.d() ? 2 : 0;
-      SpriteGroupLoader.a("xpdrop", this.aS == 0 ? var3 + 1 : var3).d(var2, var4);
+      SpriteGroupLoader.a("xpdrop", this.aS == 0 ? var3 + 1 : var3).drawSprite(var2, var4);
    }
 
    private void Y() {
@@ -11375,12 +11375,12 @@ public class Client extends ScapeApplet {
       Point var7 = new Point(!var10 ? c - 240 : c - 57, 44);
       int var8 = var1 ? var6.x : var7.x;
       int var9 = var1 ? var6.y : var7.y;
-      SpriteGroupLoader.a("orbs", this.aS == 1 ? (!var10 ? 1 : 3) : (!var10 ? 0 : 2)).d(var8, var9);
-      SpriteGroupLoader.a("orbs", 9).d(var8 + (!var10 ? 27 : 4), var9 + 4);
+      SpriteGroupLoader.a("orbs", this.aS == 1 ? (!var10 ? 1 : 3) : (!var10 ? 0 : 2)).drawSprite(var8, var9);
+      SpriteGroupLoader.a("orbs", 9).drawSprite(var8 + (!var10 ? 27 : 4), var9 + 4);
       Sprite var11;
       (var11 = SpriteGroupLoader.a("orbs", 4)).c = var4 < 0 ? 0 : var4;
-      var11.d(var8 + (!var10 ? 27 : 4), var9 + 4);
-      SpriteGroupLoader.a("orbs", 5).d(var8 + (!var10 ? 33 : 9), var9 + 10);
+      var11.drawSprite(var8 + (!var10 ? 27 : 4), var9 + 4);
+      SpriteGroupLoader.a("orbs", 5).drawSprite(var8 + (!var10 ? 33 : 9), var9 + 10);
       this.af.a(q(var3), var8 + (!var10 ? 15 : 45), String.valueOf(var2), var9 + 26, true);
    }
 
@@ -11395,12 +11395,12 @@ public class Client extends ScapeApplet {
       Point var7 = new Point(!var10 ? c - 238 : c - 57, 84);
       int var8 = var1 ? var6.x : var7.x;
       int var9 = var1 ? var6.y : var7.y;
-      SpriteGroupLoader.a("orbs", this.aS == 2 ? (!var10 ? 1 : 3) : (!var10 ? 0 : 2)).d(var8, var9);
-      SpriteGroupLoader.a("orbs", 12).d(var8 + (!var10 ? 27 : 4), var9 + 4);
+      SpriteGroupLoader.a("orbs", this.aS == 2 ? (!var10 ? 1 : 3) : (!var10 ? 0 : 2)).drawSprite(var8, var9);
+      SpriteGroupLoader.a("orbs", 12).drawSprite(var8 + (!var10 ? 27 : 4), var9 + 4);
       Sprite var11;
       (var11 = SpriteGroupLoader.a("orbs", 4)).c = var4 < 0 ? 0 : var4;
-      var11.d(var8 + (!var10 ? 27 : 4), var9 + 4);
-      SpriteGroupLoader.a("orbs", 6).d(var8 + (!var10 ? 30 : 7), var9 + 7);
+      var11.drawSprite(var8 + (!var10 ? 27 : 4), var9 + 4);
+      SpriteGroupLoader.a("orbs", 6).drawSprite(var8 + (!var10 ? 30 : 7), var9 + 7);
       this.af.a(q(var3), var8 + (!var10 ? 15 : 45), String.valueOf(var2), var9 + 26, true);
    }
 
@@ -11415,12 +11415,12 @@ public class Client extends ScapeApplet {
       Point var7 = new Point(!var5 ? c - 222 : c - 57, 124);
       int var8 = var1 ? var6.x : var7.x;
       int var9 = var1 ? var6.y : var7.y;
-      SpriteGroupLoader.a("orbs", this.aS == 3 ? (!var5 ? 1 : 3) : (!var5 ? 0 : 2)).d(var8, var9);
-      SpriteGroupLoader.a("orbs", this.aT ? 15 : 14).d(var8 + (!var5 ? 27 : 4), var9 + 4);
+      SpriteGroupLoader.a("orbs", this.aS == 3 ? (!var5 ? 1 : 3) : (!var5 ? 0 : 2)).drawSprite(var8, var9);
+      SpriteGroupLoader.a("orbs", this.aT ? 15 : 14).drawSprite(var8 + (!var5 ? 27 : 4), var9 + 4);
       Sprite var11;
       (var11 = SpriteGroupLoader.a("orbs", 4)).c = var10 < 0 ? 0 : var10;
-      var11.d(var8 + (!var5 ? 27 : 4), var9 + 4);
-      SpriteGroupLoader.a("orbs", this.aT ? 8 : 7).d(var8 + (!var5 ? 33 : 10), var9 + 8);
+      var11.drawSprite(var8 + (!var5 ? 27 : 4), var9 + 4);
+      SpriteGroupLoader.a("orbs", this.aT ? 8 : 7).drawSprite(var8 + (!var5 ? 33 : 10), var9 + 8);
       this.af.a(q(var3), var8 + (!var5 ? 15 : 45), String.valueOf(var2), var9 + 26, true);
    }
 
@@ -11437,7 +11437,7 @@ public class Client extends ScapeApplet {
    private void a(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9) {
       UnknownClass1 var10 = null;
 
-      for(UnknownClass1 var11 = (UnknownClass1)this.gp.b(); var11 != null; var11 = (UnknownClass1)this.gp.d()) {
+      for(UnknownClass1 var11 = (UnknownClass1)this.gp.getBack(); var11 != null; var11 = (UnknownClass1)this.gp.getPrevious()) {
          if (var11.e == var7 && var11.g == var8 && var11.h == var5 && var11.f == var4) {
             var10 = var11;
             break;
@@ -11450,7 +11450,7 @@ public class Client extends ScapeApplet {
          var10.g = var8;
          var10.h = var5;
          this.a(var10);
-         this.gp.a(var10);
+         this.gp.insertBack(var10);
       }
 
       var10.a = var2;
@@ -11526,7 +11526,7 @@ public class Client extends ScapeApplet {
          var8 = var1.g();
          LinkedList var31;
          if (var4 >= 0 && var5 >= 0 && var4 < 104 && var5 < 104 && (var31 = this.bn[this.cu][var4][var5]) != null) {
-            for(Item var24 = (Item)var31.b(); var24 != null; var24 = (Item)var31.d()) {
+            for(Item var24 = (Item)var31.getBack(); var24 != null; var24 = (Item)var31.getPrevious()) {
                if (var24.a == (var6 & 32767) && var24.b == var7) {
                   var24.b = var8;
                   break;
@@ -11565,7 +11565,7 @@ public class Client extends ScapeApplet {
                   this.bn[this.cu][var5][var6] = new LinkedList();
                }
 
-               this.bn[this.cu][var5][var6].a(var30);
+               this.bn[this.cu][var5][var6].insertBack(var30);
                this.c(var5, var6);
             }
 
@@ -11578,14 +11578,14 @@ public class Client extends ScapeApplet {
                var6 = var1.g();
                LinkedList var28;
                if (var4 >= 0 && var5 >= 0 && var4 < 104 && var5 < 104 && (var28 = this.bn[this.cu][var4][var5]) != null) {
-                  for(var26 = (Item)var28.b(); var26 != null; var26 = (Item)var28.d()) {
+                  for(var26 = (Item)var28.getBack(); var26 != null; var26 = (Item)var28.getPrevious()) {
                      if (var26.a == (var6 & 32767)) {
-                        var26.D();
+                        var26.unlink();
                         break;
                      }
                   }
 
-                  if (var28.b() == null) {
+                  if (var28.getBack() == null) {
                      this.bn[this.cu][var4][var5] = null;
                   }
 
@@ -11611,8 +11611,8 @@ public class Client extends ScapeApplet {
                      var11 = this.gH[this.cu][var4 + 1][var5];
                      var12 = this.gH[this.cu][var4 + 1][var5 + 1];
                      var13 = this.gH[this.cu][var4][var5 + 1];
-                     ab var33;
-                     if (var9 == 0 && (var33 = this.cO.e(this.cu, var4, var5)) != null) {
+                     Wall var33;
+                     if (var9 == 0 && (var33 = this.cO.getTileWall(this.cu, var4, var5)) != null) {
                         var15 = var33.h >> 14 & 32767;
                         if (var7 == 2) {
                            var33.f = new RenderableObject(var15, var8 + 4, 2, var11, var12, var10, var13, var3, false);
@@ -11622,13 +11622,13 @@ public class Client extends ScapeApplet {
                         }
                      }
 
-                     ac var35;
-                     if (var9 == 1 && (var35 = this.cO.f(var4, var5, this.cu)) != null) {
+                     WallDecoration var35;
+                     if (var9 == 1 && (var35 = this.cO.getTileWallDecoration(var4, var5, this.cu)) != null) {
                         var35.f = new RenderableObject(var35.g >> 14 & 32767, 0, 4, var11, var12, var10, var13, var3, false);
                      }
 
                      if (var9 == 2) {
-                        v var37 = this.cO.g(var4, var5, this.cu);
+                        GameObject var37 = this.cO.firstGameObject(var4, var5, this.cu);
                         if (var7 == 11) {
                            var7 = 10;
                         }
@@ -11638,8 +11638,8 @@ public class Client extends ScapeApplet {
                         }
                      }
 
-                     Z_1 var38;
-                     if (var9 == 3 && (var38 = this.cO.h(var5, var4, this.cu)) != null) {
+                     GroundDecoration var38;
+                     if (var9 == 3 && (var38 = this.cO.getTileFloorDecoration(var5, var4, this.cu)) != null) {
                         var38.d = new RenderableObject(var38.e >> 14 & 32767, var8, 22, var11, var12, var10, var13, var3, false);
                      }
                   }
@@ -11668,13 +11668,13 @@ public class Client extends ScapeApplet {
                      }
 
                      ObjectDefinition var34;
-                     if (var21 != null && (var34 = uwotm8.ObjectDefinition.a(var15)) != null) {
+                     if (var21 != null && (var34 = uwotm8.ObjectDefinition.decode(var15)) != null) {
                         int var16 = this.gH[this.cu][var4][var5];
                         int var17 = this.gH[this.cu][var4 + 1][var5];
                         int var18 = this.gH[this.cu][var4 + 1][var5 + 1];
                         int var19 = this.gH[this.cu][var4][var5 + 1];
                         Model var29;
-                        if ((var29 = var34.a(var11, var12, var16, var17, var18, var19, -1)) != null) {
+                        if ((var29 = var34.modelAt(var11, var12, var16, var17, var18, var19, -1)) != null) {
                            this.a(var3 + 1, -1, 0, var13, var5, 0, this.cu, var4, var8 + 1);
                            var21.an = var8 + R;
                            var21.ao = var3 + R;
@@ -11734,7 +11734,7 @@ public class Client extends ScapeApplet {
                         var4 = (var4 << 7) + 64;
                         var5 = (var5 << 7) + 64;
                         AnimableObject var27 = new AnimableObject(this.cu, R, var8, var6, this.b(this.cu, var5, var4) - var7, var5, var4);
-                        this.ex.a(var27);
+                        this.ex.insertBack(var27);
                      }
 
                   } else if (var2 == 44) {
@@ -11750,7 +11750,7 @@ public class Client extends ScapeApplet {
                            this.bn[this.cu][var6][var7] = new LinkedList();
                         }
 
-                        this.bn[this.cu][var6][var7].a(var26);
+                        this.bn[this.cu][var6][var7].insertBack(var26);
                         this.c(var6, var7);
                      }
 
@@ -11786,8 +11786,8 @@ public class Client extends ScapeApplet {
                            var6 = (var6 << 7) + 64;
                            var7 = (var7 << 7) + 64;
                            Projectile var36;
-                           (var36 = new Projectile(var13, var10, var11 + R, var12 + R, var32, this.cu, this.b(this.cu, var5, var4) - var3, var5, var4, var8, var9)).a(var11 + R, var7, this.b(this.cu, var7, var6) - var10, var6);
-                           this.dO.a(var36);
+                           (var36 = new Projectile(var13, var10, var11 + R, var12 + R, var32, this.cu, this.b(this.cu, var5, var4) - var3, var5, var4, var8, var9)).trackTarget(var11 + R, var7, this.b(this.cu, var7, var6) - var10, var6);
+                           this.dO.insertBack(var36);
                         }
                      }
 
@@ -11802,11 +11802,11 @@ public class Client extends ScapeApplet {
       if (var5 > 0 && var1 > 0 && var5 <= 102 && var1 <= 102) {
          int var8 = 0;
          if (var6 == 0) {
-            var8 = this.cO.i(var2, var5, var1);
+            var8 = this.cO.getWallKey(var2, var5, var1);
          }
 
          if (var6 == 1) {
-            var8 = this.cO.j(var2, var5, var1);
+            var8 = this.cO.getWallDecorationKey(var2, var5, var1);
          }
 
          if (var6 == 2) {
@@ -11826,8 +11826,8 @@ public class Client extends ScapeApplet {
             ObjectDefinition var11;
             if (var6 == 0) {
                this.cO.a(var5, var2, var1, (byte)-119);
-               if ((var11 = uwotm8.ObjectDefinition.a(var8)) != null && var11.p) {
-                  this.gU[var2].a(var9, var10, var11.i, var5, var1);
+               if ((var11 = uwotm8.ObjectDefinition.decode(var8)) != null && var11.p) {
+                  this.gU[var2].removeObject(var9, var10, var11.i, var5, var1);
                }
             }
 
@@ -11837,7 +11837,7 @@ public class Client extends ScapeApplet {
 
             if (var6 == 2) {
                this.cO.b(var2, var5, var1);
-               if ((var11 = uwotm8.ObjectDefinition.a(var8)) == null) {
+               if ((var11 = uwotm8.ObjectDefinition.decode(var8)) == null) {
                   return;
                }
 
@@ -11846,13 +11846,13 @@ public class Client extends ScapeApplet {
                }
 
                if (var11.p) {
-                  this.gU[var2].a(var9, var11.d, var5, var1, var11.l, var11.i);
+                  this.gU[var2].removeObject(var9, var11.d, var5, var1, var11.l, var11.i);
                }
             }
 
             if (var6 == 3) {
                this.cO.c(var2, var1, var5);
-               if ((var11 = uwotm8.ObjectDefinition.a(var8)) == null) {
+               if ((var11 = uwotm8.ObjectDefinition.decode(var8)) == null) {
                   return;
                }
 
@@ -11868,7 +11868,7 @@ public class Client extends ScapeApplet {
                var9 = var2 + 1;
             }
 
-            uwotm8.MapRegion.a(this.cO, var3, var1, var4, var9, this.gU[var2], this.gH, var5, var7, var2);
+            uwotm8.MapRegion.placeObject(this.cO, var3, var1, var4, var9, this.gU[var2], this.gH, var5, var7, var2);
          }
       }
 
@@ -12030,15 +12030,15 @@ public class Client extends ScapeApplet {
          int var2;
          try {
             int var119;
-            if ((var119 = this.gj.c()) == 0) {
+            if ((var119 = this.gj.available()) == 0) {
                return false;
             }
 
             if (this.dK == -1) {
-               this.gj.a(this.eU.a, 1);
+               this.gj.flushInputStream(this.eU.a, 1);
                this.dK = this.eU.a[0] & 255;
                if (this.dD != null) {
-                  this.dK = this.dK - this.dD.a() & 255;
+                  this.dK = this.dK - this.dD.getNextKey() & 255;
                }
 
                this.dJ = uwotm8.ah.a[this.dK];
@@ -12050,7 +12050,7 @@ public class Client extends ScapeApplet {
                   return false;
                }
 
-               this.gj.a(this.eU.a, 1);
+               this.gj.flushInputStream(this.eU.a, 1);
                this.dJ = this.eU.a[0] & 255;
                --var119;
             }
@@ -12060,7 +12060,7 @@ public class Client extends ScapeApplet {
                   return false;
                }
 
-               this.gj.a(this.eU.a, 2);
+               this.gj.flushInputStream(this.eU.a, 2);
                this.eU.b = 0;
                this.dJ = this.eU.g();
                var119 -= 2;
@@ -12071,7 +12071,7 @@ public class Client extends ScapeApplet {
             }
 
             this.eU.b = 0;
-            this.gj.a(this.eU.a, this.dJ);
+            this.gj.flushInputStream(this.eU.a, this.dJ);
             this.dL = 0;
             this.bz = this.by;
             this.by = this.bx;
@@ -12218,7 +12218,7 @@ public class Client extends ScapeApplet {
             case 50:
                long var140 = this.eU.k();
                int var53 = this.eU.e();
-               var122 = uwotm8.StringUtils.c(uwotm8.StringUtils.a(var140));
+               var122 = uwotm8.StringUtils.format(uwotm8.StringUtils.decodeBase37(var140));
 
                for(var3 = 0; var3 < this.ck; ++var3) {
                   if (var140 == this.cV[var3]) {
@@ -12323,7 +12323,7 @@ public class Client extends ScapeApplet {
                   }
                }
 
-               for(UnknownClass1 var139 = (UnknownClass1)this.gp.b(); var139 != null; var139 = (UnknownClass1)this.gp.d()) {
+               for(UnknownClass1 var139 = (UnknownClass1)this.gp.getBack(); var139 != null; var139 = (UnknownClass1)this.gp.getPrevious()) {
                   if (var139.g >= this.hx && var139.g < this.hx + 8 && var139.h >= this.hy && var139.h < this.hy + 8 && var139.e == this.cu) {
                      var139.d = 0;
                   }
@@ -12439,8 +12439,8 @@ public class Client extends ScapeApplet {
                gg.a();
                var119 = a == com.runescape.a.a ? 200 : c / 2 - 55;
                var3 = a == com.runescape.a.a ? 150 : d / 2 - 45;
-               uwotm8.Rasterizer2D.c(var119, 130, 22, 16777215, var3);
-               uwotm8.Rasterizer2D.b(20, var3 + 1, var119 + 1, 0, 128);
+               uwotm8.Rasterizer2D.drawRectangle(var119, 130, 22, 16777215, var3);
+               uwotm8.Rasterizer2D.fillRectangle(20, var3 + 1, var119 + 1, 0, 128);
                this.hz.a(0, "Loading - please wait.", var3 + 18, var119 + 68);
                this.hz.a(16777215, "Loading - please wait.", var3 + 17, var119 + 67);
                gg.a(a == com.runescape.a.a ? 4 : 0, super.ao, a == com.runescape.a.a ? 4 : 0);
@@ -12471,11 +12471,11 @@ public class Client extends ScapeApplet {
                                  this.gX[var4] = -1;
                               } else {
                                  if ((var2 = this.gW[var4] = this.E.a(0, var119, var123)) != -1) {
-                                    this.E.a(3, var2);
+                                    this.E.provide(3, var2);
                                  }
 
                                  if ((var3 = this.gX[var4] = this.E.a(1, var119, var123)) != -1) {
-                                    this.E.a(3, var3);
+                                    this.E.provide(3, var3);
                                  }
                               }
 
@@ -12519,11 +12519,11 @@ public class Client extends ScapeApplet {
                            var3 = (var2 = this.gV[var119] = var126[var119]) >> 8 & 255;
                            var6 = var2 & 255;
                            if ((var7 = this.gW[var119] = this.E.a(0, var6, var3)) != -1) {
-                              this.E.a(3, var7);
+                              this.E.provide(3, var7);
                            }
 
                            if ((var8 = this.gX[var119] = this.E.a(1, var6, var3)) != -1) {
-                              this.E.a(3, var8);
+                              this.E.provide(3, var8);
                            }
 
                            ++var119;
@@ -12619,11 +12619,11 @@ public class Client extends ScapeApplet {
                   }
                }
 
-               for(UnknownClass1 var132 = (UnknownClass1)this.gp.b(); var132 != null; var132 = (UnknownClass1)this.gp.d()) {
+               for(UnknownClass1 var132 = (UnknownClass1)this.gp.getBack(); var132 != null; var132 = (UnknownClass1)this.gp.getPrevious()) {
                   var132.g -= var4;
                   var132.h -= var123;
                   if (var132.g < 0 || var132.h < 0 || var132.g >= 104 || var132.h >= 104) {
-                     var132.D();
+                     var132.unlink();
                   }
                }
 
@@ -12645,7 +12645,7 @@ public class Client extends ScapeApplet {
                   if (var119 != this.cY && fW && this.hp == 0) {
                      this.gO = var119;
                      this.gP = true;
-                     this.E.a(2, this.gO);
+                     this.E.provide(2, this.gO);
                   }
 
                   this.cY = var119;
@@ -12811,7 +12811,7 @@ public class Client extends ScapeApplet {
                if (!aW && fW) {
                   this.gO = var119;
                   this.gP = false;
-                  this.E.a(2, this.gO);
+                  this.E.provide(2, this.gO);
                   this.hp = var2;
                }
 
@@ -12940,7 +12940,7 @@ public class Client extends ScapeApplet {
                this.gz = this.eU.C();
                this.dI = this.eU.g();
                if (this.gz != 0 && v == -1) {
-                  uwotm8.SignLink.a(uwotm8.StringUtils.a(this.gz));
+                  uwotm8.SignLink.a(uwotm8.StringUtils.decodeIp(this.gz));
                   this.ac();
                   this.bW = "";
                   this.ga = false;
@@ -13018,12 +13018,12 @@ public class Client extends ScapeApplet {
 
                if (!var65 && this.hj == 0) {
                   try {
-                     String var145 = uwotm8.ChatMessageCodec.a(this.dJ - 14, this.eU);
+                     String var145 = uwotm8.ChatMessageCodec.decode(this.dJ - 14, this.eU);
                      String var146 = var64 > 0 ? g(var64) : "";
                      if (var119 > 0 && var119 <= 3) {
-                        this.a(var145, 7, var146 + uwotm8.StringUtils.c(uwotm8.StringUtils.a(var61)), var119);
+                        this.a(var145, 7, var146 + uwotm8.StringUtils.format(uwotm8.StringUtils.decodeBase37(var61)), var119);
                      } else {
-                        this.a(var145, 3, var146 + uwotm8.StringUtils.c(uwotm8.StringUtils.a(var61)), var119);
+                        this.a(var145, 3, var146 + uwotm8.StringUtils.format(uwotm8.StringUtils.decodeBase37(var61)), var119);
                      }
                   } catch (Exception var114) {
                      uwotm8.SignLink.b("cde1");
@@ -13097,7 +13097,7 @@ public class Client extends ScapeApplet {
                   var3 = this.eU.e();
                   var4 = this.eU.e();
                   var5 = false;
-                  var10 = uwotm8.StringUtils.a(var1);
+                  var10 = uwotm8.StringUtils.encodeBase37(var1);
 
                   for(var6 = 0; var6 < this.bj; ++var6) {
                      if (this.cx[var6] == var10) {
@@ -13106,7 +13106,7 @@ public class Client extends ScapeApplet {
                   }
 
                   if (!var5) {
-                     this.a(16, K(), (var4 > 0 ? g(var4) : "") + uwotm8.StringUtils.c(var1), var122, var3);
+                     this.a(16, K(), (var4 > 0 ? g(var4) : "") + uwotm8.StringUtils.format(var1), var122, var3);
                   }
                } catch (Exception var116) {
                   var116.printStackTrace();
@@ -13121,7 +13121,7 @@ public class Client extends ScapeApplet {
                   var3 = this.eU.e();
                   var4 = this.eU.e();
                   var5 = false;
-                  var10 = uwotm8.StringUtils.a(var1);
+                  var10 = uwotm8.StringUtils.encodeBase37(var1);
 
                   for(var6 = 0; var6 < this.bj; ++var6) {
                      if (this.cx[var6] == var10) {
@@ -13130,7 +13130,7 @@ public class Client extends ScapeApplet {
                   }
 
                   if (!var5) {
-                     this.a(9, this.ba, (var4 > 0 ? g(var4) : "") + uwotm8.StringUtils.c(var1), var122, var3);
+                     this.a(9, this.ba, (var4 > 0 ? g(var4) : "") + uwotm8.StringUtils.format(var1), var122, var3);
                   }
                } catch (Exception var115) {
                   var115.printStackTrace();
@@ -13255,7 +13255,7 @@ public class Client extends ScapeApplet {
                String var51;
                long var52;
                if (var1.endsWith(":tradereq:")) {
-                  var52 = uwotm8.StringUtils.a(var51 = var1.substring(0, var1.indexOf(":")));
+                  var52 = uwotm8.StringUtils.encodeBase37(var51 = var1.substring(0, var1.indexOf(":")));
                   var120 = false;
 
                   for(var3 = 0; var3 < this.bj; ++var3) {
@@ -13272,7 +13272,7 @@ public class Client extends ScapeApplet {
                   String var142 = (var1 = var1.substring(var51.length() + 1).trim()).substring(0, var1.indexOf("$"));
                   this.a(var51, 12, var142);
                } else if (var1.endsWith(":duelreq:")) {
-                  var52 = uwotm8.StringUtils.a(var51 = var1.substring(0, var1.indexOf(":")));
+                  var52 = uwotm8.StringUtils.encodeBase37(var51 = var1.substring(0, var1.indexOf(":")));
                   var120 = false;
 
                   for(var3 = 0; var3 < this.bj; ++var3) {
@@ -13287,7 +13287,7 @@ public class Client extends ScapeApplet {
                } else if (!var1.endsWith(":chalreq:")) {
                   this.a(var1, 0, "", var120);
                } else {
-                  var52 = uwotm8.StringUtils.a(var51 = var1.substring(0, var1.indexOf(":")));
+                  var52 = uwotm8.StringUtils.encodeBase37(var51 = var1.substring(0, var1.indexOf(":")));
                   var120 = false;
 
                   for(var3 = 0; var3 < this.bj; ++var3) {

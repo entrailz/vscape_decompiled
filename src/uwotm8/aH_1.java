@@ -52,11 +52,11 @@ public final class aH_1
 //                final Iterator iterator = aH_1.h.iterator();
 //                while (iterator.hasNext()) {
 //                    final int[] array;
-//                    if ((array = iterator.next()) != null) {
+//                    if ((array = (int[]) iterator.next()) != null) {
 //                        final int n = aH_1.f - ++array[2];
 //                        final String format = NumberFormat.getIntegerInstance().format(array[1]);
 //                        final int n2 = aH_1.e - 16 - Client.e().ah.a(format) / 2;
-//                        Client.e().w[aH_1].d(n2, n);
+//                        //Client.e().w[aH_1].d(n2, n);
 //                        Client.e().ah.a(format, n2 + 26, n + 16, 16777215, 0);
 //                        if (n >= 10) {
 //                            continue;
@@ -76,7 +76,7 @@ public final class aH_1
                       String var3 = NumberFormat.getIntegerInstance().format((long)var1[1]);
                       int var4 = e - 16 - Client.e().ah.a(var3) / 2;
                       int var10001 = d[var1[0]];
-                      Client.e().w[var10001].d(var4, var2);
+                      Client.e().w[var10001].drawSprite(var4, var2);
                       Client.e().ah.a(var3, var4 + 26, var2 + 16, 16777215, 0);
                       if (var2 < 10) {
                          var0.remove();
@@ -85,10 +85,10 @@ public final class aH_1
                 }
              }
             if (aH_1.b == 0 || (aH_1.b > 0 && aH_1.g > 0)) {
-                Rasterizer2D.a(5919301, 4, 120, 30, 230, aH_1.e - 60);
+                Rasterizer2D.fillRectangle(5919301, 4, 120, 30, 230, aH_1.e - 60);
                 final String format2 = NumberFormat.getIntegerInstance().format(Client.e().j());
                 final int a = Client.e().ag.a(format2);
-                Client.t.a(1).d(aH_1.e - 60, 4);
+                Client.t.a(1).drawSprite(aH_1.e - 60, 4);
                 Client.e().ag.a(format2, aH_1.e + 58 - a, 24, 16777215, 0);
                 if (aH_1.b > 0 && aH_1.h.size() <= 0) {
                     --aH_1.g;
@@ -103,7 +103,7 @@ public final class aH_1
     public static void a(final int n, final int n2) {
     	if (n < 23) {
             try {
-               if (!SkillsConstants.b[n]) {
+               if (!SkillsConstants.SKILL_TOGGLES[n]) {
                   return;
                }
 

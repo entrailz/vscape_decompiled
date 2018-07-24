@@ -11,9 +11,9 @@ public final class LinkedList
         this.a.aG = this.a;
     }
     
-    public final void a(final Node k) {
+    public final void insertBack(final Node k) {
         if (k.aG != null) {
-            k.D();
+            k.unlink();
         }
         k.aG = this.a.aG;
         k.aF = this.a;
@@ -21,9 +21,9 @@ public final class LinkedList
         k.aF.aG = k;
     }
     
-    public final void b(final Node k) {
+    public final void insertFront(final Node k) {
         if (k.aG != null) {
-            k.D();
+            k.unlink();
         }
         k.aG = this.a;
         k.aF = this.a.aF;
@@ -31,16 +31,16 @@ public final class LinkedList
         k.aF.aG = k;
     }
     
-    public final Node a() {
+    public final Node popTail() {
         final Node af;
         if ((af = this.a.aF) == this.a) {
             return null;
         }
-        af.D();
+        af.unlink();
         return af;
     }
     
-    public final Node b() {
+    public final Node getBack() {
         final Node af;
         if ((af = this.a.aF) == this.a) {
             return this.b = null;
@@ -49,7 +49,7 @@ public final class LinkedList
         return af;
     }
     
-    public final Node c() {
+    public final Node getFront() {
         final Node ag;
         if ((ag = this.a.aG) == this.a) {
             return this.b = null;
@@ -58,7 +58,7 @@ public final class LinkedList
         return ag;
     }
     
-    public final Node d() {
+    public final Node getPrevious() {
         final Node b;
         if ((b = this.b) == this.a) {
             return this.b = null;
@@ -67,7 +67,7 @@ public final class LinkedList
         return b;
     }
     
-    public final Node e() {
+    public final Node getNext() {
         final Node b;
         if ((b = this.b) == this.a) {
             return this.b = null;
@@ -76,13 +76,13 @@ public final class LinkedList
         return b;
     }
     
-    public final void f() {
+    public final void clear() {
         if (this.a.aF == this.a) {
             return;
         }
         Node af;
         while ((af = this.a.aF) != this.a) {
-            af.D();
+            af.unlink();
         }
     }
 }

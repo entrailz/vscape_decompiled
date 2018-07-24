@@ -93,13 +93,13 @@ public final class m
          an = g3;
          ao = g4;
          Buffer var15;
-         a = new m[(var15 = new Buffer(g.b("interface.idx"))).g()][];
+         a = new m[(var15 = new Buffer(g.getEntry("interface.idx"))).g()][];
 
          for(int var16 = 0; var16 < a.length; ++var16) {
             int var17 = var15.g();
             byte[] var5;
             int var18;
-            if ((var18 = var15.g()) > 0 && (var5 = uwotm8.H_1.a(c.a(var17))) != null) {
+            if ((var18 = var15.g()) > 0 && (var5 = uwotm8.H_1.a(c.decompress(var17))) != null) {
                int var6 = 0;
                int[] var7 = new int[var18];
 
@@ -395,15 +395,15 @@ public final class m
     }
     
     private static Sprite a(final int n, final Archive g, final String s) {
-        final long n2 = (uwotm8.StringUtils.b(s) << 8) + n;
+        final long n2 = (uwotm8.StringUtils.hashSpriteName(s) << 8) + n;
         final Sprite n3;
-        if ((n3 = (Sprite)uwotm8.m.ap.a(n2)) != null) {
+        if ((n3 = (Sprite)uwotm8.m.ap.get(n2)) != null) {
             return n3;
         }
         Sprite n4;
         try {
             n4 = new Sprite(g, s, n);
-            uwotm8.m.ap.a((CacheableNode)n4, n2);
+            uwotm8.m.ap.put((CacheableNode)n4, n2);
         }
         catch (Exception ex) {
             return null;
@@ -415,9 +415,9 @@ public final class m
         if (b) {
             return;
         }
-        uwotm8.m.aq.a();
+        uwotm8.m.aq.removeAll();
         if (d != null) {
-        	uwotm8.m.aq.a((CacheableNode)d, 327680L);
+        	uwotm8.m.aq.put((CacheableNode)d, 327680L);
         }
     }
     
@@ -448,24 +448,24 @@ public final class m
         }
         else {
             Model d2;
-            if ((d2 = (Model)uwotm8.m.aq.a((long)((n7 << 16) + n6))) == null) {
+            if ((d2 = (Model)uwotm8.m.aq.get((long)((n7 << 16) + n6))) == null) {
                 if (n7 == 1) {
                     d2 = uwotm8.Model.a(n6);
                 }
                 if (n7 == 2) {
-                    d2 = uwotm8.ActorDefinition.a(n6).a();
+                    d2 = uwotm8.ActorDefinition.lookup(n6).model();
                 }
                 if (n7 == 3) {
-                    d2 = Client.L.e();
+                    d2 = Client.L.getHeadModel();
                 }
                 if (n7 == 4) {
-                    d2 = uwotm8.ItemDefinition.c(n6).e(50);
+                    d2 = uwotm8.ItemDefinition.c(n6).asStack(50);
                 }
                 if (n7 == 5) {
                     d2 = null;
                 }
                 if (d2 != null) {
-                    uwotm8.m.aq.a((CacheableNode)d2, (long)((n7 << 16) + n6));
+                    uwotm8.m.aq.put((CacheableNode)d2, (long)((n7 << 16) + n6));
                 }
             }
             d = (Model)(n8 = (CacheableNode)d2);
@@ -477,7 +477,7 @@ public final class m
         if (n2 == -1 && n == -1 && d3.k == null) {
             return d3;
         }
-        final Model d4 = new Model(true, uwotm8.Frame.b(n2) & uwotm8.Frame.b(n), false, d3);
+        final Model d4 = new Model(true, uwotm8.Frame.isValid(n2) & uwotm8.Frame.isValid(n), false, d3);
         if (n2 != -1 || n != -1) {
             d4.d();
         }

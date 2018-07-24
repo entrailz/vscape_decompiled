@@ -12,7 +12,7 @@ public final class ChatMessageCodec
         c = new char[] { ' ', 'e', 't', 'a', 'o', 'i', 'h', 'n', 's', 'r', 'd', 'l', 'u', 'm', 'w', 'c', 'y', 'f', 'g', 'p', 'b', 'v', 'k', 'x', 'j', 'q', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '!', '?', '.', ',', ':', ';', '(', ')', '-', '&', '*', '\\', '\'', '@', '#', '+', '=', '$', '%', '\"', '[', ']', '_', '<', '>', '^', '/', '{', '|', '}', '~', '`', '£', '\u20ac', '\u00e1', '\u00e9', '\u00fa', '\u00ed', '\u00f3' };
     }
     
-    public static String a(int n, final Buffer i) {
+    public static String decode(int n, final Buffer i) {
         int n2 = 0;
         for (int j = 0; j < n; ++j) {
             ChatMessageCodec.a[n2++] = ChatMessageCodec.c[i.e()];
@@ -33,7 +33,7 @@ public final class ChatMessageCodec
         return new String(ChatMessageCodec.a, 0, n2);
     }
     
-    public static void a(String s, final Buffer i) {
+    public static void encode(String s, final Buffer i) {
         if (s.length() > 80) {
             s = s.substring(0, 80);
         }
@@ -51,12 +51,12 @@ public final class ChatMessageCodec
         }
     }
     
-    public static String a(String a) {
+    public static String verify(String a) {
         ChatMessageCodec.b.b = 0;
-        a(a, ChatMessageCodec.b);
+        encode(a, ChatMessageCodec.b);
         final int b = ChatMessageCodec.b.b;
         ChatMessageCodec.b.b = 0;
-        return a = a(b, ChatMessageCodec.b);
+        return a = decode(b, ChatMessageCodec.b);
     }
     
     public static boolean a(final char c) {

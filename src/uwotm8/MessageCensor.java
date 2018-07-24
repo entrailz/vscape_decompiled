@@ -14,10 +14,10 @@ public final class MessageCensor
     }
     
     public static void a(final Archive g) {
-        final Buffer i = new Buffer(g.b("fragmentsenc.txt"));
-        final Buffer j = new Buffer(g.b("badenc.txt"));
-        final Buffer k = new Buffer(g.b("domainenc.txt"));
-        final Buffer l = new Buffer(g.b("tldlist.txt"));
+        final Buffer i = new Buffer(g.getEntry("fragmentsenc.txt"));
+        final Buffer j = new Buffer(g.getEntry("badenc.txt"));
+        final Buffer k = new Buffer(g.getEntry("domainenc.txt"));
+        final Buffer l = new Buffer(g.getEntry("tldlist.txt"));
         final Buffer m = i;
         final Buffer i2 = j;
         final Buffer i3 = k;

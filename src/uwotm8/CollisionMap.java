@@ -14,10 +14,10 @@ public final class CollisionMap
         this.d = 104;
         this.e = 104;
         this.a = new int[104][104];
-        this.a();
+        this.init();
     }
     
-    public final void a() {
+    public final void init() {
         for (int i = 0; i < 104; ++i) {
             for (int j = 0; j < 104; ++j) {
                 if (i == 0 || j == 0 || i == 103 || j == 103) {
@@ -30,130 +30,130 @@ public final class CollisionMap
         }
     }
     
-    public final void a(int n, final int n2, int n3, final int n4, final boolean b) {
+    public final void flagObject(int n, final int n2, int n3, final int n4, final boolean b) {
         n3 = n3;
         n = n;
         if (n4 == 0) {
             if (n2 == 0) {
-                this.a(n3, n, 128);
-                this.a(n3 - 1, n, 8);
+                this.flag(n3, n, 128);
+                this.flag(n3 - 1, n, 8);
             }
             if (n2 == 1) {
-                this.a(n3, n, 2);
-                this.a(n3, n + 1, 32);
+                this.flag(n3, n, 2);
+                this.flag(n3, n + 1, 32);
             }
             if (n2 == 2) {
-                this.a(n3, n, 8);
-                this.a(n3 + 1, n, 128);
+                this.flag(n3, n, 8);
+                this.flag(n3 + 1, n, 128);
             }
             if (n2 == 3) {
-                this.a(n3, n, 32);
-                this.a(n3, n - 1, 2);
+                this.flag(n3, n, 32);
+                this.flag(n3, n - 1, 2);
             }
         }
         if (n4 == 1 || n4 == 3) {
             if (n2 == 0) {
-                this.a(n3, n, 1);
-                this.a(n3 - 1, n + 1, 16);
+                this.flag(n3, n, 1);
+                this.flag(n3 - 1, n + 1, 16);
             }
             if (n2 == 1) {
-                this.a(n3, n, 4);
-                this.a(n3 + 1, n + 1, 64);
+                this.flag(n3, n, 4);
+                this.flag(n3 + 1, n + 1, 64);
             }
             if (n2 == 2) {
-                this.a(n3, n, 16);
-                this.a(n3 + 1, n - 1, 1);
+                this.flag(n3, n, 16);
+                this.flag(n3 + 1, n - 1, 1);
             }
             if (n2 == 3) {
-                this.a(n3, n, 64);
-                this.a(n3 - 1, n - 1, 4);
+                this.flag(n3, n, 64);
+                this.flag(n3 - 1, n - 1, 4);
             }
         }
         if (n4 == 2) {
             if (n2 == 0) {
-                this.a(n3, n, 130);
-                this.a(n3 - 1, n, 8);
-                this.a(n3, n + 1, 32);
+                this.flag(n3, n, 130);
+                this.flag(n3 - 1, n, 8);
+                this.flag(n3, n + 1, 32);
             }
             if (n2 == 1) {
-                this.a(n3, n, 10);
-                this.a(n3, n + 1, 32);
-                this.a(n3 + 1, n, 128);
+                this.flag(n3, n, 10);
+                this.flag(n3, n + 1, 32);
+                this.flag(n3 + 1, n, 128);
             }
             if (n2 == 2) {
-                this.a(n3, n, 40);
-                this.a(n3 + 1, n, 128);
-                this.a(n3, n - 1, 2);
+                this.flag(n3, n, 40);
+                this.flag(n3 + 1, n, 128);
+                this.flag(n3, n - 1, 2);
             }
             if (n2 == 3) {
-                this.a(n3, n, 160);
-                this.a(n3, n - 1, 2);
-                this.a(n3 - 1, n, 8);
+                this.flag(n3, n, 160);
+                this.flag(n3, n - 1, 2);
+                this.flag(n3 - 1, n, 8);
             }
         }
         if (b) {
             if (n4 == 0) {
                 if (n2 == 0) {
-                    this.a(n3, n, 65536);
-                    this.a(n3 - 1, n, 4096);
+                    this.flag(n3, n, 65536);
+                    this.flag(n3 - 1, n, 4096);
                 }
                 if (n2 == 1) {
-                    this.a(n3, n, 1024);
-                    this.a(n3, n + 1, 16384);
+                    this.flag(n3, n, 1024);
+                    this.flag(n3, n + 1, 16384);
                 }
                 if (n2 == 2) {
-                    this.a(n3, n, 4096);
-                    this.a(n3 + 1, n, 65536);
+                    this.flag(n3, n, 4096);
+                    this.flag(n3 + 1, n, 65536);
                 }
                 if (n2 == 3) {
-                    this.a(n3, n, 16384);
-                    this.a(n3, n - 1, 1024);
+                    this.flag(n3, n, 16384);
+                    this.flag(n3, n - 1, 1024);
                 }
             }
             if (n4 == 1 || n4 == 3) {
                 if (n2 == 0) {
-                    this.a(n3, n, 512);
-                    this.a(n3 - 1, n + 1, 8192);
+                    this.flag(n3, n, 512);
+                    this.flag(n3 - 1, n + 1, 8192);
                 }
                 if (n2 == 1) {
-                    this.a(n3, n, 2048);
-                    this.a(n3 + 1, n + 1, 32768);
+                    this.flag(n3, n, 2048);
+                    this.flag(n3 + 1, n + 1, 32768);
                 }
                 if (n2 == 2) {
-                    this.a(n3, n, 8192);
-                    this.a(n3 + 1, n - 1, 512);
+                    this.flag(n3, n, 8192);
+                    this.flag(n3 + 1, n - 1, 512);
                 }
                 if (n2 == 3) {
-                    this.a(n3, n, 32768);
-                    this.a(n3 - 1, n - 1, 2048);
+                    this.flag(n3, n, 32768);
+                    this.flag(n3 - 1, n - 1, 2048);
                 }
             }
             if (n4 == 2) {
                 if (n2 == 0) {
-                    this.a(n3, n, 66560);
-                    this.a(n3 - 1, n, 4096);
-                    this.a(n3, n + 1, 16384);
+                    this.flag(n3, n, 66560);
+                    this.flag(n3 - 1, n, 4096);
+                    this.flag(n3, n + 1, 16384);
                 }
                 if (n2 == 1) {
-                    this.a(n3, n, 5120);
-                    this.a(n3, n + 1, 16384);
-                    this.a(n3 + 1, n, 65536);
+                    this.flag(n3, n, 5120);
+                    this.flag(n3, n + 1, 16384);
+                    this.flag(n3 + 1, n, 65536);
                 }
                 if (n2 == 2) {
-                    this.a(n3, n, 20480);
-                    this.a(n3 + 1, n, 65536);
-                    this.a(n3, n - 1, 1024);
+                    this.flag(n3, n, 20480);
+                    this.flag(n3 + 1, n, 65536);
+                    this.flag(n3, n - 1, 1024);
                 }
                 if (n2 == 3) {
-                    this.a(n3, n, 81920);
-                    this.a(n3, n - 1, 1024);
-                    this.a(n3 - 1, n, 4096);
+                    this.flag(n3, n, 81920);
+                    this.flag(n3, n - 1, 1024);
+                    this.flag(n3 - 1, n, 4096);
                 }
             }
         }
     }
     
-    public final void a(final boolean b, int n, int n2, int n3, int n4, int i) {
+    public final void flagObject(final boolean b, int n, int n2, int n3, int n4, int i) {
         int n5 = 256;
         if (b) {
             n5 = 131328;
@@ -169,14 +169,14 @@ public final class CollisionMap
             if (j >= 0 && j < 104) {
                 for (i = n4; i < n4 + n2; ++i) {
                     if (i >= 0 && i < 104) {
-                        this.a(j, i, n5);
+                        this.flag(j, i, n5);
                     }
                 }
             }
         }
     }
     
-    public final void a(int n, int n2) {
+    public final void block(int n, int n2) {
         n2 = n2;
         n = n;
         final int[] array = this.a[n2];
@@ -184,135 +184,135 @@ public final class CollisionMap
         array[n3] |= 0x200000;
     }
     
-    private void a(final int n, final int n2, final int n3) {
+    private void flag(final int n, final int n2, final int n3) {
         final int[] array = this.a[n];
         array[n2] |= n3;
     }
     
-    public final void a(final int n, final int n2, final boolean b, int n3, int n4) {
+    public final void removeObject(final int n, final int n2, final boolean b, int n3, int n4) {
         n3 = n3;
         n4 = n4;
         if (n2 == 0) {
             if (n == 0) {
-                this.b(128, n3, n4);
-                this.b(8, n3 - 1, n4);
+                this.removeFlag(128, n3, n4);
+                this.removeFlag(8, n3 - 1, n4);
             }
             if (n == 1) {
-                this.b(2, n3, n4);
-                this.b(32, n3, n4 + 1);
+                this.removeFlag(2, n3, n4);
+                this.removeFlag(32, n3, n4 + 1);
             }
             if (n == 2) {
-                this.b(8, n3, n4);
-                this.b(128, n3 + 1, n4);
+                this.removeFlag(8, n3, n4);
+                this.removeFlag(128, n3 + 1, n4);
             }
             if (n == 3) {
-                this.b(32, n3, n4);
-                this.b(2, n3, n4 - 1);
+                this.removeFlag(32, n3, n4);
+                this.removeFlag(2, n3, n4 - 1);
             }
         }
         if (n2 == 1 || n2 == 3) {
             if (n == 0) {
-                this.b(1, n3, n4);
-                this.b(16, n3 - 1, n4 + 1);
+                this.removeFlag(1, n3, n4);
+                this.removeFlag(16, n3 - 1, n4 + 1);
             }
             if (n == 1) {
-                this.b(4, n3, n4);
-                this.b(64, n3 + 1, n4 + 1);
+                this.removeFlag(4, n3, n4);
+                this.removeFlag(64, n3 + 1, n4 + 1);
             }
             if (n == 2) {
-                this.b(16, n3, n4);
-                this.b(1, n3 + 1, n4 - 1);
+                this.removeFlag(16, n3, n4);
+                this.removeFlag(1, n3 + 1, n4 - 1);
             }
             if (n == 3) {
-                this.b(64, n3, n4);
-                this.b(4, n3 - 1, n4 - 1);
+                this.removeFlag(64, n3, n4);
+                this.removeFlag(4, n3 - 1, n4 - 1);
             }
         }
         if (n2 == 2) {
             if (n == 0) {
-                this.b(130, n3, n4);
-                this.b(8, n3 - 1, n4);
-                this.b(32, n3, n4 + 1);
+                this.removeFlag(130, n3, n4);
+                this.removeFlag(8, n3 - 1, n4);
+                this.removeFlag(32, n3, n4 + 1);
             }
             if (n == 1) {
-                this.b(10, n3, n4);
-                this.b(32, n3, n4 + 1);
-                this.b(128, n3 + 1, n4);
+                this.removeFlag(10, n3, n4);
+                this.removeFlag(32, n3, n4 + 1);
+                this.removeFlag(128, n3 + 1, n4);
             }
             if (n == 2) {
-                this.b(40, n3, n4);
-                this.b(128, n3 + 1, n4);
-                this.b(2, n3, n4 - 1);
+                this.removeFlag(40, n3, n4);
+                this.removeFlag(128, n3 + 1, n4);
+                this.removeFlag(2, n3, n4 - 1);
             }
             if (n == 3) {
-                this.b(160, n3, n4);
-                this.b(2, n3, n4 - 1);
-                this.b(8, n3 - 1, n4);
+                this.removeFlag(160, n3, n4);
+                this.removeFlag(2, n3, n4 - 1);
+                this.removeFlag(8, n3 - 1, n4);
             }
         }
         if (b) {
             if (n2 == 0) {
                 if (n == 0) {
-                    this.b(65536, n3, n4);
-                    this.b(4096, n3 - 1, n4);
+                    this.removeFlag(65536, n3, n4);
+                    this.removeFlag(4096, n3 - 1, n4);
                 }
                 if (n == 1) {
-                    this.b(1024, n3, n4);
-                    this.b(16384, n3, n4 + 1);
+                    this.removeFlag(1024, n3, n4);
+                    this.removeFlag(16384, n3, n4 + 1);
                 }
                 if (n == 2) {
-                    this.b(4096, n3, n4);
-                    this.b(65536, n3 + 1, n4);
+                    this.removeFlag(4096, n3, n4);
+                    this.removeFlag(65536, n3 + 1, n4);
                 }
                 if (n == 3) {
-                    this.b(16384, n3, n4);
-                    this.b(1024, n3, n4 - 1);
+                    this.removeFlag(16384, n3, n4);
+                    this.removeFlag(1024, n3, n4 - 1);
                 }
             }
             if (n2 == 1 || n2 == 3) {
                 if (n == 0) {
-                    this.b(512, n3, n4);
-                    this.b(8192, n3 - 1, n4 + 1);
+                    this.removeFlag(512, n3, n4);
+                    this.removeFlag(8192, n3 - 1, n4 + 1);
                 }
                 if (n == 1) {
-                    this.b(2048, n3, n4);
-                    this.b(32768, n3 + 1, n4 + 1);
+                    this.removeFlag(2048, n3, n4);
+                    this.removeFlag(32768, n3 + 1, n4 + 1);
                 }
                 if (n == 2) {
-                    this.b(8192, n3, n4);
-                    this.b(512, n3 + 1, n4 - 1);
+                    this.removeFlag(8192, n3, n4);
+                    this.removeFlag(512, n3 + 1, n4 - 1);
                 }
                 if (n == 3) {
-                    this.b(32768, n3, n4);
-                    this.b(2048, n3 - 1, n4 - 1);
+                    this.removeFlag(32768, n3, n4);
+                    this.removeFlag(2048, n3 - 1, n4 - 1);
                 }
             }
             if (n2 == 2) {
                 if (n == 0) {
-                    this.b(66560, n3, n4);
-                    this.b(4096, n3 - 1, n4);
-                    this.b(16384, n3, n4 + 1);
+                    this.removeFlag(66560, n3, n4);
+                    this.removeFlag(4096, n3 - 1, n4);
+                    this.removeFlag(16384, n3, n4 + 1);
                 }
                 if (n == 1) {
-                    this.b(5120, n3, n4);
-                    this.b(16384, n3, n4 + 1);
-                    this.b(65536, n3 + 1, n4);
+                    this.removeFlag(5120, n3, n4);
+                    this.removeFlag(16384, n3, n4 + 1);
+                    this.removeFlag(65536, n3 + 1, n4);
                 }
                 if (n == 2) {
-                    this.b(20480, n3, n4);
-                    this.b(65536, n3 + 1, n4);
-                    this.b(1024, n3, n4 - 1);
+                    this.removeFlag(20480, n3, n4);
+                    this.removeFlag(65536, n3 + 1, n4);
+                    this.removeFlag(1024, n3, n4 - 1);
                 }
                 if (n == 3) {
-                    this.b(81920, n3, n4);
-                    this.b(1024, n3, n4 - 1);
-                    this.b(4096, n3 - 1, n4);
+                    this.removeFlag(81920, n3, n4);
+                    this.removeFlag(1024, n3, n4 - 1);
+                    this.removeFlag(4096, n3 - 1, n4);
                 }
             }
         }
     }
     
-    public final void a(int i, int n, int n2, int n3, int n4, final boolean b) {
+    public final void removeObject(int i, int n, int n2, int n3, int n4, final boolean b) {
         int n5 = 256;
         if (b) {
             n5 = 131328;
@@ -329,14 +329,14 @@ public final class CollisionMap
             if (i >= 0 && i < 104) {
                 for (j = n3; j < n3 + n4; ++j) {
                     if (j >= 0 && j < 104) {
-                        this.b(n5, i, j);
+                        this.removeFlag(n5, i, j);
                     }
                 }
             }
         }
     }
     
-    private void b(final int n, final int n2, final int n3) {
+    private void removeFlag(final int n, final int n2, final int n3) {
         final int[] array = this.a[n2];
         array[n3] &= 16777215 - n;
     }

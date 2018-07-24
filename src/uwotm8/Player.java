@@ -37,12 +37,12 @@ public final class Player extends Actor
         uwotm8.Player.aj = new Cache(260);
     }
     
-    public final Model a() {
+    public final Model getRotatedModel() {
         if (!this.aq) {
             return null;
         }
         Model d;
-        if ((d = this.d()) == null) {
+        if ((d = this.getAnimatedModel()) == null) {
             return null;
         }
         super.h = d.aD;
@@ -53,11 +53,11 @@ public final class Player extends Actor
         if (super.s != -1 && super.t != -1) {
             final SpotAnimation g;
             final Model a;
-            if ((a = (g = uwotm8.SpotAnimation.a[super.s]).a()) == null) {
+            if ((a = (g = uwotm8.SpotAnimation.a[super.s]).getModel()) == null) {
                 return null;
             }
             final Model d2;
-            (d2 = new Model(true, uwotm8.Frame.b(super.t), false, a)).a(0, -super.w, 0);
+            (d2 = new Model(true, uwotm8.Frame.isValid(super.t), false, a)).a(0, -super.w, 0);
             d2.d();
             d2.c(g.b.c[super.t]);
             d2.v = null;
@@ -107,7 +107,7 @@ public final class Player extends Actor
         return d;
     }
     
-    public final void a(final Buffer i) {
+    public final void updatePlayer(final Buffer i) {
         i.b = 0;
         this.aK = i.e();
         this.al = i.e();
@@ -122,7 +122,7 @@ public final class Player extends Actor
             else {
                 this.av[j] = (e << 8) + i.e();
                 if (j == 0 && this.av[0] == 65535) {
-                    this.ae = uwotm8.ActorDefinition.a(i.g());
+                    this.ae = uwotm8.ActorDefinition.lookup(i.g());
                     break;
                 }
                 final int w;
@@ -166,7 +166,7 @@ public final class Player extends Actor
         if (super.f == 65535) {
             super.f = -1;
         }
-        this.ai = uwotm8.StringUtils.c(uwotm8.StringUtils.a(i.k()));
+        this.ai = uwotm8.StringUtils.format(uwotm8.StringUtils.decodeBase37(i.k()));
         this.ak = i.e();
         this.aA = i.g();
         this.aB = (i.e() == 1);
@@ -201,7 +201,7 @@ public final class Player extends Actor
         this.aL += this.aK;
     }
     
-    public final Model d() {
+    public final Model getAnimatedModel() {
         if (this.ae != null) {
             int n = -1;
             if (super.y >= 0 && super.B == 0) {
@@ -210,7 +210,7 @@ public final class Player extends Actor
             else if (super.p >= 0) {
                 n = uwotm8.Animation.a[super.p].c[super.q];
             }
-            return this.ae.a(-1, n, null);
+            return this.ae.getAnimatedModel(-1, n, null);
         }
         long al = this.aL;
         int n2 = -1;
@@ -236,7 +236,7 @@ public final class Player extends Actor
             n2 = uwotm8.Animation.a[super.p].c[super.q];
         }
         Model d2;
-        if ((d2 = (Model)uwotm8.Player.aj.a(al)) == null) {
+        if ((d2 = (Model)uwotm8.Player.aj.get(al)) == null) {
             boolean b = false;
             for (int k = 0; k < 12; ++k) {
                 int n4 = this.av[k];
@@ -246,7 +246,7 @@ public final class Player extends Actor
                 if (i >= 0 && k == 5) {
                     n4 = i;
                 }
-                if (n4 >= 256 && n4 < 512 && !uwotm8.IdentityKit.b[n4 - 256].a()) {
+                if (n4 >= 256 && n4 < 512 && !uwotm8.IdentityKit.b[n4 - 256].bodyLoaded()) {
                     b = true;
                 }
                 if (n4 >= 512 && !uwotm8.ItemDefinition.c(n4 - 512).a(this.aK)) {
@@ -255,7 +255,7 @@ public final class Player extends Actor
             }
             if (b) {
                 if (this.aJ != -1L) {
-                    d2 = (Model)uwotm8.Player.aj.a(this.aJ);
+                    d2 = (Model)uwotm8.Player.aj.get(this.aJ);
                 }
                 if (d2 == null) {
                     return null;
@@ -274,7 +274,7 @@ public final class Player extends Actor
                     n6 = i;
                 }
                 final Model b2;
-                if (n6 >= 256 && n6 < 512 && (b2 = uwotm8.IdentityKit.b[n6 - 256].b()) != null) {
+                if (n6 >= 256 && n6 < 512 && (b2 = uwotm8.IdentityKit.b[n6 - 256].bodyModel()) != null) {
                     array[n5++] = b2;
                 }
                 final Model b3;
@@ -293,14 +293,14 @@ public final class Player extends Actor
             }
             d2.d();
             d2.a(84, 1000, -90, -580, -90, true);
-            uwotm8.Player.aj.a(d2, al);
+            uwotm8.Player.aj.put(d2, al);
             this.aJ = al;
         }
         if (this.af) {
             return d2;
         }
         final Model a;
-        (a = uwotm8.Model.a).a(d2, uwotm8.Frame.b(n2) & uwotm8.Frame.b(n3));
+        (a = uwotm8.Model.a).a(d2, uwotm8.Frame.isValid(n2) & uwotm8.Frame.isValid(n3));
         if (n2 != -1 && n3 != -1) {
             a.a(uwotm8.Animation.a[super.y].f, n3, n2);
         }
@@ -318,17 +318,17 @@ public final class Player extends Actor
         return this.aq;
     }
     
-    public final Model e() {
+    public final Model getHeadModel() {
         if (!this.aq) {
             return null;
         }
         if (this.ae != null) {
-            return this.ae.a();
+            return this.ae.model();
         }
         boolean b = false;
         for (int i = 0; i < 12; ++i) {
             final int n;
-            if ((n = this.av[i]) >= 256 && n < 512 && !uwotm8.IdentityKit.b[n - 256].c()) {
+            if ((n = this.av[i]) >= 256 && n < 512 && !uwotm8.IdentityKit.b[n - 256].loaded()) {
                 b = true;
             }
             if (n >= 512) {
@@ -368,7 +368,7 @@ public final class Player extends Actor
         for (int k = 0; k < 12; ++k) {
             final int n5;
             if ((n5 = this.av[k]) >= 256 && n5 < 512) {
-                array[n4++] = uwotm8.IdentityKit.b[n5 - 256].d();
+                array[n4++] = uwotm8.IdentityKit.b[n5 - 256].headModel();
             }
             if (n5 >= 512) {
                 final ItemDefinition c2 = uwotm8.ItemDefinition.c(n5 - 512);

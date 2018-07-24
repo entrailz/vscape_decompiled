@@ -40,7 +40,7 @@ public final class ActorDefinition {
    private int[] J;
    public static Cache t = new Cache(30);
 
-   public static ActorDefinition a(int var0) {
+   public static ActorDefinition lookup(int var0) {
       for(int var1 = 0; var1 < 20; ++var1) {
          if (D[var1].l == (long)var0) {
             return D[var1];
@@ -259,10 +259,10 @@ public final class ActorDefinition {
       }
    }
 
-   public final Model a() {
+   public final Model model() {
       while(this.r != null) {
          ActorDefinition var1;
-         if ((var1 = this.b()) == null) {
+         if ((var1 = this.morph()) == null) {
             return null;
          }
 
@@ -308,7 +308,7 @@ public final class ActorDefinition {
       }
    }
 
-   public final ActorDefinition b() {
+   public final ActorDefinition morph() {
       int var1 = -1;
       if (this.v != -1) {
          VariableBits var4;
@@ -321,13 +321,13 @@ public final class ActorDefinition {
          var1 = n.A[this.w];
       }
 
-      return var1 >= 0 && var1 < this.r.length && this.r[var1] != -1 ? a(this.r[var1]) : null;
+      return var1 >= 0 && var1 < this.r.length && this.r[var1] != -1 ? lookup(this.r[var1]) : null;
    }
 
-   public static void a(Archive var0) {
-      x = new Buffer(var0.b("npc.dat"));
+   public static void init(Archive var0) {
+      x = new Buffer(var0.getEntry("npc.dat"));
       Buffer var3;
-      A = new int[a = (var3 = new Buffer(var0.b("npc.idx"))).g()];
+      A = new int[a = (var3 = new Buffer(var0.getEntry("npc.idx"))).g()];
       int var1 = 2;
 
       int var2;
@@ -343,32 +343,33 @@ public final class ActorDefinition {
       }
 
       for(var2 = 0; var2 < a; ++var2) {
-         a(var2);
+         lookup(var2);
       }
 
    }
 
-   public static void c() {
+   public static void reset() {
       t = null;
       A = null;
       D = null;
       x = null;
    }
 
-   public final Model a(int var1, int var2, int[] var3) {
+   public final Model getAnimatedModel(int var1, int var2, int[] var3) {
       while(this.r != null) {
          ActorDefinition var4;
-         if ((var4 = this.b()) == null) {
+         if ((var4 = this.morph()) == null) {
             return null;
          }
 
          var2 = var2;
          var1 = var1;
          //this = var4;
+         return var4.getAnimatedModel(var1, var2, var3);
       }
 
       Model var6;
-      if ((var6 = (Model)t.a(this.l)) == null) {
+      if ((var6 = (Model)t.get(this.l)) == null) {
          boolean var5 = false;
 
          for(int var7 = 0; var7 < this.J.length; ++var7) {
@@ -402,11 +403,11 @@ public final class ActorDefinition {
 
          var6.d();
          var6.a(64 + this.E, 850 + this.I, -30, -50, -30, true);
-         t.a(var6, this.l);
+         t.put(var6, this.l);
       }
 
       Model var10;
-      (var10 = uwotm8.Model.a).a(var6, uwotm8.Frame.b(var2) & uwotm8.Frame.b(var1));
+      (var10 = uwotm8.Model.a).a(var6, uwotm8.Frame.isValid(var2) & uwotm8.Frame.isValid(var1));
       if (var2 != -1 && var1 != -1) {
          var10.a(var3, var1, var2);
       } else if (var2 != -1) {

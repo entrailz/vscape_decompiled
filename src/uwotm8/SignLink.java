@@ -52,7 +52,7 @@ public final class SignLink implements Runnable
         SignLink.h = true;
     }
     
-    public static String a() {
+    public static String getLocalCacheDirectory() {
         if (new File(String.valueOf(System.getProperty("user.home")) + SignLink.j).exists()) {
             return String.valueOf(System.getProperty("user.home")) + SignLink.j;
         }
@@ -90,7 +90,7 @@ public final class SignLink implements Runnable
     public final void run() {
         SignLink.o = true;
         final String a;
-        c(a = a());
+        c(a = getLocalCacheDirectory());
         try {
             SignLink.b = new RandomAccessFile(String.valueOf(a) + "main_file_cache.dat", "rw");
             for (int i = 0; i < 6; ++i) {

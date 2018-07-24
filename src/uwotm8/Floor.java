@@ -13,9 +13,9 @@ public final class Floor
     public int e;
     private int j;
     
-    public static void a(final Archive g) {
+    public static void init(final Archive g) {
         final Buffer i;
-        final int g2 = (i = new Buffer(g.b("flo.dat"))).g();
+        final int g2 = (i = new Buffer(g.getEntry("flo.dat"))).g();
         if (Floor.a == null) {
         	Floor.a = new Floor[g2];
         }
@@ -31,7 +31,7 @@ public final class Floor
                 if (e == 1) {
                     x2.f = k.i();
                     final Floor x3 = x2;
-                    x3.a(x3.f);
+                    x3.blend(x3.f);
                 }
                 else if (e == 2) {
                     x2.g = k.e();
@@ -51,7 +51,7 @@ public final class Floor
                         final int b = x2.b;
                         final int c = x2.c;
                         final int d = x2.d;
-                        x2.a(k.i());
+                        x2.blend(k.i());
                         x2.i = l;
                         x2.b = b;
                         x2.c = c;
@@ -66,7 +66,7 @@ public final class Floor
         }
     }
     
-    private void a(int n) {
+    private void blend(int n) {
         final double n2 = (n >> 16 & 0xFF) / 256.0;
         final double n3 = (n >> 8 & 0xFF) / 256.0;
         final double n4 = (n & 0xFF) / 256.0;

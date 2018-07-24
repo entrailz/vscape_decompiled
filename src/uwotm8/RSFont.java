@@ -40,9 +40,9 @@ public final class RSFont extends Rasterizer2D {
    private static int S = 0;
 
    public RSFont(boolean var1, String var2, Archive var3) {
-      Buffer var11 = new Buffer(var3.b(var2 + ".dat"));
+      Buffer var11 = new Buffer(var3.getEntry(var2 + ".dat"));
       Buffer var12;
-      (var12 = new Buffer(var3.b("index.dat"))).b = var11.g() + 4;
+      (var12 = new Buffer(var3.getEntry("index.dat"))).b = var11.g() + 4;
       int var4;
       if ((var4 = var12.e()) > 0) {
          var12.b += 3 * (var4 - 1);
@@ -148,7 +148,7 @@ public final class RSFont extends Rasterizer2D {
                         try {
                            var12 = ((Sprite)null).e;
                            if (R == 256) {
-                            //  this.b(var2, var3 + this.a - var12);
+                             // this.b(var2, var3 + this.a - var12);
                            } else {
                              // this.c(var2, var3 + this.a - var12, R);
                            }
@@ -239,11 +239,11 @@ public final class RSFont extends Rasterizer2D {
 
                var12 = this.s[var6];
                if (L != -1) {
-                  uwotm8.s.a(var2, var3 + (int)((double)this.a * 0.7D), var12, L);
+                  uwotm8.s.drawHorizontal_(var2, var3 + (int)((double)this.a * 0.7D), var12, L);
                }
 
                if (O != -1) {
-                  uwotm8.s.a(var2, var3 + this.a, var12, O);
+                  uwotm8.s.drawHorizontal_(var2, var3 + this.a, var12, O);
                }
 
                var2 += var12;
@@ -493,42 +493,42 @@ public final class RSFont extends Rasterizer2D {
    }
 
    private void a(int var1, int var2, int var3, int var4, int var5, int var6, int var7) {
-      int var8 = var2 + var3 * uwotm8.Rasterizer2D.g;
-      int var9 = uwotm8.Rasterizer2D.g - var4;
+      int var8 = var2 + var3 * uwotm8.Rasterizer2D.width;
+      int var9 = uwotm8.Rasterizer2D.width - var4;
       int var10 = 0;
       int var11 = 0;
       int var12;
-      if (var3 < uwotm8.Rasterizer2D.i) {
-         var12 = uwotm8.Rasterizer2D.i - var3;
+      if (var3 < uwotm8.Rasterizer2D.clipBottom) {
+         var12 = uwotm8.Rasterizer2D.clipBottom - var3;
          var5 -= var12;
-         var3 = uwotm8.Rasterizer2D.i;
+         var3 = uwotm8.Rasterizer2D.clipBottom;
          var11 = 0 + var12 * var4;
-         var8 += var12 * uwotm8.Rasterizer2D.g;
+         var8 += var12 * uwotm8.Rasterizer2D.width;
       }
 
-      if (var3 + var5 > uwotm8.Rasterizer2D.j) {
-         var5 -= var3 + var5 - uwotm8.Rasterizer2D.j;
+      if (var3 + var5 > uwotm8.Rasterizer2D.clipTop) {
+         var5 -= var3 + var5 - uwotm8.Rasterizer2D.clipTop;
       }
 
-      if (var2 < uwotm8.Rasterizer2D.k) {
-         var12 = uwotm8.Rasterizer2D.k - var2;
+      if (var2 < uwotm8.Rasterizer2D.clipLeft) {
+         var12 = uwotm8.Rasterizer2D.clipLeft - var2;
          var4 -= var12;
-         var2 = uwotm8.Rasterizer2D.k;
+         var2 = uwotm8.Rasterizer2D.clipLeft;
          var11 += var12;
          var8 += var12;
          var10 = var12 + 0;
          var9 += var12;
       }
 
-      if (var2 + var4 > uwotm8.Rasterizer2D.l) {
-         var12 = var2 + var4 - uwotm8.Rasterizer2D.l;
+      if (var2 + var4 > uwotm8.Rasterizer2D.clipRight) {
+         var12 = var2 + var4 - uwotm8.Rasterizer2D.clipRight;
          var4 -= var12;
          var10 += var12;
          var9 += var12;
       }
 
       if (var4 > 0 && var5 > 0) {
-         a(uwotm8.Rasterizer2D.f, this.r[var1], var6, var11, var8, var4, var5, var9, var10, var7);
+         a(uwotm8.Rasterizer2D.pixels, this.r[var1], var6, var11, var8, var4, var5, var9, var10, var7);
       }
 
    }
@@ -580,47 +580,47 @@ public final class RSFont extends Rasterizer2D {
    }
 
    private void c(int var1, int var2, int var3, int var4, int var5, int var6) {
-      int var7 = var2 + var3 * uwotm8.Rasterizer2D.g;
-      int var8 = uwotm8.Rasterizer2D.g - var4;
+      int var7 = var2 + var3 * uwotm8.Rasterizer2D.width;
+      int var8 = uwotm8.Rasterizer2D.width - var4;
       int var9 = 0;
       int var10 = 0;
       int var11;
-      if (var3 < uwotm8.Rasterizer2D.i) {
-         var11 = uwotm8.Rasterizer2D.i - var3;
+      if (var3 < uwotm8.Rasterizer2D.clipBottom) {
+         var11 = uwotm8.Rasterizer2D.clipBottom - var3;
          var5 -= var11;
-         var3 = uwotm8.Rasterizer2D.i;
+         var3 = uwotm8.Rasterizer2D.clipBottom;
          var10 = 0 + var11 * var4;
-         var7 += var11 * uwotm8.Rasterizer2D.g;
+         var7 += var11 * uwotm8.Rasterizer2D.width;
       }
 
-      if (var3 + var5 > uwotm8.Rasterizer2D.j) {
-         var5 -= var3 + var5 - uwotm8.Rasterizer2D.j;
+      if (var3 + var5 > uwotm8.Rasterizer2D.clipTop) {
+         var5 -= var3 + var5 - uwotm8.Rasterizer2D.clipTop;
       }
 
-      if (var2 < uwotm8.Rasterizer2D.k) {
-         var11 = uwotm8.Rasterizer2D.k - var2;
+      if (var2 < uwotm8.Rasterizer2D.clipLeft) {
+         var11 = uwotm8.Rasterizer2D.clipLeft - var2;
          var4 -= var11;
-         var2 = uwotm8.Rasterizer2D.k;
+         var2 = uwotm8.Rasterizer2D.clipLeft;
          var10 += var11;
          var7 += var11;
          var9 = var11 + 0;
          var8 += var11;
       }
 
-      if (var2 + var4 > uwotm8.Rasterizer2D.l) {
-         var11 = var2 + var4 - uwotm8.Rasterizer2D.l;
+      if (var2 + var4 > uwotm8.Rasterizer2D.clipRight) {
+         var11 = var2 + var4 - uwotm8.Rasterizer2D.clipRight;
          var4 -= var11;
          var9 += var11;
          var8 += var11;
       }
 
       if (var4 > 0 && var5 > 0) {
-         a(uwotm8.Rasterizer2D.f, this.r[var1], var6, var10, var7, var4, var5, var8, var9);
+         a(uwotm8.Rasterizer2D.pixels, this.r[var1], var6, var10, var7, var4, var5, var8, var9);
       }
 
    }
 
-   public static String b(String var0) {
+   public static String rgb(String var0) {
       if (var0.equals("369")) {
          return "336699";
       } else if (var0.equals("mon")) {

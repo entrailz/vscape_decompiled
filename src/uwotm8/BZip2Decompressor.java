@@ -3,7 +3,7 @@ package uwotm8;
 public final class BZip2Decompressor {
    private static final BZip2DecompressionState a = new BZip2DecompressionState();
 
-   public static int a(byte[] var0, int var1, byte[] var2, int var3, int var4) {
+   public static int decompress(byte[] var0, int var1, byte[] var2, int var3, int var4) {
       BZip2DecompressionState var5 = a;
       synchronized(a) {
          a.a = var2;
@@ -31,34 +31,34 @@ public final class BZip2Decompressor {
 
          boolean var10000 = true;
 
-         while(var10000 && (byte)a(8, var18) != 23) {
-            byte var46 = (byte)a(8, var18);
-            var46 = (byte)a(8, var18);
-            var46 = (byte)a(8, var18);
-            var46 = (byte)a(8, var18);
-            var46 = (byte)a(8, var18);
+         while(var10000 && (byte)getBits(8, var18) != 23) {
+            byte var46 = (byte)getBits(8, var18);
+            var46 = (byte)getBits(8, var18);
+            var46 = (byte)getBits(8, var18);
+            var46 = (byte)getBits(8, var18);
+            var46 = (byte)getBits(8, var18);
             ++var18.q;
-            var46 = (byte)a(8, var18);
-            var46 = (byte)a(8, var18);
-            var46 = (byte)a(8, var18);
-            var46 = (byte)a(8, var18);
-            byte var20 = (byte)a(1, var18);
+            var46 = (byte)getBits(8, var18);
+            var46 = (byte)getBits(8, var18);
+            var46 = (byte)getBits(8, var18);
+            var46 = (byte)getBits(8, var18);
+            byte var20 = (byte)getBits(1, var18);
             var18.m = var20 != 0;
             if (var18.m) {
                System.out.println("PANIC! RANDOMISED BLOCK!");
             }
 
             var18.r = 0;
-            var20 = (byte)a(8, var18);
+            var20 = (byte)getBits(8, var18);
             var18.r = var18.r << 8 | var20 & 255;
-            var20 = (byte)a(8, var18);
+            var20 = (byte)getBits(8, var18);
             var18.r = var18.r << 8 | var20 & 255;
-            var20 = (byte)a(8, var18);
+            var20 = (byte)getBits(8, var18);
             var18.r = var18.r << 8 | var20 & 255;
 
             int var23;
             for(var23 = 0; var23 < 16; ++var23) {
-               byte var22 = (byte)a(1, var18);
+               byte var22 = (byte)getBits(1, var18);
                var18.A[var23] = var22 == 1;
             }
 
@@ -69,7 +69,7 @@ public final class BZip2Decompressor {
             for(var23 = 0; var23 < 16; ++var23) {
                if (var18.A[var23]) {
                   for(var3 = 0; var3 < 16; ++var3) {
-                     if ((byte)a(1, var18) == 1) {
+                     if ((byte)getBits(1, var18) == 1) {
                         var18.z[(var23 << 4) + var3] = true;
                      }
                   }
@@ -88,12 +88,12 @@ public final class BZip2Decompressor {
             }
 
             var23 = var18.y + 2;
-            var3 = a(3, var18);
-            var4 = a(15, var18);
+            var3 = getBits(3, var18);
+            var4 = getBits(15, var18);
 
             int var7;
             for(var27 = 0; var27 < var4; ++var27) {
-               for(var7 = 0; (byte)a(1, var18) != 0; ++var7) {
+               for(var7 = 0; (byte)getBits(1, var18) != 0; ++var7) {
                   ;
                }
 
@@ -123,11 +123,11 @@ public final class BZip2Decompressor {
             int var31;
             int var32;
             for(var7 = 0; var7 < var3; ++var7) {
-               var31 = a(5, var18);
+               var31 = getBits(5, var18);
 
                for(var32 = 0; var32 < var23; ++var32) {
-                  while((byte)a(1, var18) != 0) {
-                     if ((byte)a(1, var18) == 0) {
+                  while((byte)getBits(1, var18) != 0) {
+                     if ((byte)getBits(1, var18) == 0) {
                         ++var31;
                      } else {
                         --var31;
@@ -245,9 +245,9 @@ public final class BZip2Decompressor {
 
             int var40;
             byte var41;
-            for(var40 = a(var23, var18); var40 > var25[var11]; var40 = var40 << 1 | var41) {
+            for(var40 = getBits(var23, var18); var40 > var25[var11]; var40 = var40 << 1 | var41) {
                ++var11;
-               var41 = (byte)a(1, var18);
+               var41 = (byte)getBits(1, var18);
             }
 
             var11 = var30[var40 - var26[var11]];
@@ -323,9 +323,9 @@ public final class BZip2Decompressor {
                      --var32;
                      var14 = var23;
 
-                     for(var11 = a(var23, var18); var11 > var25[var14]; var11 = var11 << 1 | var45) {
+                     for(var11 = getBits(var23, var18); var11 > var25[var14]; var11 = var11 << 1 | var45) {
                         ++var14;
-                        var45 = (byte)a(1, var18);
+                        var45 = (byte)getBits(1, var18);
                      }
 
                      var11 = var30[var11 - var26[var14]];
@@ -354,9 +354,9 @@ public final class BZip2Decompressor {
                         --var32;
                         var14 = var23;
 
-                        for(var11 = a(var23, var18); var11 > var25[var14]; var11 = var11 << 1 | var45) {
+                        for(var11 = getBits(var23, var18); var11 > var25[var14]; var11 = var11 << 1 | var45) {
                            ++var14;
-                           var45 = (byte)a(1, var18);
+                           var45 = (byte)getBits(1, var18);
                         }
                      } while((var11 = var30[var11 - var26[var14]]) == 0 || var11 == 1);
 
@@ -529,7 +529,7 @@ public final class BZip2Decompressor {
       }
    }
 
-   private static int a(int var0, BZip2DecompressionState var1) {
+   private static int getBits(int var0, BZip2DecompressionState var1) {
       while(var1.o < var0) {
          var1.n = var1.n << 8 | var1.a[var1.b] & 255;
          var1.o += 8;

@@ -23,13 +23,13 @@ public final class AnimableObject extends Renderable
         this.f = false;
     }
     
-    public final Model a() {
+    public final Model getRotatedModel() {
         final Model a;
-        if ((a = this.g.a()) == null) {
+        if ((a = this.g.getModel()) == null) {
             return null;
         }
         final int n = this.g.b.c[this.h];
-        final Model d = new Model(true, uwotm8.Frame.b(n), false, a);
+        final Model d = new Model(true, uwotm8.Frame.isValid(n), false, a);
         if (!this.f) {
             d.d();
             d.c(n);
@@ -57,10 +57,10 @@ public final class AnimableObject extends Renderable
         return d;
     }
     
-    public final void a(final int n) {
+    public final void nextFrame(final int n) {
         this.i += n;
-        while (this.i > this.g.b.a(this.h)) {
-            this.i -= this.g.b.a(this.h) + 1;
+        while (this.i > this.g.b.duration(this.h)) {
+            this.i -= this.g.b.duration(this.h) + 1;
             ++this.h;
             if (this.h >= this.g.b.b && (this.h < 0 || this.h >= this.g.b.b)) {
                 this.h = 0;

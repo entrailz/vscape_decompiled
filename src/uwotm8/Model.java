@@ -46,8 +46,8 @@ public final class Model extends Renderable {
    public int[][] u;
    public int[][] v;
    public boolean w;
-   public F_1[] x;
-   private static E_1[] Z;
+   public VertexNormal[] x;
+   private static ModelHeader[] Z;
    private static byte[] aa;
    private static ag ab;
    private static boolean[] ac;
@@ -165,8 +165,8 @@ public final class Model extends Renderable {
          var12 = var172.g();
          var13 = var172.g();
          var14 = var172.e();
-         E_1 var174;
-         (var174 = Z[var1] = new E_1()).a = var2;
+         ModelHeader var174;
+         (var174 = Z[var1] = new ModelHeader()).a = var2;
          var174.b = var12;
          var174.c = var13;
          var174.d = var14;
@@ -185,8 +185,8 @@ public final class Model extends Renderable {
             int var98 = var91.g();
             int var99 = var91.g();
             int var100 = var91.e();
-            E_1 var101;
-            (var101 = Z[var1] = new E_1()).a = var2;
+            ModelHeader var101;
+            (var101 = Z[var1] = new ModelHeader()).a = var2;
             var101.b = var98;
             var101.c = var99;
             var101.d = var100;
@@ -960,7 +960,7 @@ public final class Model extends Renderable {
          var169 = this;
          this.I = true;
          this.w = false;
-         E_1 var5 = Z[var1];
+         ModelHeader var5 = Z[var1];
          this.b = var5.b;
          this.f = var5.c;
          this.T = var5.d;
@@ -1132,23 +1132,23 @@ public final class Model extends Renderable {
    }
 
    public static void a(int var0, ag var1) {
-      Z = new E_1[var0];
+      Z = new ModelHeader[var0];
       aa = new byte[var0];
       ab = var1;
    }
 
-   public static void a(byte[] var0, int var1) {
+   public static void load(byte[] var0, int var1) {
       try {
          if (var0 == null) {
-            E_1 var14;
-            (var14 = Z[var1] = new E_1()).b = 0;
+            ModelHeader var14;
+            (var14 = Z[var1] = new ModelHeader()).b = 0;
             var14.c = 0;
             var14.d = 0;
          } else {
             Buffer var2;
             (var2 = new Buffer(var0)).b = var0.length - 18;
-            E_1 var12;
-            (var12 = Z[var1] = new E_1()).a = var0;
+            ModelHeader var12;
+            (var12 = Z[var1] = new ModelHeader()).a = var0;
             var12.b = var2.g();
             var12.c = var2.g();
             var12.d = var2.e();
@@ -1220,7 +1220,7 @@ public final class Model extends Renderable {
    public static Model a(int var0) {
       if (Z != null && var0 != -1 && var0 < Z.length) {
          if (Z[var0] == null) {
-            ab.a(var0);
+            ab.provide(var0);
             return null;
          } else {
             return new Model(var0);
@@ -1234,7 +1234,7 @@ public final class Model extends Renderable {
       if (Z == null) {
          return false;
       } else if (Z[var0] == null) {
-         ab.a(var0);
+         ab.provide(var0);
          return false;
       } else {
          return true;
@@ -1613,11 +1613,11 @@ public final class Model extends Renderable {
             }
          }
 
-         super.aC = new F_1[this.b];
+         super.aC = new VertexNormal[this.b];
 
          for(var5 = 0; var5 < this.b; ++var5) {
-            F_1 var6 = super.aC[var5] = new F_1();
-            F_1 var4 = var3.aC[var5];
+            VertexNormal var6 = super.aC[var5] = new VertexNormal();
+            VertexNormal var4 = var3.aC[var5];
             var6.a = var4.a;
             var6.b = var4.b;
             var6.c = var4.c;
@@ -1875,7 +1875,7 @@ public final class Model extends Renderable {
       if (this.u != null) {
          if (var1 != -1) {
             Frame var5;
-            if ((var5 = uwotm8.Frame.a(var1)) != null) {
+            if ((var5 = uwotm8.Frame.lookup(var1)) != null) {
                FrameBase var2 = var5.a;
                au = 0;
                av = 0;
@@ -1895,9 +1895,9 @@ public final class Model extends Renderable {
       if (var3 != -1) {
          if (var1 != null && var2 != -1) {
             Frame var4;
-            if ((var4 = uwotm8.Frame.a(var3)) != null) {
+            if ((var4 = uwotm8.Frame.lookup(var3)) != null) {
                Frame var9;
-               if ((var9 = uwotm8.Frame.a(var2)) == null) {
+               if ((var9 = uwotm8.Frame.lookup(var2)) == null) {
                   this.c(var3);
                } else {
                   FrameBase var10 = var4.a;
@@ -2148,14 +2148,14 @@ public final class Model extends Renderable {
       }
 
       if (super.aC == null) {
-         super.aC = new F_1[this.b];
+         super.aC = new VertexNormal[this.b];
 
          for(var7 = 0; var7 < this.b; ++var7) {
-            super.aC[var7] = new F_1();
+            super.aC[var7] = new VertexNormal();
          }
       }
 
-      F_1 var18;
+      VertexNormal var18;
       for(var7 = 0; var7 < this.f; ++var7) {
          if (this.k != null && this.R != null && (this.k[var7] == 65535 || this.k[var7] == 16705)) {
             this.R[var7] = 255;
@@ -2189,7 +2189,7 @@ public final class Model extends Renderable {
             var8 = var1 + (var3 * var17 + var4 * var13 + var5 * var11) / (var2 + var2 / 2);
             this.N[var7] = c(this.k[var7], var8, this.j[var7]);
          } else {
-            F_1 var10000 = var18 = super.aC[var8];
+            VertexNormal var10000 = var18 = super.aC[var8];
             var10000.a += var17;
             var18.b += var13;
             var18.c += var11;
@@ -2210,12 +2210,12 @@ public final class Model extends Renderable {
       if (var6) {
          this.a(var1, var2, var3, var4, var5);
       } else {
-         this.x = new F_1[this.b];
+         this.x = new VertexNormal[this.b];
 
          for(var7 = 0; var7 < this.b; ++var7) {
             var18 = super.aC[var7];
-            F_1 var19;
-            (var19 = this.x[var7] = new F_1()).a = var18.a;
+            VertexNormal var19;
+            (var19 = this.x[var7] = new VertexNormal()).a = var18.a;
             var19.b = var18.b;
             var19.c = var18.c;
             var19.d = var18.d;
@@ -2238,7 +2238,7 @@ public final class Model extends Renderable {
          int var10;
          if (this.j == null) {
             var10 = this.k[var6];
-            F_1 var11 = super.aC[var7];
+            VertexNormal var11 = super.aC[var7];
             var7 = var1 + (var3 * var11.a + var4 * var11.b + var5 * var11.c) / (var2 * var11.d);
             this.N[var6] = c(var10, var7, 0);
             var11 = super.aC[var8];
@@ -2250,7 +2250,7 @@ public final class Model extends Renderable {
          } else if ((this.j[var6] & 1) == 0) {
             var10 = this.k[var6];
             int var13 = this.j[var6];
-            F_1 var12 = super.aC[var7];
+            VertexNormal var12 = super.aC[var7];
             var7 = var1 + (var3 * var12.a + var4 * var12.b + var5 * var12.c) / (var2 * var12.d);
             this.N[var6] = c(var10, var7, var13);
             var12 = super.aC[var8];
@@ -2349,7 +2349,7 @@ public final class Model extends Renderable {
       }
    }
 
-   public final void a(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9) {
+   public final void renderAtPoint(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9) {
       int var10 = var8 * var5 - var6 * var4 >> 16;
       int var11 = var7 * var2 + var10 * var3 >> 16;
       int var12 = this.p * var3 >> 16;
@@ -2357,9 +2357,9 @@ public final class Model extends Renderable {
       if ((var13 = var11 + var12) > 50 && var11 < 3500) {
          int var14;
          int var15;
-         if ((var15 = (var14 = var8 * var4 + var6 * var5 >> 16) - this.p << Client.l) / var13 < uwotm8.Rasterizer2D.n) {
+         if ((var15 = (var14 = var8 * var4 + var6 * var5 >> 16) - this.p << Client.l) / var13 < uwotm8.Rasterizer2D.centreX) {
             int var16;
-            if ((var16 = var14 + this.p << Client.l) / var13 > -uwotm8.Rasterizer2D.n) {
+            if ((var16 = var14 + this.p << Client.l) / var13 > -uwotm8.Rasterizer2D.centreX) {
                var10 = var7 * var3 - var10 * var2 >> 16;
                int var17 = this.p * var2 >> 16;
                int var18;
@@ -2674,9 +2674,9 @@ public final class Model extends Renderable {
          }
 
          if (var5 == 0) {
-            uwotm8.Rasterizer3D.a(af[var2], af[var3], af[var4], ae[var2], ae[var3], ae[var4], this.N[var1], this.O[var1], this.P[var1]);
+            uwotm8.Rasterizer3D.drawShadedTriangle(af[var2], af[var3], af[var4], ae[var2], ae[var3], ae[var4], this.N[var1], this.O[var1], this.P[var1]);
          } else if (var5 == 1) {
-            uwotm8.Rasterizer3D.a(af[var2], af[var3], af[var4], ae[var2], ae[var3], ae[var4], ax[this.N[var1]]);
+            uwotm8.Rasterizer3D.drawFlatTriangle(af[var2], af[var3], af[var4], ae[var2], ae[var3], ae[var4], ax[this.N[var1]]);
          } else {
             int var6;
             int var7;
@@ -2685,14 +2685,14 @@ public final class Model extends Renderable {
                var6 = this.U[var5];
                var7 = this.V[var5];
                var5 = this.W[var5];
-               uwotm8.Rasterizer3D.a(af[var2], af[var3], af[var4], ae[var2], ae[var3], ae[var4], this.N[var1], this.O[var1], this.P[var1], ah[var6], ah[var7], ah[var5], ai[var6], ai[var7], ai[var5], aj[var6], aj[var7], aj[var5], this.k[var1]);
+               uwotm8.Rasterizer3D.drawTexturedTriangle(af[var2], af[var3], af[var4], ae[var2], ae[var3], ae[var4], this.N[var1], this.O[var1], this.P[var1], ah[var6], ah[var7], ah[var5], ai[var6], ai[var7], ai[var5], aj[var6], aj[var7], aj[var5], this.k[var1]);
             } else {
                if (var5 == 3) {
                   var5 = this.j[var1] >> 2;
                   var6 = this.U[var5];
                   var7 = this.V[var5];
                   var5 = this.W[var5];
-                  uwotm8.Rasterizer3D.a(af[var2], af[var3], af[var4], ae[var2], ae[var3], ae[var4], this.N[var1], this.N[var1], this.N[var1], ah[var6], ah[var7], ah[var5], ai[var6], ai[var7], ai[var5], aj[var6], aj[var7], aj[var5], this.k[var1]);
+                  uwotm8.Rasterizer3D.drawTexturedTriangle(af[var2], af[var3], af[var4], ae[var2], ae[var3], ae[var4], this.N[var1], this.N[var1], this.N[var1], ah[var6], ah[var7], ah[var5], ai[var6], ai[var7], ai[var5], aj[var6], aj[var7], aj[var5], this.k[var1]);
                }
 
             }
@@ -2806,21 +2806,21 @@ public final class Model extends Renderable {
                }
 
                if (var5 == 0) {
-                  uwotm8.Rasterizer3D.a(var14, var2, var3, var11, var12, var13, at[0], at[1], at[2]);
+                  uwotm8.Rasterizer3D.drawShadedTriangle(var14, var2, var3, var11, var12, var13, at[0], at[1], at[2]);
                } else if (var5 == 1) {
-                  uwotm8.Rasterizer3D.a(var14, var2, var3, var11, var12, var13, ax[this.N[var1]]);
+                  uwotm8.Rasterizer3D.drawFlatTriangle(var14, var2, var3, var11, var12, var13, ax[this.N[var1]]);
                } else if (var5 == 2) {
                   var5 = this.j[var1] >> 2;
                   var6 = this.U[var5];
                   var7 = this.V[var5];
                   var5 = this.W[var5];
-                  uwotm8.Rasterizer3D.a(var14, var2, var3, var11, var12, var13, at[0], at[1], at[2], ah[var6], ah[var7], ah[var5], ai[var6], ai[var7], ai[var5], aj[var6], aj[var7], aj[var5], this.k[var1]);
+                  uwotm8.Rasterizer3D.drawTexturedTriangle(var14, var2, var3, var11, var12, var13, at[0], at[1], at[2], ah[var6], ah[var7], ah[var5], ai[var6], ai[var7], ai[var5], aj[var6], aj[var7], aj[var5], this.k[var1]);
                } else if (var5 == 3) {
                   var5 = this.j[var1] >> 2;
                   var6 = this.U[var5];
                   var7 = this.V[var5];
                   var5 = this.W[var5];
-                  uwotm8.Rasterizer3D.a(var14, var2, var3, var11, var12, var13, this.N[var1], this.N[var1], this.N[var1], ah[var6], ah[var7], ah[var5], ai[var6], ai[var7], ai[var5], aj[var6], aj[var7], aj[var5], this.k[var1]);
+                  uwotm8.Rasterizer3D.drawTexturedTriangle(var14, var2, var3, var11, var12, var13, this.N[var1], this.N[var1], this.N[var1], ah[var6], ah[var7], ah[var5], ai[var6], ai[var7], ai[var5], aj[var6], aj[var7], aj[var5], this.k[var1]);
                }
             }
 
@@ -2836,15 +2836,15 @@ public final class Model extends Renderable {
                }
 
                if (var5 == 0) {
-                  uwotm8.Rasterizer3D.a(var14, var2, var3, var11, var12, var13, at[0], at[1], at[2]);
-                  uwotm8.Rasterizer3D.a(var14, var3, as[3], var11, var13, ar[3], at[0], at[2], at[3]);
+                  uwotm8.Rasterizer3D.drawShadedTriangle(var14, var2, var3, var11, var12, var13, at[0], at[1], at[2]);
+                  uwotm8.Rasterizer3D.drawShadedTriangle(var14, var3, as[3], var11, var13, ar[3], at[0], at[2], at[3]);
                   return;
                }
 
                if (var5 == 1) {
                   var5 = ax[this.N[var1]];
-                  uwotm8.Rasterizer3D.a(var14, var2, var3, var11, var12, var13, var5);
-                  uwotm8.Rasterizer3D.a(var14, var3, as[3], var11, var13, ar[3], var5);
+                  uwotm8.Rasterizer3D.drawFlatTriangle(var14, var2, var3, var11, var12, var13, var5);
+                  uwotm8.Rasterizer3D.drawFlatTriangle(var14, var3, as[3], var11, var13, ar[3], var5);
                   return;
                }
 
@@ -2853,8 +2853,8 @@ public final class Model extends Renderable {
                   var6 = this.U[var5];
                   var7 = this.V[var5];
                   var5 = this.W[var5];
-                  uwotm8.Rasterizer3D.a(var14, var2, var3, var11, var12, var13, at[0], at[1], at[2], ah[var6], ah[var7], ah[var5], ai[var6], ai[var7], ai[var5], aj[var6], aj[var7], aj[var5], this.k[var1]);
-                  uwotm8.Rasterizer3D.a(var14, var3, as[3], var11, var13, ar[3], at[0], at[2], at[3], ah[var6], ah[var7], ah[var5], ai[var6], ai[var7], ai[var5], aj[var6], aj[var7], aj[var5], this.k[var1]);
+                  uwotm8.Rasterizer3D.drawTexturedTriangle(var14, var2, var3, var11, var12, var13, at[0], at[1], at[2], ah[var6], ah[var7], ah[var5], ai[var6], ai[var7], ai[var5], aj[var6], aj[var7], aj[var5], this.k[var1]);
+                  uwotm8.Rasterizer3D.drawTexturedTriangle(var14, var3, as[3], var11, var13, ar[3], at[0], at[2], at[3], ah[var6], ah[var7], ah[var5], ai[var6], ai[var7], ai[var5], aj[var6], aj[var7], aj[var5], this.k[var1]);
                   return;
                }
 
@@ -2863,8 +2863,8 @@ public final class Model extends Renderable {
                   var6 = this.U[var5];
                   var7 = this.V[var5];
                   var5 = this.W[var5];
-                  uwotm8.Rasterizer3D.a(var14, var2, var3, var11, var12, var13, this.N[var1], this.N[var1], this.N[var1], ah[var6], ah[var7], ah[var5], ai[var6], ai[var7], ai[var5], aj[var6], aj[var7], aj[var5], this.k[var1]);
-                  uwotm8.Rasterizer3D.a(var14, var3, as[3], var11, var13, ar[3], this.N[var1], this.N[var1], this.N[var1], ah[var6], ah[var7], ah[var5], ai[var6], ai[var7], ai[var5], aj[var6], aj[var7], aj[var5], this.k[var1]);
+                  uwotm8.Rasterizer3D.drawTexturedTriangle(var14, var2, var3, var11, var12, var13, this.N[var1], this.N[var1], this.N[var1], ah[var6], ah[var7], ah[var5], ai[var6], ai[var7], ai[var5], aj[var6], aj[var7], aj[var5], this.k[var1]);
+                  uwotm8.Rasterizer3D.drawTexturedTriangle(var14, var3, as[3], var11, var13, ar[3], this.N[var1], this.N[var1], this.N[var1], ah[var6], ah[var7], ah[var5], ai[var6], ai[var7], ai[var5], aj[var6], aj[var7], aj[var5], this.k[var1]);
                }
             }
          }

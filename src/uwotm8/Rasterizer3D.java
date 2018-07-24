@@ -71,12 +71,12 @@ public final class Rasterizer3D extends Rasterizer2D
     }
     
     public static void b() {
-        uwotm8.Rasterizer3D.t = new int[uwotm8.Rasterizer2D.h];
-        for (int i = 0; i < uwotm8.Rasterizer2D.h; ++i) {
-            uwotm8.Rasterizer3D.t[i] = uwotm8.Rasterizer2D.g * i;
+        uwotm8.Rasterizer3D.t = new int[uwotm8.Rasterizer2D.height];
+        for (int i = 0; i < uwotm8.Rasterizer2D.height; ++i) {
+            uwotm8.Rasterizer3D.t[i] = uwotm8.Rasterizer2D.width * i;
         }
-        uwotm8.Rasterizer3D.e = uwotm8.Rasterizer2D.g / 2;
-        uwotm8.Rasterizer3D.p = uwotm8.Rasterizer2D.h / 2;
+        uwotm8.Rasterizer3D.e = uwotm8.Rasterizer2D.width / 2;
+        uwotm8.Rasterizer3D.p = uwotm8.Rasterizer2D.height / 2;
     }
     
     public static void a(final int n, final int n2) {
@@ -110,7 +110,7 @@ public final class Rasterizer3D extends Rasterizer2D
         }
     }
     
-    public static void a(final Archive g) {
+    public static void unpackTextures(final Archive g) {
         uwotm8.Rasterizer3D.A = 0;
         for (int i = 0; i < 51; ++i) {
             try {
@@ -141,7 +141,7 @@ public final class Rasterizer3D extends Rasterizer2D
             n4 += (uwotm8.Rasterizer3D.G[n][i] & 0xFF);
         }
         int a;
-        if ((a = a((n2 / length << 16) + (n3 / length << 8) + n4 / length, 1.4)) == 0) {
+        if ((a = adjustBrightness((n2 / length << 16) + (n3 / length << 8) + n4 / length, 1.4)) == 0) {
             a = 1;
         }
         return uwotm8.Rasterizer3D.C[n] = a;
@@ -155,7 +155,7 @@ public final class Rasterizer3D extends Rasterizer2D
         uwotm8.Rasterizer3D.F[n] = null;
     }
     
-    public static void a(double n) {
+    public static void calculatePallette(double n) {
         n += Math.random() * 0.03 - 0.015;
         int n2 = 0;
         for (int i = 0; i < 512; ++i) {
@@ -222,7 +222,7 @@ public final class Rasterizer3D extends Rasterizer2D
                     }
                 }
                 int a;
-                if ((a = a(((int)(n8 * 256.0) << 16) + ((int)(n7 * 256.0) << 8) + (int)(n6 * 256.0), n)) == 0) {
+                if ((a = adjustBrightness(((int)(n8 * 256.0) << 16) + ((int)(n7 * 256.0) << 8) + (int)(n6 * 256.0), n)) == 0) {
                     a = 1;
                 }
                 uwotm8.Rasterizer3D.x[n2++] = a;
@@ -233,7 +233,7 @@ public final class Rasterizer3D extends Rasterizer2D
                 final int[] b = uwotm8.Rasterizer3D.u[k].b;
                 uwotm8.Rasterizer3D.G[k] = new int[b.length];
                 for (int l = 0; l < b.length; ++l) {
-                    uwotm8.Rasterizer3D.G[k][l] = a(b[l], n);
+                    uwotm8.Rasterizer3D.G[k][l] = adjustBrightness(b[l], n);
                     if ((uwotm8.Rasterizer3D.G[k][l] & 0xF8F8FF) == 0x0 && l != 0) {
                         uwotm8.Rasterizer3D.G[k][l] = 1;
                     }
@@ -245,7 +245,7 @@ public final class Rasterizer3D extends Rasterizer2D
         }
     }
     
-    private static int a(int n, final double n2) {
+    private static int adjustBrightness(int n, final double n2) {
         final double n3 = (n >> 16) / 256.0;
         final double n4 = (n >> 8 & 0xFF) / 256.0;
         final double n5 = (n & 0xFF) / 256.0;
@@ -256,7 +256,7 @@ public final class Rasterizer3D extends Rasterizer2D
         return (n << 16) + ((int)(pow2 * 256.0) << 8) + (int)(pow3 * 256.0);
     }
     
-    public static void a(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9) {
+    public static void drawShadedTriangle(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9) {
         final int n10 = n;
         final int n11 = n2;
         final int n12 = n3;
@@ -293,12 +293,12 @@ public final class Rasterizer3D extends Rasterizer2D
             n23 = (n7 - n9 << 15) / (n - n3);
         }
         if (n <= n2 && n <= n3) {
-            if (n < uwotm8.Rasterizer2D.j) {
-                if (n2 > uwotm8.Rasterizer2D.j) {
-                    n2 = uwotm8.Rasterizer2D.j;
+            if (n < uwotm8.Rasterizer2D.clipTop) {
+                if (n2 > uwotm8.Rasterizer2D.clipTop) {
+                    n2 = uwotm8.Rasterizer2D.clipTop;
                 }
-                if (n3 > uwotm8.Rasterizer2D.j) {
-                    n3 = uwotm8.Rasterizer2D.j;
+                if (n3 > uwotm8.Rasterizer2D.clipTop) {
+                    n3 = uwotm8.Rasterizer2D.clipTop;
                 }
                 if (n2 < n3) {
                     n4 = (n6 = n4 << 16);
@@ -322,20 +322,20 @@ public final class Rasterizer3D extends Rasterizer2D
                         n2 -= n;
                         n = uwotm8.Rasterizer3D.t[n];
                         while (--n2 >= 0) {
-                            a(uwotm8.Rasterizer2D.f, n, n6 >> 16, n4 >> 16, n9 >> 7, n7 >> 7);
+                            drawShadedLine(uwotm8.Rasterizer2D.pixels, n, n6 >> 16, n4 >> 16, n9 >> 7, n7 >> 7);
                             n6 += n22;
                             n4 += n18;
                             n9 += n23;
                             n7 += n19;
-                            n += uwotm8.Rasterizer2D.g;
+                            n += uwotm8.Rasterizer2D.width;
                         }
                         while (--n3 >= 0) {
-                            a(uwotm8.Rasterizer2D.f, n, n6 >> 16, n5 >> 16, n9 >> 7, n8 >> 7);
+                            drawShadedLine(uwotm8.Rasterizer2D.pixels, n, n6 >> 16, n5 >> 16, n9 >> 7, n8 >> 7);
                             n6 += n22;
                             n5 += n20;
                             n9 += n23;
                             n8 += n21;
-                            n += uwotm8.Rasterizer2D.g;
+                            n += uwotm8.Rasterizer2D.width;
                         }
                         return;
                     }
@@ -343,20 +343,20 @@ public final class Rasterizer3D extends Rasterizer2D
                     n2 -= n;
                     n = uwotm8.Rasterizer3D.t[n];
                     while (--n2 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n, n4 >> 16, n6 >> 16, n7 >> 7, n9 >> 7);
+                        drawShadedLine(uwotm8.Rasterizer2D.pixels, n, n4 >> 16, n6 >> 16, n7 >> 7, n9 >> 7);
                         n6 += n22;
                         n4 += n18;
                         n9 += n23;
                         n7 += n19;
-                        n += uwotm8.Rasterizer2D.g;
+                        n += uwotm8.Rasterizer2D.width;
                     }
                     while (--n3 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n, n5 >> 16, n6 >> 16, n8 >> 7, n9 >> 7);
+                        drawShadedLine(uwotm8.Rasterizer2D.pixels, n, n5 >> 16, n6 >> 16, n8 >> 7, n9 >> 7);
                         n6 += n22;
                         n5 += n20;
                         n9 += n23;
                         n8 += n21;
-                        n += uwotm8.Rasterizer2D.g;
+                        n += uwotm8.Rasterizer2D.width;
                     }
                 }
                 else {
@@ -381,20 +381,20 @@ public final class Rasterizer3D extends Rasterizer2D
                         n3 -= n;
                         n = uwotm8.Rasterizer3D.t[n];
                         while (--n3 >= 0) {
-                            a(uwotm8.Rasterizer2D.f, n, n5 >> 16, n4 >> 16, n8 >> 7, n7 >> 7);
+                            drawShadedLine(uwotm8.Rasterizer2D.pixels, n, n5 >> 16, n4 >> 16, n8 >> 7, n7 >> 7);
                             n5 += n22;
                             n4 += n18;
                             n8 += n23;
                             n7 += n19;
-                            n += uwotm8.Rasterizer2D.g;
+                            n += uwotm8.Rasterizer2D.width;
                         }
                         while (--n2 >= 0) {
-                            a(uwotm8.Rasterizer2D.f, n, n6 >> 16, n4 >> 16, n9 >> 7, n7 >> 7);
+                            drawShadedLine(uwotm8.Rasterizer2D.pixels, n, n6 >> 16, n4 >> 16, n9 >> 7, n7 >> 7);
                             n6 += n20;
                             n4 += n18;
                             n9 += n21;
                             n7 += n19;
-                            n += uwotm8.Rasterizer2D.g;
+                            n += uwotm8.Rasterizer2D.width;
                         }
                         return;
                     }
@@ -402,31 +402,31 @@ public final class Rasterizer3D extends Rasterizer2D
                     n3 -= n;
                     n = uwotm8.Rasterizer3D.t[n];
                     while (--n3 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n, n4 >> 16, n5 >> 16, n7 >> 7, n8 >> 7);
+                        drawShadedLine(uwotm8.Rasterizer2D.pixels, n, n4 >> 16, n5 >> 16, n7 >> 7, n8 >> 7);
                         n5 += n22;
                         n4 += n18;
                         n8 += n23;
                         n7 += n19;
-                        n += uwotm8.Rasterizer2D.g;
+                        n += uwotm8.Rasterizer2D.width;
                     }
                     while (--n2 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n, n4 >> 16, n6 >> 16, n7 >> 7, n9 >> 7);
+                        drawShadedLine(uwotm8.Rasterizer2D.pixels, n, n4 >> 16, n6 >> 16, n7 >> 7, n9 >> 7);
                         n6 += n20;
                         n4 += n18;
                         n9 += n21;
                         n7 += n19;
-                        n += uwotm8.Rasterizer2D.g;
+                        n += uwotm8.Rasterizer2D.width;
                     }
                 }
             }
         }
         else if (n2 <= n3) {
-            if (n2 < uwotm8.Rasterizer2D.j) {
-                if (n3 > uwotm8.Rasterizer2D.j) {
-                    n3 = uwotm8.Rasterizer2D.j;
+            if (n2 < uwotm8.Rasterizer2D.clipTop) {
+                if (n3 > uwotm8.Rasterizer2D.clipTop) {
+                    n3 = uwotm8.Rasterizer2D.clipTop;
                 }
-                if (n > uwotm8.Rasterizer2D.j) {
-                    n = uwotm8.Rasterizer2D.j;
+                if (n > uwotm8.Rasterizer2D.clipTop) {
+                    n = uwotm8.Rasterizer2D.clipTop;
                 }
                 if (n3 < n) {
                     n5 = (n4 = n5 << 16);
@@ -450,20 +450,20 @@ public final class Rasterizer3D extends Rasterizer2D
                         n3 -= n2;
                         n2 = uwotm8.Rasterizer3D.t[n2];
                         while (--n3 >= 0) {
-                            a(uwotm8.Rasterizer2D.f, n2, n4 >> 16, n5 >> 16, n7 >> 7, n8 >> 7);
+                            drawShadedLine(uwotm8.Rasterizer2D.pixels, n2, n4 >> 16, n5 >> 16, n7 >> 7, n8 >> 7);
                             n4 += n18;
                             n5 += n20;
                             n7 += n19;
                             n8 += n21;
-                            n2 += uwotm8.Rasterizer2D.g;
+                            n2 += uwotm8.Rasterizer2D.width;
                         }
                         while (--n >= 0) {
-                            a(uwotm8.Rasterizer2D.f, n2, n4 >> 16, n6 >> 16, n7 >> 7, n9 >> 7);
+                            drawShadedLine(uwotm8.Rasterizer2D.pixels, n2, n4 >> 16, n6 >> 16, n7 >> 7, n9 >> 7);
                             n4 += n18;
                             n6 += n22;
                             n7 += n19;
                             n9 += n23;
-                            n2 += uwotm8.Rasterizer2D.g;
+                            n2 += uwotm8.Rasterizer2D.width;
                         }
                         return;
                     }
@@ -471,20 +471,20 @@ public final class Rasterizer3D extends Rasterizer2D
                     n3 -= n2;
                     n2 = uwotm8.Rasterizer3D.t[n2];
                     while (--n3 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n2, n5 >> 16, n4 >> 16, n8 >> 7, n7 >> 7);
+                        drawShadedLine(uwotm8.Rasterizer2D.pixels, n2, n5 >> 16, n4 >> 16, n8 >> 7, n7 >> 7);
                         n4 += n18;
                         n5 += n20;
                         n7 += n19;
                         n8 += n21;
-                        n2 += uwotm8.Rasterizer2D.g;
+                        n2 += uwotm8.Rasterizer2D.width;
                     }
                     while (--n >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n2, n6 >> 16, n4 >> 16, n9 >> 7, n7 >> 7);
+                        drawShadedLine(uwotm8.Rasterizer2D.pixels, n2, n6 >> 16, n4 >> 16, n9 >> 7, n7 >> 7);
                         n4 += n18;
                         n6 += n22;
                         n7 += n19;
                         n9 += n23;
-                        n2 += uwotm8.Rasterizer2D.g;
+                        n2 += uwotm8.Rasterizer2D.width;
                     }
                 }
                 else {
@@ -509,20 +509,20 @@ public final class Rasterizer3D extends Rasterizer2D
                         n -= n2;
                         n2 = uwotm8.Rasterizer3D.t[n2];
                         while (--n >= 0) {
-                            a(uwotm8.Rasterizer2D.f, n2, n6 >> 16, n5 >> 16, n9 >> 7, n8 >> 7);
+                            drawShadedLine(uwotm8.Rasterizer2D.pixels, n2, n6 >> 16, n5 >> 16, n9 >> 7, n8 >> 7);
                             n6 += n18;
                             n5 += n20;
                             n9 += n19;
                             n8 += n21;
-                            n2 += uwotm8.Rasterizer2D.g;
+                            n2 += uwotm8.Rasterizer2D.width;
                         }
                         while (--n3 >= 0) {
-                            a(uwotm8.Rasterizer2D.f, n2, n4 >> 16, n5 >> 16, n7 >> 7, n8 >> 7);
+                            drawShadedLine(uwotm8.Rasterizer2D.pixels, n2, n4 >> 16, n5 >> 16, n7 >> 7, n8 >> 7);
                             n4 += n22;
                             n5 += n20;
                             n7 += n23;
                             n8 += n21;
-                            n2 += uwotm8.Rasterizer2D.g;
+                            n2 += uwotm8.Rasterizer2D.width;
                         }
                         return;
                     }
@@ -530,30 +530,30 @@ public final class Rasterizer3D extends Rasterizer2D
                     n -= n2;
                     n2 = uwotm8.Rasterizer3D.t[n2];
                     while (--n >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n2, n5 >> 16, n6 >> 16, n8 >> 7, n9 >> 7);
+                        drawShadedLine(uwotm8.Rasterizer2D.pixels, n2, n5 >> 16, n6 >> 16, n8 >> 7, n9 >> 7);
                         n6 += n18;
                         n5 += n20;
                         n9 += n19;
                         n8 += n21;
-                        n2 += uwotm8.Rasterizer2D.g;
+                        n2 += uwotm8.Rasterizer2D.width;
                     }
                     while (--n3 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n2, n5 >> 16, n4 >> 16, n8 >> 7, n7 >> 7);
+                        drawShadedLine(uwotm8.Rasterizer2D.pixels, n2, n5 >> 16, n4 >> 16, n8 >> 7, n7 >> 7);
                         n4 += n22;
                         n5 += n20;
                         n7 += n23;
                         n8 += n21;
-                        n2 += uwotm8.Rasterizer2D.g;
+                        n2 += uwotm8.Rasterizer2D.width;
                     }
                 }
             }
         }
-        else if (n3 < uwotm8.Rasterizer2D.j) {
-            if (n > uwotm8.Rasterizer2D.j) {
-                n = uwotm8.Rasterizer2D.j;
+        else if (n3 < uwotm8.Rasterizer2D.clipTop) {
+            if (n > uwotm8.Rasterizer2D.clipTop) {
+                n = uwotm8.Rasterizer2D.clipTop;
             }
-            if (n2 > uwotm8.Rasterizer2D.j) {
-                n2 = uwotm8.Rasterizer2D.j;
+            if (n2 > uwotm8.Rasterizer2D.clipTop) {
+                n2 = uwotm8.Rasterizer2D.clipTop;
             }
             if (n < n2) {
                 n6 = (n5 = n6 << 16);
@@ -577,20 +577,20 @@ public final class Rasterizer3D extends Rasterizer2D
                     n -= n3;
                     n3 = uwotm8.Rasterizer3D.t[n3];
                     while (--n >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n3, n5 >> 16, n6 >> 16, n8 >> 7, n9 >> 7);
+                        drawShadedLine(uwotm8.Rasterizer2D.pixels, n3, n5 >> 16, n6 >> 16, n8 >> 7, n9 >> 7);
                         n5 += n20;
                         n6 += n22;
                         n8 += n21;
                         n9 += n23;
-                        n3 += uwotm8.Rasterizer2D.g;
+                        n3 += uwotm8.Rasterizer2D.width;
                     }
                     while (--n2 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n3, n5 >> 16, n4 >> 16, n8 >> 7, n7 >> 7);
+                        drawShadedLine(uwotm8.Rasterizer2D.pixels, n3, n5 >> 16, n4 >> 16, n8 >> 7, n7 >> 7);
                         n5 += n20;
                         n4 += n18;
                         n8 += n21;
                         n7 += n19;
-                        n3 += uwotm8.Rasterizer2D.g;
+                        n3 += uwotm8.Rasterizer2D.width;
                     }
                     return;
                 }
@@ -598,20 +598,20 @@ public final class Rasterizer3D extends Rasterizer2D
                 n -= n3;
                 n3 = uwotm8.Rasterizer3D.t[n3];
                 while (--n >= 0) {
-                    a(uwotm8.Rasterizer2D.f, n3, n6 >> 16, n5 >> 16, n9 >> 7, n8 >> 7);
+                    drawShadedLine(uwotm8.Rasterizer2D.pixels, n3, n6 >> 16, n5 >> 16, n9 >> 7, n8 >> 7);
                     n5 += n20;
                     n6 += n22;
                     n8 += n21;
                     n9 += n23;
-                    n3 += uwotm8.Rasterizer2D.g;
+                    n3 += uwotm8.Rasterizer2D.width;
                 }
                 while (--n2 >= 0) {
-                    a(uwotm8.Rasterizer2D.f, n3, n4 >> 16, n5 >> 16, n7 >> 7, n8 >> 7);
+                    drawShadedLine(uwotm8.Rasterizer2D.pixels, n3, n4 >> 16, n5 >> 16, n7 >> 7, n8 >> 7);
                     n5 += n20;
                     n4 += n18;
                     n8 += n21;
                     n7 += n19;
-                    n3 += uwotm8.Rasterizer2D.g;
+                    n3 += uwotm8.Rasterizer2D.width;
                 }
             }
             else {
@@ -636,20 +636,20 @@ public final class Rasterizer3D extends Rasterizer2D
                     n2 -= n3;
                     n3 = uwotm8.Rasterizer3D.t[n3];
                     while (--n2 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n3, n4 >> 16, n6 >> 16, n7 >> 7, n9 >> 7);
+                        drawShadedLine(uwotm8.Rasterizer2D.pixels, n3, n4 >> 16, n6 >> 16, n7 >> 7, n9 >> 7);
                         n4 += n20;
                         n6 += n22;
                         n7 += n21;
                         n9 += n23;
-                        n3 += uwotm8.Rasterizer2D.g;
+                        n3 += uwotm8.Rasterizer2D.width;
                     }
                     while (--n >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n3, n5 >> 16, n6 >> 16, n8 >> 7, n9 >> 7);
+                        drawShadedLine(uwotm8.Rasterizer2D.pixels, n3, n5 >> 16, n6 >> 16, n8 >> 7, n9 >> 7);
                         n5 += n18;
                         n6 += n22;
                         n8 += n19;
                         n9 += n23;
-                        n3 += uwotm8.Rasterizer2D.g;
+                        n3 += uwotm8.Rasterizer2D.width;
                     }
                     return;
                 }
@@ -657,26 +657,26 @@ public final class Rasterizer3D extends Rasterizer2D
                 n2 -= n3;
                 n3 = uwotm8.Rasterizer3D.t[n3];
                 while (--n2 >= 0) {
-                    a(uwotm8.Rasterizer2D.f, n3, n6 >> 16, n4 >> 16, n9 >> 7, n7 >> 7);
+                    drawShadedLine(uwotm8.Rasterizer2D.pixels, n3, n6 >> 16, n4 >> 16, n9 >> 7, n7 >> 7);
                     n4 += n20;
                     n6 += n22;
                     n7 += n21;
                     n9 += n23;
-                    n3 += uwotm8.Rasterizer2D.g;
+                    n3 += uwotm8.Rasterizer2D.width;
                 }
                 while (--n >= 0) {
-                    a(uwotm8.Rasterizer2D.f, n3, n6 >> 16, n5 >> 16, n9 >> 7, n8 >> 7);
+                    drawShadedLine(uwotm8.Rasterizer2D.pixels, n3, n6 >> 16, n5 >> 16, n9 >> 7, n8 >> 7);
                     n5 += n18;
                     n6 += n22;
                     n8 += n19;
                     n9 += n23;
-                    n3 += uwotm8.Rasterizer2D.g;
+                    n3 += uwotm8.Rasterizer2D.width;
                 }
             }
         }
     }
     
-    private static void a(final int[] array, int n, int n2, int n3, int n4, int n5) {
+    private static void drawShadedLine(final int[] array, int n, int n2, int n3, int n4, int n5) {
         if (uwotm8.Rasterizer3D.c) {
             int n7;
             int n8;
@@ -788,7 +788,7 @@ public final class Rasterizer3D extends Rasterizer2D
         } while (--n13 > 0);
     }
     
-    public static void a(int n, int n2, int n3, int n4, int n5, int n6, final int n7) {
+    public static void drawFlatTriangle(int n, int n2, int n3, int n4, int n5, int n6, final int n7) {
         int n8 = 0;
         if (n2 != n) {
             n8 = (n5 - n4 << 16) / (n2 - n);
@@ -802,14 +802,14 @@ public final class Rasterizer3D extends Rasterizer2D
             n10 = (n4 - n6 << 16) / (n - n3);
         }
         if (n <= n2 && n <= n3) {
-            if (n >= uwotm8.Rasterizer2D.j) {
+            if (n >= uwotm8.Rasterizer2D.clipTop) {
                 return;
             }
-            if (n2 > uwotm8.Rasterizer2D.j) {
-                n2 = uwotm8.Rasterizer2D.j;
+            if (n2 > uwotm8.Rasterizer2D.clipTop) {
+                n2 = uwotm8.Rasterizer2D.clipTop;
             }
-            if (n3 > uwotm8.Rasterizer2D.j) {
-                n3 = uwotm8.Rasterizer2D.j;
+            if (n3 > uwotm8.Rasterizer2D.clipTop) {
+                n3 = uwotm8.Rasterizer2D.clipTop;
             }
             if (n2 < n3) {
                 n4 = (n6 = n4 << 16);
@@ -828,16 +828,16 @@ public final class Rasterizer3D extends Rasterizer2D
                     n2 -= n;
                     n = uwotm8.Rasterizer3D.t[n];
                     while (--n2 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n, n7, n6 >> 16, n4 >> 16);
+                        drawScanLine(uwotm8.Rasterizer2D.pixels, n, n7, n6 >> 16, n4 >> 16);
                         n6 += n10;
                         n4 += n8;
-                        n += uwotm8.Rasterizer2D.g;
+                        n += uwotm8.Rasterizer2D.width;
                     }
                     while (--n3 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n, n7, n6 >> 16, n5 >> 16);
+                        drawScanLine(uwotm8.Rasterizer2D.pixels, n, n7, n6 >> 16, n5 >> 16);
                         n6 += n10;
                         n5 += n9;
-                        n += uwotm8.Rasterizer2D.g;
+                        n += uwotm8.Rasterizer2D.width;
                     }
                     return;
                 }
@@ -845,16 +845,16 @@ public final class Rasterizer3D extends Rasterizer2D
                 n2 -= n;
                 n = uwotm8.Rasterizer3D.t[n];
                 while (--n2 >= 0) {
-                    a(uwotm8.Rasterizer2D.f, n, n7, n4 >> 16, n6 >> 16);
+                    drawScanLine(uwotm8.Rasterizer2D.pixels, n, n7, n4 >> 16, n6 >> 16);
                     n6 += n10;
                     n4 += n8;
-                    n += uwotm8.Rasterizer2D.g;
+                    n += uwotm8.Rasterizer2D.width;
                 }
                 while (--n3 >= 0) {
-                    a(uwotm8.Rasterizer2D.f, n, n7, n5 >> 16, n6 >> 16);
+                    drawScanLine(uwotm8.Rasterizer2D.pixels, n, n7, n5 >> 16, n6 >> 16);
                     n6 += n10;
                     n5 += n9;
-                    n += uwotm8.Rasterizer2D.g;
+                    n += uwotm8.Rasterizer2D.width;
                 }
             }
             else {
@@ -874,16 +874,16 @@ public final class Rasterizer3D extends Rasterizer2D
                     n3 -= n;
                     n = uwotm8.Rasterizer3D.t[n];
                     while (--n3 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n, n7, n5 >> 16, n4 >> 16);
+                        drawScanLine(uwotm8.Rasterizer2D.pixels, n, n7, n5 >> 16, n4 >> 16);
                         n5 += n10;
                         n4 += n8;
-                        n += uwotm8.Rasterizer2D.g;
+                        n += uwotm8.Rasterizer2D.width;
                     }
                     while (--n2 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n, n7, n6 >> 16, n4 >> 16);
+                        drawScanLine(uwotm8.Rasterizer2D.pixels, n, n7, n6 >> 16, n4 >> 16);
                         n6 += n9;
                         n4 += n8;
-                        n += uwotm8.Rasterizer2D.g;
+                        n += uwotm8.Rasterizer2D.width;
                     }
                     return;
                 }
@@ -891,28 +891,28 @@ public final class Rasterizer3D extends Rasterizer2D
                 n3 -= n;
                 n = uwotm8.Rasterizer3D.t[n];
                 while (--n3 >= 0) {
-                    a(uwotm8.Rasterizer2D.f, n, n7, n4 >> 16, n5 >> 16);
+                    drawScanLine(uwotm8.Rasterizer2D.pixels, n, n7, n4 >> 16, n5 >> 16);
                     n5 += n10;
                     n4 += n8;
-                    n += uwotm8.Rasterizer2D.g;
+                    n += uwotm8.Rasterizer2D.width;
                 }
                 while (--n2 >= 0) {
-                    a(uwotm8.Rasterizer2D.f, n, n7, n4 >> 16, n6 >> 16);
+                    drawScanLine(uwotm8.Rasterizer2D.pixels, n, n7, n4 >> 16, n6 >> 16);
                     n6 += n9;
                     n4 += n8;
-                    n += uwotm8.Rasterizer2D.g;
+                    n += uwotm8.Rasterizer2D.width;
                 }
             }
         }
         else if (n2 <= n3) {
-            if (n2 >= uwotm8.Rasterizer2D.j) {
+            if (n2 >= uwotm8.Rasterizer2D.clipTop) {
                 return;
             }
-            if (n3 > uwotm8.Rasterizer2D.j) {
-                n3 = uwotm8.Rasterizer2D.j;
+            if (n3 > uwotm8.Rasterizer2D.clipTop) {
+                n3 = uwotm8.Rasterizer2D.clipTop;
             }
-            if (n > uwotm8.Rasterizer2D.j) {
-                n = uwotm8.Rasterizer2D.j;
+            if (n > uwotm8.Rasterizer2D.clipTop) {
+                n = uwotm8.Rasterizer2D.clipTop;
             }
             if (n3 < n) {
                 n5 = (n4 = n5 << 16);
@@ -931,16 +931,16 @@ public final class Rasterizer3D extends Rasterizer2D
                     n3 -= n2;
                     n2 = uwotm8.Rasterizer3D.t[n2];
                     while (--n3 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n2, n7, n4 >> 16, n5 >> 16);
+                        drawScanLine(uwotm8.Rasterizer2D.pixels, n2, n7, n4 >> 16, n5 >> 16);
                         n4 += n8;
                         n5 += n9;
-                        n2 += uwotm8.Rasterizer2D.g;
+                        n2 += uwotm8.Rasterizer2D.width;
                     }
                     while (--n >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n2, n7, n4 >> 16, n6 >> 16);
+                        drawScanLine(uwotm8.Rasterizer2D.pixels, n2, n7, n4 >> 16, n6 >> 16);
                         n4 += n8;
                         n6 += n10;
-                        n2 += uwotm8.Rasterizer2D.g;
+                        n2 += uwotm8.Rasterizer2D.width;
                     }
                     return;
                 }
@@ -948,16 +948,16 @@ public final class Rasterizer3D extends Rasterizer2D
                 n3 -= n2;
                 n2 = uwotm8.Rasterizer3D.t[n2];
                 while (--n3 >= 0) {
-                    a(uwotm8.Rasterizer2D.f, n2, n7, n5 >> 16, n4 >> 16);
+                    drawScanLine(uwotm8.Rasterizer2D.pixels, n2, n7, n5 >> 16, n4 >> 16);
                     n4 += n8;
                     n5 += n9;
-                    n2 += uwotm8.Rasterizer2D.g;
+                    n2 += uwotm8.Rasterizer2D.width;
                 }
                 while (--n >= 0) {
-                    a(uwotm8.Rasterizer2D.f, n2, n7, n6 >> 16, n4 >> 16);
+                    drawScanLine(uwotm8.Rasterizer2D.pixels, n2, n7, n6 >> 16, n4 >> 16);
                     n4 += n8;
                     n6 += n10;
-                    n2 += uwotm8.Rasterizer2D.g;
+                    n2 += uwotm8.Rasterizer2D.width;
                 }
             }
             else {
@@ -977,16 +977,16 @@ public final class Rasterizer3D extends Rasterizer2D
                     n -= n2;
                     n2 = uwotm8.Rasterizer3D.t[n2];
                     while (--n >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n2, n7, n6 >> 16, n5 >> 16);
+                        drawScanLine(uwotm8.Rasterizer2D.pixels, n2, n7, n6 >> 16, n5 >> 16);
                         n6 += n8;
                         n5 += n9;
-                        n2 += uwotm8.Rasterizer2D.g;
+                        n2 += uwotm8.Rasterizer2D.width;
                     }
                     while (--n3 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n2, n7, n4 >> 16, n5 >> 16);
+                        drawScanLine(uwotm8.Rasterizer2D.pixels, n2, n7, n4 >> 16, n5 >> 16);
                         n4 += n10;
                         n5 += n9;
-                        n2 += uwotm8.Rasterizer2D.g;
+                        n2 += uwotm8.Rasterizer2D.width;
                     }
                     return;
                 }
@@ -994,28 +994,28 @@ public final class Rasterizer3D extends Rasterizer2D
                 n -= n2;
                 n2 = uwotm8.Rasterizer3D.t[n2];
                 while (--n >= 0) {
-                    a(uwotm8.Rasterizer2D.f, n2, n7, n5 >> 16, n6 >> 16);
+                    drawScanLine(uwotm8.Rasterizer2D.pixels, n2, n7, n5 >> 16, n6 >> 16);
                     n6 += n8;
                     n5 += n9;
-                    n2 += uwotm8.Rasterizer2D.g;
+                    n2 += uwotm8.Rasterizer2D.width;
                 }
                 while (--n3 >= 0) {
-                    a(uwotm8.Rasterizer2D.f, n2, n7, n5 >> 16, n4 >> 16);
+                    drawScanLine(uwotm8.Rasterizer2D.pixels, n2, n7, n5 >> 16, n4 >> 16);
                     n4 += n10;
                     n5 += n9;
-                    n2 += uwotm8.Rasterizer2D.g;
+                    n2 += uwotm8.Rasterizer2D.width;
                 }
             }
         }
         else {
-            if (n3 >= uwotm8.Rasterizer2D.j) {
+            if (n3 >= uwotm8.Rasterizer2D.clipTop) {
                 return;
             }
-            if (n > uwotm8.Rasterizer2D.j) {
-                n = uwotm8.Rasterizer2D.j;
+            if (n > uwotm8.Rasterizer2D.clipTop) {
+                n = uwotm8.Rasterizer2D.clipTop;
             }
-            if (n2 > uwotm8.Rasterizer2D.j) {
-                n2 = uwotm8.Rasterizer2D.j;
+            if (n2 > uwotm8.Rasterizer2D.clipTop) {
+                n2 = uwotm8.Rasterizer2D.clipTop;
             }
             if (n < n2) {
                 n6 = (n5 = n6 << 16);
@@ -1034,16 +1034,16 @@ public final class Rasterizer3D extends Rasterizer2D
                     n -= n3;
                     n3 = uwotm8.Rasterizer3D.t[n3];
                     while (--n >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n3, n7, n5 >> 16, n6 >> 16);
+                        drawScanLine(uwotm8.Rasterizer2D.pixels, n3, n7, n5 >> 16, n6 >> 16);
                         n5 += n9;
                         n6 += n10;
-                        n3 += uwotm8.Rasterizer2D.g;
+                        n3 += uwotm8.Rasterizer2D.width;
                     }
                     while (--n2 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n3, n7, n5 >> 16, n4 >> 16);
+                        drawScanLine(uwotm8.Rasterizer2D.pixels, n3, n7, n5 >> 16, n4 >> 16);
                         n5 += n9;
                         n4 += n8;
-                        n3 += uwotm8.Rasterizer2D.g;
+                        n3 += uwotm8.Rasterizer2D.width;
                     }
                     return;
                 }
@@ -1051,16 +1051,16 @@ public final class Rasterizer3D extends Rasterizer2D
                 n -= n3;
                 n3 = uwotm8.Rasterizer3D.t[n3];
                 while (--n >= 0) {
-                    a(uwotm8.Rasterizer2D.f, n3, n7, n6 >> 16, n5 >> 16);
+                    drawScanLine(uwotm8.Rasterizer2D.pixels, n3, n7, n6 >> 16, n5 >> 16);
                     n5 += n9;
                     n6 += n10;
-                    n3 += uwotm8.Rasterizer2D.g;
+                    n3 += uwotm8.Rasterizer2D.width;
                 }
                 while (--n2 >= 0) {
-                    a(uwotm8.Rasterizer2D.f, n3, n7, n4 >> 16, n5 >> 16);
+                    drawScanLine(uwotm8.Rasterizer2D.pixels, n3, n7, n4 >> 16, n5 >> 16);
                     n5 += n9;
                     n4 += n8;
-                    n3 += uwotm8.Rasterizer2D.g;
+                    n3 += uwotm8.Rasterizer2D.width;
                 }
             }
             else {
@@ -1080,16 +1080,16 @@ public final class Rasterizer3D extends Rasterizer2D
                     n2 -= n3;
                     n3 = uwotm8.Rasterizer3D.t[n3];
                     while (--n2 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n3, n7, n4 >> 16, n6 >> 16);
+                        drawScanLine(uwotm8.Rasterizer2D.pixels, n3, n7, n4 >> 16, n6 >> 16);
                         n4 += n9;
                         n6 += n10;
-                        n3 += uwotm8.Rasterizer2D.g;
+                        n3 += uwotm8.Rasterizer2D.width;
                     }
                     while (--n >= 0) {
-                        a(uwotm8.Rasterizer2D.f, n3, n7, n5 >> 16, n6 >> 16);
+                        drawScanLine(uwotm8.Rasterizer2D.pixels, n3, n7, n5 >> 16, n6 >> 16);
                         n5 += n8;
                         n6 += n10;
-                        n3 += uwotm8.Rasterizer2D.g;
+                        n3 += uwotm8.Rasterizer2D.width;
                     }
                     return;
                 }
@@ -1097,22 +1097,22 @@ public final class Rasterizer3D extends Rasterizer2D
                 n2 -= n3;
                 n3 = uwotm8.Rasterizer3D.t[n3];
                 while (--n2 >= 0) {
-                    a(uwotm8.Rasterizer2D.f, n3, n7, n6 >> 16, n4 >> 16);
+                    drawScanLine(uwotm8.Rasterizer2D.pixels, n3, n7, n6 >> 16, n4 >> 16);
                     n4 += n9;
                     n6 += n10;
-                    n3 += uwotm8.Rasterizer2D.g;
+                    n3 += uwotm8.Rasterizer2D.width;
                 }
                 while (--n >= 0) {
-                    a(uwotm8.Rasterizer2D.f, n3, n7, n6 >> 16, n5 >> 16);
+                    drawScanLine(uwotm8.Rasterizer2D.pixels, n3, n7, n6 >> 16, n5 >> 16);
                     n5 += n8;
                     n6 += n10;
-                    n3 += uwotm8.Rasterizer2D.g;
+                    n3 += uwotm8.Rasterizer2D.width;
                 }
             }
         }
     }
     
-    private static void a(final int[] array, int n, int n2, int n3, int m) {
+    private static void drawScanLine(final int[] array, int n, int n2, int n3, int m) {
         if (uwotm8.Rasterizer3D.b) {
             if (m > uwotm8.Rasterizer2D.m) {
                 m = uwotm8.Rasterizer2D.m;
@@ -1154,7 +1154,7 @@ public final class Rasterizer3D extends Rasterizer2D
         }
     }
     
-    public static void a(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9, int n10, int n11, int n12, int n13, int n14, int n15, int n16, int n17, int n18, int n19) {
+    public static void drawTexturedTriangle(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9, int n10, int n11, int n12, int n13, int n14, int n15, int n16, int n17, int n18, int n19) {
         final int n20 = n;
         final int n21 = n2;
         final int n22 = n3;
@@ -1318,12 +1318,12 @@ public final class Rasterizer3D extends Rasterizer2D
             n65 = (n7 - n9 << 16) / (n - n3);
         }
         if (n <= n2 && n <= n3) {
-            if (n < uwotm8.Rasterizer2D.j) {
-                if (n2 > uwotm8.Rasterizer2D.j) {
-                    n2 = uwotm8.Rasterizer2D.j;
+            if (n < uwotm8.Rasterizer2D.clipTop) {
+                if (n2 > uwotm8.Rasterizer2D.clipTop) {
+                    n2 = uwotm8.Rasterizer2D.clipTop;
                 }
-                if (n3 > uwotm8.Rasterizer2D.j) {
-                    n3 = uwotm8.Rasterizer2D.j;
+                if (n3 > uwotm8.Rasterizer2D.clipTop) {
+                    n3 = uwotm8.Rasterizer2D.clipTop;
                 }
                 if (n2 < n3) {
                     n4 = (n6 = n4 << 16);
@@ -1351,23 +1351,23 @@ public final class Rasterizer3D extends Rasterizer2D
                         n2 -= n;
                         n = uwotm8.Rasterizer3D.t[n];
                         while (--n2 >= 0) {
-                            a(uwotm8.Rasterizer2D.f, array12, n, n6 >> 16, n4 >> 16, n9 >> 8, n7 >> 8, n19, n67, n16, n61, n13, n14);
+                            drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n, n6 >> 16, n4 >> 16, n9 >> 8, n7 >> 8, n19, n67, n16, n61, n13, n14);
                             n6 += n64;
                             n4 += n12;
                             n9 += n65;
                             n7 += n15;
-                            n += uwotm8.Rasterizer2D.g;
+                            n += uwotm8.Rasterizer2D.width;
                             n19 += n62;
                             n67 += n10;
                             n16 += n11;
                         }
                         while (--n3 >= 0) {
-                            a(uwotm8.Rasterizer2D.f, array12, n, n6 >> 16, n5 >> 16, n9 >> 8, n8 >> 8, n19, n67, n16, n61, n13, n14);
+                            drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n, n6 >> 16, n5 >> 16, n9 >> 8, n8 >> 8, n19, n67, n16, n61, n13, n14);
                             n6 += n64;
                             n5 += n17;
                             n9 += n65;
                             n8 += n18;
-                            n += uwotm8.Rasterizer2D.g;
+                            n += uwotm8.Rasterizer2D.width;
                             n19 += n62;
                             n67 += n10;
                             n16 += n11;
@@ -1378,23 +1378,23 @@ public final class Rasterizer3D extends Rasterizer2D
                     n2 -= n;
                     n = uwotm8.Rasterizer3D.t[n];
                     while (--n2 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, array12, n, n4 >> 16, n6 >> 16, n7 >> 8, n9 >> 8, n19, n67, n16, n61, n13, n14);
+                        drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n, n4 >> 16, n6 >> 16, n7 >> 8, n9 >> 8, n19, n67, n16, n61, n13, n14);
                         n6 += n64;
                         n4 += n12;
                         n9 += n65;
                         n7 += n15;
-                        n += uwotm8.Rasterizer2D.g;
+                        n += uwotm8.Rasterizer2D.width;
                         n19 += n62;
                         n67 += n10;
                         n16 += n11;
                     }
                     while (--n3 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, array12, n, n5 >> 16, n6 >> 16, n8 >> 8, n9 >> 8, n19, n67, n16, n61, n13, n14);
+                        drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n, n5 >> 16, n6 >> 16, n8 >> 8, n9 >> 8, n19, n67, n16, n61, n13, n14);
                         n6 += n64;
                         n5 += n17;
                         n9 += n65;
                         n8 += n18;
-                        n += uwotm8.Rasterizer2D.g;
+                        n += uwotm8.Rasterizer2D.width;
                         n19 += n62;
                         n67 += n10;
                         n16 += n11;
@@ -1426,23 +1426,23 @@ public final class Rasterizer3D extends Rasterizer2D
                         n3 -= n;
                         n = uwotm8.Rasterizer3D.t[n];
                         while (--n3 >= 0) {
-                            a(uwotm8.Rasterizer2D.f, array12, n, n5 >> 16, n4 >> 16, n8 >> 8, n7 >> 8, n19, n69, n16, n61, n13, n14);
+                            drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n, n5 >> 16, n4 >> 16, n8 >> 8, n7 >> 8, n19, n69, n16, n61, n13, n14);
                             n5 += n64;
                             n4 += n12;
                             n8 += n65;
                             n7 += n15;
-                            n += uwotm8.Rasterizer2D.g;
+                            n += uwotm8.Rasterizer2D.width;
                             n19 += n62;
                             n69 += n10;
                             n16 += n11;
                         }
                         while (--n2 >= 0) {
-                            a(uwotm8.Rasterizer2D.f, array12, n, n6 >> 16, n4 >> 16, n9 >> 8, n7 >> 8, n19, n69, n16, n61, n13, n14);
+                            drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n, n6 >> 16, n4 >> 16, n9 >> 8, n7 >> 8, n19, n69, n16, n61, n13, n14);
                             n6 += n17;
                             n4 += n12;
                             n9 += n18;
                             n7 += n15;
-                            n += uwotm8.Rasterizer2D.g;
+                            n += uwotm8.Rasterizer2D.width;
                             n19 += n62;
                             n69 += n10;
                             n16 += n11;
@@ -1453,23 +1453,23 @@ public final class Rasterizer3D extends Rasterizer2D
                     n3 -= n;
                     n = uwotm8.Rasterizer3D.t[n];
                     while (--n3 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, array12, n, n4 >> 16, n5 >> 16, n7 >> 8, n8 >> 8, n19, n69, n16, n61, n13, n14);
+                        drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n, n4 >> 16, n5 >> 16, n7 >> 8, n8 >> 8, n19, n69, n16, n61, n13, n14);
                         n5 += n64;
                         n4 += n12;
                         n8 += n65;
                         n7 += n15;
-                        n += uwotm8.Rasterizer2D.g;
+                        n += uwotm8.Rasterizer2D.width;
                         n19 += n62;
                         n69 += n10;
                         n16 += n11;
                     }
                     while (--n2 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, array12, n, n4 >> 16, n6 >> 16, n7 >> 8, n9 >> 8, n19, n69, n16, n61, n13, n14);
+                        drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n, n4 >> 16, n6 >> 16, n7 >> 8, n9 >> 8, n19, n69, n16, n61, n13, n14);
                         n6 += n17;
                         n4 += n12;
                         n9 += n18;
                         n7 += n15;
-                        n += uwotm8.Rasterizer2D.g;
+                        n += uwotm8.Rasterizer2D.width;
                         n19 += n62;
                         n69 += n10;
                         n16 += n11;
@@ -1478,12 +1478,12 @@ public final class Rasterizer3D extends Rasterizer2D
             }
         }
         else if (n2 <= n3) {
-            if (n2 < uwotm8.Rasterizer2D.j) {
-                if (n3 > uwotm8.Rasterizer2D.j) {
-                    n3 = uwotm8.Rasterizer2D.j;
+            if (n2 < uwotm8.Rasterizer2D.clipTop) {
+                if (n3 > uwotm8.Rasterizer2D.clipTop) {
+                    n3 = uwotm8.Rasterizer2D.clipTop;
                 }
-                if (n > uwotm8.Rasterizer2D.j) {
-                    n = uwotm8.Rasterizer2D.j;
+                if (n > uwotm8.Rasterizer2D.clipTop) {
+                    n = uwotm8.Rasterizer2D.clipTop;
                 }
                 if (n3 < n) {
                     n5 = (n4 = n5 << 16);
@@ -1511,23 +1511,23 @@ public final class Rasterizer3D extends Rasterizer2D
                         n3 -= n2;
                         n2 = uwotm8.Rasterizer3D.t[n2];
                         while (--n3 >= 0) {
-                            a(uwotm8.Rasterizer2D.f, array12, n2, n4 >> 16, n5 >> 16, n7 >> 8, n8 >> 8, n19, n71, n16, n61, n13, n14);
+                            drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n2, n4 >> 16, n5 >> 16, n7 >> 8, n8 >> 8, n19, n71, n16, n61, n13, n14);
                             n4 += n12;
                             n5 += n17;
                             n7 += n15;
                             n8 += n18;
-                            n2 += uwotm8.Rasterizer2D.g;
+                            n2 += uwotm8.Rasterizer2D.width;
                             n19 += n62;
                             n71 += n10;
                             n16 += n11;
                         }
                         while (--n >= 0) {
-                            a(uwotm8.Rasterizer2D.f, array12, n2, n4 >> 16, n6 >> 16, n7 >> 8, n9 >> 8, n19, n71, n16, n61, n13, n14);
+                            drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n2, n4 >> 16, n6 >> 16, n7 >> 8, n9 >> 8, n19, n71, n16, n61, n13, n14);
                             n4 += n12;
                             n6 += n64;
                             n7 += n15;
                             n9 += n65;
-                            n2 += uwotm8.Rasterizer2D.g;
+                            n2 += uwotm8.Rasterizer2D.width;
                             n19 += n62;
                             n71 += n10;
                             n16 += n11;
@@ -1538,23 +1538,23 @@ public final class Rasterizer3D extends Rasterizer2D
                     n3 -= n2;
                     n2 = uwotm8.Rasterizer3D.t[n2];
                     while (--n3 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, array12, n2, n5 >> 16, n4 >> 16, n8 >> 8, n7 >> 8, n19, n71, n16, n61, n13, n14);
+                        drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n2, n5 >> 16, n4 >> 16, n8 >> 8, n7 >> 8, n19, n71, n16, n61, n13, n14);
                         n4 += n12;
                         n5 += n17;
                         n7 += n15;
                         n8 += n18;
-                        n2 += uwotm8.Rasterizer2D.g;
+                        n2 += uwotm8.Rasterizer2D.width;
                         n19 += n62;
                         n71 += n10;
                         n16 += n11;
                     }
                     while (--n >= 0) {
-                        a(uwotm8.Rasterizer2D.f, array12, n2, n6 >> 16, n4 >> 16, n9 >> 8, n7 >> 8, n19, n71, n16, n61, n13, n14);
+                        drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n2, n6 >> 16, n4 >> 16, n9 >> 8, n7 >> 8, n19, n71, n16, n61, n13, n14);
                         n4 += n12;
                         n6 += n64;
                         n7 += n15;
                         n9 += n65;
-                        n2 += uwotm8.Rasterizer2D.g;
+                        n2 += uwotm8.Rasterizer2D.width;
                         n19 += n62;
                         n71 += n10;
                         n16 += n11;
@@ -1586,23 +1586,23 @@ public final class Rasterizer3D extends Rasterizer2D
                         n -= n2;
                         n2 = uwotm8.Rasterizer3D.t[n2];
                         while (--n >= 0) {
-                            a(uwotm8.Rasterizer2D.f, array12, n2, n6 >> 16, n5 >> 16, n9 >> 8, n8 >> 8, n19, n73, n16, n61, n13, n14);
+                            drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n2, n6 >> 16, n5 >> 16, n9 >> 8, n8 >> 8, n19, n73, n16, n61, n13, n14);
                             n6 += n12;
                             n5 += n17;
                             n9 += n15;
                             n8 += n18;
-                            n2 += uwotm8.Rasterizer2D.g;
+                            n2 += uwotm8.Rasterizer2D.width;
                             n19 += n62;
                             n73 += n10;
                             n16 += n11;
                         }
                         while (--n3 >= 0) {
-                            a(uwotm8.Rasterizer2D.f, array12, n2, n4 >> 16, n5 >> 16, n7 >> 8, n8 >> 8, n19, n73, n16, n61, n13, n14);
+                            drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n2, n4 >> 16, n5 >> 16, n7 >> 8, n8 >> 8, n19, n73, n16, n61, n13, n14);
                             n4 += n64;
                             n5 += n17;
                             n7 += n65;
                             n8 += n18;
-                            n2 += uwotm8.Rasterizer2D.g;
+                            n2 += uwotm8.Rasterizer2D.width;
                             n19 += n62;
                             n73 += n10;
                             n16 += n11;
@@ -1613,23 +1613,23 @@ public final class Rasterizer3D extends Rasterizer2D
                     n -= n2;
                     n2 = uwotm8.Rasterizer3D.t[n2];
                     while (--n >= 0) {
-                        a(uwotm8.Rasterizer2D.f, array12, n2, n5 >> 16, n6 >> 16, n8 >> 8, n9 >> 8, n19, n73, n16, n61, n13, n14);
+                        drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n2, n5 >> 16, n6 >> 16, n8 >> 8, n9 >> 8, n19, n73, n16, n61, n13, n14);
                         n6 += n12;
                         n5 += n17;
                         n9 += n15;
                         n8 += n18;
-                        n2 += uwotm8.Rasterizer2D.g;
+                        n2 += uwotm8.Rasterizer2D.width;
                         n19 += n62;
                         n73 += n10;
                         n16 += n11;
                     }
                     while (--n3 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, array12, n2, n5 >> 16, n4 >> 16, n8 >> 8, n7 >> 8, n19, n73, n16, n61, n13, n14);
+                        drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n2, n5 >> 16, n4 >> 16, n8 >> 8, n7 >> 8, n19, n73, n16, n61, n13, n14);
                         n4 += n64;
                         n5 += n17;
                         n7 += n65;
                         n8 += n18;
-                        n2 += uwotm8.Rasterizer2D.g;
+                        n2 += uwotm8.Rasterizer2D.width;
                         n19 += n62;
                         n73 += n10;
                         n16 += n11;
@@ -1637,12 +1637,12 @@ public final class Rasterizer3D extends Rasterizer2D
                 }
             }
         }
-        else if (n3 < uwotm8.Rasterizer2D.j) {
-            if (n > uwotm8.Rasterizer2D.j) {
-                n = uwotm8.Rasterizer2D.j;
+        else if (n3 < uwotm8.Rasterizer2D.clipTop) {
+            if (n > uwotm8.Rasterizer2D.clipTop) {
+                n = uwotm8.Rasterizer2D.clipTop;
             }
-            if (n2 > uwotm8.Rasterizer2D.j) {
-                n2 = uwotm8.Rasterizer2D.j;
+            if (n2 > uwotm8.Rasterizer2D.clipTop) {
+                n2 = uwotm8.Rasterizer2D.clipTop;
             }
             if (n < n2) {
                 n6 = (n5 = n6 << 16);
@@ -1670,23 +1670,23 @@ public final class Rasterizer3D extends Rasterizer2D
                     n -= n3;
                     n3 = uwotm8.Rasterizer3D.t[n3];
                     while (--n >= 0) {
-                        a(uwotm8.Rasterizer2D.f, array12, n3, n5 >> 16, n6 >> 16, n8 >> 8, n9 >> 8, n19, n75, n16, n61, n13, n14);
+                        drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n3, n5 >> 16, n6 >> 16, n8 >> 8, n9 >> 8, n19, n75, n16, n61, n13, n14);
                         n5 += n17;
                         n6 += n64;
                         n8 += n18;
                         n9 += n65;
-                        n3 += uwotm8.Rasterizer2D.g;
+                        n3 += uwotm8.Rasterizer2D.width;
                         n19 += n62;
                         n75 += n10;
                         n16 += n11;
                     }
                     while (--n2 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, array12, n3, n5 >> 16, n4 >> 16, n8 >> 8, n7 >> 8, n19, n75, n16, n61, n13, n14);
+                        drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n3, n5 >> 16, n4 >> 16, n8 >> 8, n7 >> 8, n19, n75, n16, n61, n13, n14);
                         n5 += n17;
                         n4 += n12;
                         n8 += n18;
                         n7 += n15;
-                        n3 += uwotm8.Rasterizer2D.g;
+                        n3 += uwotm8.Rasterizer2D.width;
                         n19 += n62;
                         n75 += n10;
                         n16 += n11;
@@ -1697,23 +1697,23 @@ public final class Rasterizer3D extends Rasterizer2D
                 n -= n3;
                 n3 = uwotm8.Rasterizer3D.t[n3];
                 while (--n >= 0) {
-                    a(uwotm8.Rasterizer2D.f, array12, n3, n6 >> 16, n5 >> 16, n9 >> 8, n8 >> 8, n19, n75, n16, n61, n13, n14);
+                    drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n3, n6 >> 16, n5 >> 16, n9 >> 8, n8 >> 8, n19, n75, n16, n61, n13, n14);
                     n5 += n17;
                     n6 += n64;
                     n8 += n18;
                     n9 += n65;
-                    n3 += uwotm8.Rasterizer2D.g;
+                    n3 += uwotm8.Rasterizer2D.width;
                     n19 += n62;
                     n75 += n10;
                     n16 += n11;
                 }
                 while (--n2 >= 0) {
-                    a(uwotm8.Rasterizer2D.f, array12, n3, n4 >> 16, n5 >> 16, n7 >> 8, n8 >> 8, n19, n75, n16, n61, n13, n14);
+                    drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n3, n4 >> 16, n5 >> 16, n7 >> 8, n8 >> 8, n19, n75, n16, n61, n13, n14);
                     n5 += n17;
                     n4 += n12;
                     n8 += n18;
                     n7 += n15;
-                    n3 += uwotm8.Rasterizer2D.g;
+                    n3 += uwotm8.Rasterizer2D.width;
                     n19 += n62;
                     n75 += n10;
                     n16 += n11;
@@ -1745,23 +1745,23 @@ public final class Rasterizer3D extends Rasterizer2D
                     n2 -= n3;
                     n3 = uwotm8.Rasterizer3D.t[n3];
                     while (--n2 >= 0) {
-                        a(uwotm8.Rasterizer2D.f, array12, n3, n4 >> 16, n6 >> 16, n7 >> 8, n9 >> 8, n19, n77, n16, n61, n13, n14);
+                        drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n3, n4 >> 16, n6 >> 16, n7 >> 8, n9 >> 8, n19, n77, n16, n61, n13, n14);
                         n4 += n17;
                         n6 += n64;
                         n7 += n18;
                         n9 += n65;
-                        n3 += uwotm8.Rasterizer2D.g;
+                        n3 += uwotm8.Rasterizer2D.width;
                         n19 += n62;
                         n77 += n10;
                         n16 += n11;
                     }
                     while (--n >= 0) {
-                        a(uwotm8.Rasterizer2D.f, array12, n3, n5 >> 16, n6 >> 16, n8 >> 8, n9 >> 8, n19, n77, n16, n61, n13, n14);
+                        drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n3, n5 >> 16, n6 >> 16, n8 >> 8, n9 >> 8, n19, n77, n16, n61, n13, n14);
                         n5 += n12;
                         n6 += n64;
                         n8 += n15;
                         n9 += n65;
-                        n3 += uwotm8.Rasterizer2D.g;
+                        n3 += uwotm8.Rasterizer2D.width;
                         n19 += n62;
                         n77 += n10;
                         n16 += n11;
@@ -1772,23 +1772,23 @@ public final class Rasterizer3D extends Rasterizer2D
                 n2 -= n3;
                 n3 = uwotm8.Rasterizer3D.t[n3];
                 while (--n2 >= 0) {
-                    a(uwotm8.Rasterizer2D.f, array12, n3, n6 >> 16, n4 >> 16, n9 >> 8, n7 >> 8, n19, n77, n16, n61, n13, n14);
+                    drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n3, n6 >> 16, n4 >> 16, n9 >> 8, n7 >> 8, n19, n77, n16, n61, n13, n14);
                     n4 += n17;
                     n6 += n64;
                     n7 += n18;
                     n9 += n65;
-                    n3 += uwotm8.Rasterizer2D.g;
+                    n3 += uwotm8.Rasterizer2D.width;
                     n19 += n62;
                     n77 += n10;
                     n16 += n11;
                 }
                 while (--n >= 0) {
-                    a(uwotm8.Rasterizer2D.f, array12, n3, n6 >> 16, n5 >> 16, n9 >> 8, n8 >> 8, n19, n77, n16, n61, n13, n14);
+                    drawTexuredLine(uwotm8.Rasterizer2D.pixels, array12, n3, n6 >> 16, n5 >> 16, n9 >> 8, n8 >> 8, n19, n77, n16, n61, n13, n14);
                     n5 += n12;
                     n6 += n64;
                     n8 += n15;
                     n9 += n65;
-                    n3 += uwotm8.Rasterizer2D.g;
+                    n3 += uwotm8.Rasterizer2D.width;
                     n19 += n62;
                     n77 += n10;
                     n16 += n11;
@@ -1797,7 +1797,7 @@ public final class Rasterizer3D extends Rasterizer2D
         }
     }
     
-    private static void a(final int[] array, final int[] array2, int n, int n2, int m, int n3, int n4, int n5, int n6, int n7, final int n8, final int n9, final int n10) {
+    private static void drawTexuredLine(final int[] array, final int[] array2, int n, int n2, int m, int n3, int n4, int n5, int n6, int n7, final int n8, final int n9, final int n10) {
         int n11 = 0;
         int n12 = 0;
         if (n2 >= m) {

@@ -62,7 +62,7 @@ public final class MidiPlayer implements Receiver
         }
     }
     
-    public final void a(final byte[] array, final boolean b, final int n) {
+    public final void playMidi(final byte[] array, final boolean b, final int n) {
         try {
             if (this.d != null) {
                 this.d.setSequence(MidiSystem.getSequence(new ByteArrayInputStream(array)));
@@ -77,11 +77,11 @@ public final class MidiPlayer implements Receiver
         }
     }
     
-    public final boolean a() {
+    public final boolean isSequencerRunning() {
         return this.d != null && this.d.isRunning();
     }
     
-    public final void b() {
+    public final void stopPlayback() {
         if (this.d != null) {
             this.d.stop();
         }

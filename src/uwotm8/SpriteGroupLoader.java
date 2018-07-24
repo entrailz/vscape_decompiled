@@ -14,8 +14,8 @@ public final class SpriteGroupLoader
     
     public static void a() {
         try {
-            final Buffer i = new Buffer(Archive.a(String.valueOf(SignLink.a()) + "sprites.idx"));
-            final Buffer j = new Buffer(Archive.a(String.valueOf(SignLink.a()) + "sprites.dat"));
+            final Buffer i = new Buffer(Archive.a(String.valueOf(SignLink.getLocalCacheDirectory()) + "sprites.idx"));
+            final Buffer j = new Buffer(Archive.a(String.valueOf(SignLink.getLocalCacheDirectory()) + "sprites.dat"));
             final DataInputStream dataInputStream = new DataInputStream(new GZIPInputStream(new ByteArrayInputStream(i.a)));
             final DataInputStream dataInputStream2 = new DataInputStream(new GZIPInputStream(new ByteArrayInputStream(j.a)));
             for (int int1 = dataInputStream.readInt(), k = 0; k < int1; ++k) {

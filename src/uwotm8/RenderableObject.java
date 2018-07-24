@@ -19,7 +19,7 @@ public final class RenderableObject extends Renderable
     private final int m;
     private final int n;
     
-    private ObjectDefinition b() {
+    private ObjectDefinition morph() {
         int n = -1;
         if (this.d != -1) {
             try {
@@ -36,18 +36,18 @@ public final class RenderableObject extends Renderable
         if (n < 0 || n >= this.c.length || this.c[n] == -1) {
             return null;
         }
-        return uwotm8.ObjectDefinition.a(this.c[n]);
+        return uwotm8.ObjectDefinition.decode(this.c[n]);
     }
     
-    public final Model a() {
+    public final Model getRotatedModel() {
         int n = -1;
         if (this.j != null) {
             int i;
             if ((i = Client.R - this.k) > 100 && this.j.e > 0) {
                 i = 100;
             }
-            while (i > this.j.a(this.b)) {
-                i -= this.j.a(this.b);
+            while (i > this.j.duration(this.b)) {
+                i -= this.j.duration(this.b);
                 ++this.b;
                 if (this.b >= this.j.b) {
                     this.b -= this.j.e;
@@ -65,15 +65,15 @@ public final class RenderableObject extends Renderable
         }
         ObjectDefinition j;
         if (this.c != null) {
-            j = this.b();
+            j = this.morph();
         }
         else {
-            j = uwotm8.ObjectDefinition.a(this.l);
+            j = uwotm8.ObjectDefinition.decode(this.l);
         }
         if (j == null) {
             return null;
         }
-        return j.a(this.m, this.n, this.f, this.g, this.h, this.i, n);
+        return j.modelAt(this.m, this.n, this.f, this.g, this.h, this.i, n);
     }
     
     public RenderableObject(final int l, final int n, final int m, final int g, final int h, final int f, final int i, final int n2, final boolean b) {
@@ -90,11 +90,11 @@ public final class RenderableObject extends Renderable
             this.k = Client.R;
             if (b && this.j.e != -1) {
                 this.b = (int)(Math.random() * this.j.b);
-                this.k -= (int)(Math.random() * this.j.a(this.b));
+                this.k -= (int)(Math.random() * this.j.duration(this.b));
             }
         }
         final ObjectDefinition a;
-        if ((a = uwotm8.ObjectDefinition.a(this.l)) != null) {
+        if ((a = uwotm8.ObjectDefinition.decode(this.l)) != null) {
             this.d = a.s;
             this.e = a.f;
             this.c = a.k;

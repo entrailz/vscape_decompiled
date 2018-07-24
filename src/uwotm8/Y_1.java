@@ -35,7 +35,7 @@ public final class Y_1
     public static void a(final Archive g) {
         final ByteBuffer wrap;
         final short short1;
-        Y_1.a = new Y_1[short1 = (wrap = ByteBuffer.wrap(g.b("flo2.dat"))).getShort()];
+        Y_1.a = new Y_1[short1 = (wrap = ByteBuffer.wrap(g.getEntry("flo2.dat"))).getShort()];
         for (short n = 0; n < short1; ++n) {
             if (Y_1.a[n] == null) {
             	Y_1.a[n] = new Y_1();

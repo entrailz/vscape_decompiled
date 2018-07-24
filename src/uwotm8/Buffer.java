@@ -22,7 +22,7 @@ public final class Buffer extends CacheableNode
             Buffer i = null;
             if (Buffer.f > 0) {
                 --Buffer.f;
-                i = (Buffer)Buffer.g.a();
+                i = (Buffer)Buffer.g.popTail();
             }
             if (i != null) {
                 i.b = 0;
@@ -66,7 +66,7 @@ public final class Buffer extends CacheableNode
     }
     
     public final void writeOpCode(final int n) {
-        this.a[this.b++] = (byte)(n + this.d.a());
+        this.a[this.b++] = (byte)(n + this.d.getNextKey());
     }
     
     public final void b(final int n) {

@@ -8,8 +8,8 @@ public final class VariableParameter
     public int b;
     private boolean e;
     
-    public static void a(final Archive g) {
-        final Buffer i = new Buffer(g.b("varp.dat"));
+    public static void init(final Archive g) {
+        final Buffer i = new Buffer(g.getEntry("varp.dat"));
         VariableParameter.c = 0;
         final int g2 = i.g();
         if (VariableParameter.a == null) {

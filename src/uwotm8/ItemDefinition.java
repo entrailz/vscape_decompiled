@@ -58,10 +58,10 @@ public final class ItemDefinition {
       I = null;
    }
 
-   public static void a(Archive var0) {
-      I = new Buffer(var0.b("obj.dat"));
+   public static void init(Archive var0) {
+      I = new Buffer(var0.getEntry("obj.dat"));
       Buffer var3;
-      Q = new int[(x = (var3 = new Buffer(var0.b("obj.idx"))).g()) + 100];
+      Q = new int[(x = (var3 = new Buffer(var0.getEntry("obj.idx"))).g()) + 100];
       int var1 = 2;
 
       int var2;
@@ -363,11 +363,11 @@ public final class ItemDefinition {
       }
    }
 
-   public static Sprite a(int var0, int var1, int var2) {
+   public static Sprite sprite(int var0, int var1, int var2) {
       if (var2 == 0) {
          Sprite var3;
-         if ((var3 = (Sprite)d.a((long)var0)) != null && var3.e != var1 && var3.e != -1) {
-            var3.D();
+         if ((var3 = (Sprite)d.get((long)var0)) != null && var3.e != var1 && var3.e != -1) {
+            var3.unlink();
             var3 = null;
          }
 
@@ -397,27 +397,27 @@ public final class ItemDefinition {
       }
 
       Model var20;
-      if ((var20 = var19.d(1)) == null) {
+      if ((var20 = var19.getAmountModel(1)) == null) {
          return null;
       } else {
          Sprite var21 = null;
-         if (var19.h != -1 && (var21 = a(var19.G, 10, -1)) == null) {
+         if (var19.h != -1 && (var21 = sprite(var19.G, 10, -1)) == null) {
             return null;
          } else {
             Sprite var6 = new Sprite(32, 32);
             int var7 = uwotm8.Rasterizer3D.e;
             int var8 = uwotm8.Rasterizer3D.p;
             int[] var9 = uwotm8.Rasterizer3D.t;
-            int[] var10 = uwotm8.Rasterizer2D.f;
-            int var11 = uwotm8.Rasterizer2D.g;
-            int var12 = uwotm8.Rasterizer2D.h;
-            int var13 = uwotm8.Rasterizer2D.k;
-            int var14 = uwotm8.Rasterizer2D.l;
-            int var15 = uwotm8.Rasterizer2D.i;
-            int var16 = uwotm8.Rasterizer2D.j;
+            int[] var10 = uwotm8.Rasterizer2D.pixels;
+            int var11 = uwotm8.Rasterizer2D.width;
+            int var12 = uwotm8.Rasterizer2D.height;
+            int var13 = uwotm8.Rasterizer2D.clipLeft;
+            int var14 = uwotm8.Rasterizer2D.clipRight;
+            int var15 = uwotm8.Rasterizer2D.clipBottom;
+            int var16 = uwotm8.Rasterizer2D.clipTop;
             uwotm8.Rasterizer3D.c = false;
-            uwotm8.Rasterizer2D.a(32, 32, var6.a);
-            uwotm8.Rasterizer2D.b(32, 0, 0, 0, 32);
+            uwotm8.Rasterizer2D.init(32, 32, var6.a);
+            uwotm8.Rasterizer2D.fillRectangle(32, 0, 0, 0, 32);
             uwotm8.Rasterizer3D.b();
             int var17 = var19.p;
             if (var2 == -1) {
@@ -479,17 +479,17 @@ public final class ItemDefinition {
                var17 = var21.e;
                var21.d = 32;
                var21.e = 32;
-               var21.d(0, 0);
+               var21.drawSprite(0, 0);
                var21.d = var4;
                var21.e = var17;
             }
 
             if (var2 == 0) {
-               d.a(var6, (long)var0);
+               d.put(var6, (long)var0);
             }
 
-            uwotm8.Rasterizer2D.a(var12, var11, var10);
-            uwotm8.Rasterizer2D.b(var16, var13, var14, var15);
+            uwotm8.Rasterizer2D.init(var12, var11, var10);
+            uwotm8.Rasterizer2D.setBounds(var16, var13, var14, var15);
             uwotm8.Rasterizer3D.e = var7;
             uwotm8.Rasterizer3D.p = var8;
             uwotm8.Rasterizer3D.t = var9;
@@ -506,7 +506,7 @@ public final class ItemDefinition {
       }
    }
 
-   public final Model d(int var1) {
+   public final Model getAmountModel(int var1) {
       while(true) {
          int var3;
          if (this.O != null && var1 > 1) {
@@ -522,12 +522,13 @@ public final class ItemDefinition {
                ItemDefinition var10000 = c(var2);
                var1 = 1;
                //this = var10000;
-               continue;
+               //continue;
+               return var10000.getAmountModel(var1);
             }
          }
 
          Model var4;
-         if ((var4 = (Model)e.a((long)this.c)) != null) {
+         if ((var4 = (Model)e.get((long)this.c)) != null) {
             return var4;
          }
 
@@ -547,12 +548,12 @@ public final class ItemDefinition {
 
          var4.a(64 + this.R, 768 + this.J, -50, -10, -50, true);
          var4.w = true;
-         e.a(var4, (long)this.c);
+         e.put(var4, (long)this.c);
          return var4;
       }
    }
 
-   public final Model e(int var1) {
+   public final Model asStack(int var1) {
       while(true) {
          int var3;
          if (this.O != null && var1 > 1) {
@@ -568,7 +569,8 @@ public final class ItemDefinition {
                ItemDefinition var10000 = c(var2);
                var1 = 1;
                //this = var10000;
-               continue;
+               //continue;
+               return var10000.asStack(var1);
             }
          }
 

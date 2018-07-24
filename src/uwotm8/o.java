@@ -24,9 +24,9 @@ public final class o extends Rasterizer2D
         this.r = new Random();
         this.s = false;
         System.out.println(s);
-        final Buffer i = new Buffer(g.b(String.valueOf(s) + ".dat"));
+        final Buffer i = new Buffer(g.getEntry(String.valueOf(s) + ".dat"));
         final Buffer j;
-        (j = new Buffer(g.b("index.dat"))).b = i.g() + 4;
+        (j = new Buffer(g.getEntry("index.dat"))).b = i.g() + 4;
         final int e;
         if ((e = j.e()) > 0) {
             final Buffer k = j;
@@ -248,7 +248,7 @@ public final class o extends Rasterizer2D
             }
         }
         if (this.s) {
-            uwotm8.Rasterizer2D.c(n3 + (int)(this.a * 0.7), 8388608, n - n4, n4);
+            uwotm8.Rasterizer2D.drawHorizontal(n3 + (int)(this.a * 0.7), 8388608, n - n4, n4);
         }
     }
     
@@ -332,37 +332,37 @@ public final class o extends Rasterizer2D
     }
     
     private void a(final byte[] array, int k, int i, int n, int n2, final int n3) {
-        int n4 = k + i * uwotm8.o.g;
-        int n5 = uwotm8.o.g - n;
+        int n4 = k + i * uwotm8.o.width;
+        int n5 = uwotm8.o.width - n;
         int n6 = 0;
         int n7 = 0;
-        if (i < uwotm8.o.i) {
-            final int n8 = uwotm8.o.i - i;
+        if (i < uwotm8.o.clipBottom) {
+            final int n8 = uwotm8.o.clipBottom - i;
             n2 -= n8;
-            i = uwotm8.o.i;
+            i = uwotm8.o.clipBottom;
             n7 = 0 + n8 * n;
-            n4 += n8 * uwotm8.o.g;
+            n4 += n8 * uwotm8.o.width;
         }
-        if (i + n2 >= uwotm8.o.j) {
-            n2 -= i + n2 - uwotm8.o.j;
+        if (i + n2 >= uwotm8.o.clipTop) {
+            n2 -= i + n2 - uwotm8.o.clipTop;
         }
-        if (k < uwotm8.o.k) {
-            final int n9 = uwotm8.o.k - k;
+        if (k < uwotm8.o.clipLeft) {
+            final int n9 = uwotm8.o.clipLeft - k;
             n -= n9;
-            k = uwotm8.o.k;
+            k = uwotm8.o.clipLeft;
             n7 += n9;
             n4 += n9;
             n6 = n9 + 0;
             n5 += n9;
         }
-        if (k + n >= uwotm8.o.l) {
-            final int n10 = k + n - uwotm8.o.l;
+        if (k + n >= uwotm8.o.clipRight) {
+            final int n10 = k + n - uwotm8.o.clipRight;
             n -= n10;
             n6 += n10;
             n5 += n10;
         }
         if (n > 0 && n2 > 0) {
-            a(uwotm8.o.f, array, n3, n7, n4, n, n2, n5, n6);
+            a(uwotm8.o.pixels, array, n3, n7, n4, n, n2, n5, n6);
         }
     }
     

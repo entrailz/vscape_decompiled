@@ -28,6 +28,6 @@ public final class q
     }
     
     public final void a() {
-        Rasterizer2D.a(this.b, this.a, this.c);
+        Rasterizer2D.init(this.b, this.a, this.c);
     }
 }

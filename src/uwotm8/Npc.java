@@ -4,7 +4,7 @@ public final class Npc extends Actor
 {
     public ActorDefinition ad;
     
-    public final Model a() {
+    public final Model getRotatedModel() {
         if (this.ad == null) {
             return null;
         }
@@ -16,14 +16,14 @@ public final class Npc extends Actor
             if (super.p >= 0 && super.p != super.j) {
                 n2 = uwotm8.Animation.a[super.p].c[super.q];
             }
-            d = (d2 = this.ad.a(n2, n, uwotm8.Animation.a[super.y].f));
+            d = (d2 = this.ad.getAnimatedModel(n2, n, uwotm8.Animation.a[super.y].f));
         }
         else {
             int n3 = -1;
             if (super.p >= 0) {
                 n3 = uwotm8.Animation.a[super.p].c[super.q];
             }
-            d = (d2 = this.ad.a(-1, n3, null));
+            d = (d2 = this.ad.getAnimatedModel(-1, n3, null));
         }
         Model d3 = d2;
         if (d == null) {
@@ -32,10 +32,10 @@ public final class Npc extends Actor
         super.h = d3.aD;
         final SpotAnimation g;
         final Model a;
-        if (super.s != -1 && super.t != -1 && (a = (g = uwotm8.SpotAnimation.a[super.s]).a()) != null) {
+        if (super.s != -1 && super.t != -1 && (a = (g = uwotm8.SpotAnimation.a[super.s]).getModel()) != null) {
             final int n4 = g.b.c[super.t];
             final Model d4;
-            (d4 = new Model(true, uwotm8.Frame.b(n4), false, a)).a(0, -super.w, 0);
+            (d4 = new Model(true, uwotm8.Frame.isValid(n4), false, a)).a(0, -super.w, 0);
             d4.d();
             d4.c(n4);
             d4.v = null;

@@ -12,9 +12,9 @@ public final class IndexedImage extends Rasterizer2D
     private int r;
     
     public IndexedImage(final Archive g, final String s, int i) {
-        final Buffer j = new Buffer(g.b(String.valueOf(s) + ".dat"));
+        final Buffer j = new Buffer(g.getEntry(String.valueOf(s) + ".dat"));
         final Buffer k;
-        (k = new Buffer(g.b("index.dat"))).b = j.g();
+        (k = new Buffer(g.getEntry("index.dat"))).b = j.g();
         this.e = k.g();
         this.r = k.g();
         final int e = k.e();
@@ -118,40 +118,40 @@ public final class IndexedImage extends Rasterizer2D
     public final void a(int i, int j) {
         i += this.p;
         j += this.q;
-        int n = i + j * uwotm8.Rasterizer2D.g;
+        int n = i + j * uwotm8.Rasterizer2D.width;
         int n2 = 0;
         int d = this.d;
         int c = this.c;
-        int n3 = uwotm8.Rasterizer2D.g - c;
+        int n3 = uwotm8.Rasterizer2D.width - c;
         int n4 = 0;
-        if (j < uwotm8.Rasterizer2D.i) {
-            final int n5 = uwotm8.Rasterizer2D.i - j;
+        if (j < uwotm8.Rasterizer2D.clipBottom) {
+            final int n5 = uwotm8.Rasterizer2D.clipBottom - j;
             d -= n5;
-            j = uwotm8.Rasterizer2D.i;
+            j = uwotm8.Rasterizer2D.clipBottom;
             n2 = 0 + n5 * c;
-            n += n5 * uwotm8.Rasterizer2D.g;
+            n += n5 * uwotm8.Rasterizer2D.width;
         }
-        if (j + d > uwotm8.Rasterizer2D.j) {
-            d -= j + d - uwotm8.Rasterizer2D.j;
+        if (j + d > uwotm8.Rasterizer2D.clipTop) {
+            d -= j + d - uwotm8.Rasterizer2D.clipTop;
         }
-        if (i < uwotm8.Rasterizer2D.k) {
-            final int n6 = uwotm8.Rasterizer2D.k - i;
+        if (i < uwotm8.Rasterizer2D.clipLeft) {
+            final int n6 = uwotm8.Rasterizer2D.clipLeft - i;
             c -= n6;
-            i = uwotm8.Rasterizer2D.k;
+            i = uwotm8.Rasterizer2D.clipLeft;
             n2 += n6;
             n += n6;
             n4 = n6 + 0;
             n3 += n6;
         }
-        if (i + c > uwotm8.Rasterizer2D.l) {
-            final int n7 = i + c - uwotm8.Rasterizer2D.l;
+        if (i + c > uwotm8.Rasterizer2D.clipRight) {
+            final int n7 = i + c - uwotm8.Rasterizer2D.clipRight;
             c -= n7;
             n4 += n7;
             n3 += n7;
         }
         if (c > 0 && d > 0) {
             final int n8 = d;
-            final int[] f = uwotm8.Rasterizer2D.f;
+            final int[] f = uwotm8.Rasterizer2D.pixels;
             final byte[] a = this.a;
             final int n9 = n3;
             final int n10 = n;

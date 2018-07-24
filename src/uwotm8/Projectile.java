@@ -27,7 +27,7 @@ public final class Projectile extends Renderable
     private int x;
     public final int i;
     
-    public final void a(final int n, final int n2, final int n3, final int n4) {
+    public final void trackTarget(final int n, final int n2, final int n3, final int n4) {
         if (!this.o) {
             final double n5 = n4 - this.p;
             final double n6 = n2 - this.q;
@@ -51,16 +51,16 @@ public final class Projectile extends Renderable
         this.n = n11 / (n12 * n12);
     }
     
-    public final Model a() {
+    public final Model getRotatedModel() {
         final Model a;
-        if ((a = this.u.a()) == null) {
+        if ((a = this.u.getModel()) == null) {
             return null;
         }
         int n = -1;
         if (this.u.b != null) {
             n = this.u.b.c[this.v];
         }
-        final Model d = new Model(true, uwotm8.Frame.b(n), false, a);
+        final Model d = new Model(true, uwotm8.Frame.isValid(n), false, a);
         if (n != -1) {
             d.d();
             d.c(n);
@@ -100,7 +100,7 @@ public final class Projectile extends Renderable
         this.o = false;
     }
     
-    public final void a(final int n) {
+    public final void move(final int n) {
         this.o = true;
         this.d += this.j * n;
         this.e += this.k * n;
@@ -110,8 +110,8 @@ public final class Projectile extends Renderable
         this.x = ((int)(Math.atan2(this.m, this.l) * 325.949) & 0x7FF);
         if (this.u.b != null) {
             this.w += n;
-            while (this.w > this.u.b.a(this.v)) {
-                this.w -= this.u.b.a(this.v) + 1;
+            while (this.w > this.u.b.duration(this.v)) {
+                this.w -= this.u.b.duration(this.v) + 1;
                 ++this.v;
                 if (this.v >= this.u.b.b) {
                     this.v = 0;

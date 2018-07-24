@@ -20,9 +20,9 @@ public final class SpotAnimation
     	uwotm8.SpotAnimation.h = new Cache(30);
     }
     
-    public static void a(final Archive g) {
+    public static void init(final Archive g) {
         final Buffer i;
-        final int g2 = (i = new Buffer(g.b("spotanim.dat"))).g();
+        final int g2 = (i = new Buffer(g.getEntry("spotanim.dat"))).g();
         if (uwotm8.SpotAnimation.a == null) {
         	uwotm8.SpotAnimation.a = new SpotAnimation[g2];
         }
@@ -74,9 +74,9 @@ public final class SpotAnimation
         }
     }
     
-    public final Model a() {
+    public final Model getModel() {
         final Model d;
-        if ((d = (Model)uwotm8.SpotAnimation.h.a(this.i)) != null) {
+        if ((d = (Model)uwotm8.SpotAnimation.h.get(this.i)) != null) {
             return d;
         }
         final Model a;
@@ -88,7 +88,7 @@ public final class SpotAnimation
                 a.a(this.l[i], this.m[i]);
             }
         }
-        uwotm8.SpotAnimation.h.a(a, this.i);
+        uwotm8.SpotAnimation.h.put(a, this.i);
         return a;
     }
     

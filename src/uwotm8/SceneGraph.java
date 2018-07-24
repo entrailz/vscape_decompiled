@@ -13,7 +13,7 @@ public final class SceneGraph
     private final SceneTile[][][] i;
     private int j;
     private int k;
-    private final v[] l;
+    private final GameObject[] l;
     private final int[][][] m;
     private static int n;
     private static int o;
@@ -31,7 +31,7 @@ public final class SceneGraph
     private static int A;
     private static int B;
     private static int C;
-    private static v[] D;
+    private static GameObject[] D;
     private static final int[] E;
     private static final int[] F;
     private static final int[] G;
@@ -71,7 +71,7 @@ public final class SceneGraph
     
     static {
         uwotm8.SceneGraph.a = true;
-        uwotm8.SceneGraph.D = new v[100];
+        uwotm8.SceneGraph.D = new GameObject[100];
         E = new int[] { 53, -53, -53, 53 };
         F = new int[] { -53, -53, 53, 53 };
         G = new int[] { -45, 45, 45, -45 };
@@ -98,7 +98,7 @@ public final class SceneGraph
         this.ac = new int[][] { new int[16], { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1 }, { 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 }, { 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1 }, { 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0 }, { 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1 }, { 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1 } };
         this.ad = new int[][] { { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 }, { 12, 8, 4, 0, 13, 9, 5, 1, 14, 10, 6, 2, 15, 11, 7, 3 }, { 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 }, { 3, 7, 11, 15, 2, 6, 10, 14, 1, 5, 9, 13, 0, 4, 8, 12 } };
         this.d = true;
-        this.l = new v[5000];
+        this.l = new GameObject[5000];
         this.Z = new int[10000];
         this.aa = new int[10000];
         this.e = 4;
@@ -107,10 +107,10 @@ public final class SceneGraph
         this.i = new SceneTile[4][104][104];
         this.m = new int[4][105][105];
         this.h = h;
-        this.b();
+        this.reset();
     }
     
-    public static void a() {
+    public static void dispose() {
         uwotm8.SceneGraph.D = null;
         uwotm8.SceneGraph.M = null;
         uwotm8.SceneGraph.N = null;
@@ -119,7 +119,7 @@ public final class SceneGraph
         uwotm8.SceneGraph.af = null;
     }
     
-    public final void b() {
+    public final void reset() {
         for (int i = 0; i < 4; ++i) {
             for (int j = 0; j < 104; ++j) {
                 for (int k = 0; k < 104; ++k) {
@@ -164,9 +164,9 @@ public final class SceneGraph
                 final SceneTile q3 = q2;
                 --q3.a;
                 for (int j = 0; j < q2.k; ++j) {
-                    final v v;
+                    final GameObject v;
                     if (((v = q2.l[j]).m >> 29 & 0x3) == 0x2 && v.g == n2 && v.i == n) {
-                        final v v2 = v;
+                        final GameObject v2 = v;
                         --v2.a;
                     }
                 }
@@ -195,7 +195,7 @@ public final class SceneGraph
         uwotm8.SceneGraph.N[n][uwotm8.SceneGraph.M[n]++] = t;
     }
     
-    public final void a(final int n, final int n2, final int n3, final int o) {
+    public final void setCollisionPlane(final int n, final int n2, final int n3, final int o) {
         if (this.i[n][n2][n3] != null) {
             this.i[n][n2][n3].o = o;
         }
@@ -231,12 +231,12 @@ public final class SceneGraph
         this.i[n][n2][n3].f = f;
     }
     
-    public final void a(final int n, final int a, final int n2, final Renderable d, final byte f, final int e, final int n3) {
+    public final void addFloorDecoration(final int n, final int a, final int n2, final Renderable d, final byte f, final int e, final int n3) {
         if (d == null) {
             return;
         }
-        final Z_1 i;
-        (i = new Z_1()).d = d;
+        final GroundDecoration i;
+        (i = new GroundDecoration()).d = d;
         i.b = (n3 << 7) + 64;
         i.c = (n2 << 7) + 64;
         i.a = a;
@@ -249,8 +249,8 @@ public final class SceneGraph
     }
     
     public final void a(final int n, int n2, final Renderable e, int i, final Renderable f, final Renderable d, final int n3, final int n4) {
-        final R_1 j;
-        (j = new R_1()).d = d;
+        final GroundItem j;
+        (j = new GroundItem()).d = d;
         j.b = (n << 7) + 64;
         j.c = (n4 << 7) + 64;
         j.a = i;
@@ -274,12 +274,12 @@ public final class SceneGraph
         this.i[n3][n][n4].j = j;
     }
     
-    public final void a(int i, final Renderable f, final int h, final int n, final byte j, final int n2, final Renderable g, final int a, final int e, final int n3) {
+    public final void addWall(int i, final Renderable f, final int h, final int n, final byte j, final int n2, final Renderable g, final int a, final int e, final int n3) {
         if (f == null && g == null) {
             return;
         }
-        final ab g2;
-        (g2 = new ab()).h = h;
+        final Wall g2;
+        (g2 = new Wall()).h = h;
         g2.i = j;
         g2.b = (n2 << 7) + 64;
         g2.c = (n << 7) + 64;
@@ -296,12 +296,12 @@ public final class SceneGraph
         this.i[n3][n2][n].g = g2;
     }
     
-    public final void a(int i, final int n, final int e, final int n2, final int n3, final int a, final Renderable f, final int n4, final byte h, final int n5, final int d) {
+    public final void addWallDecoration(int i, final int n, final int e, final int n2, final int n3, final int a, final Renderable f, final int n4, final byte h, final int n5, final int d) {
         if (f == null) {
             return;
         }
-        final ac h2;
-        (h2 = new ac()).g = i;
+        final WallDecoration h2;
+        (h2 = new WallDecoration()).g = i;
         h2.h = h;
         h2.b = (n4 << 7) + 64 + n3;
         h2.c = (n << 7) + 64 + n5;
@@ -317,11 +317,11 @@ public final class SceneGraph
         this.i[n2][n4][n].h = h2;
     }
     
-    public final boolean a(final int n, final byte b, final int n2, final int n3, final Renderable a, final int n4, final int n5, final int n6, final int n7, final int n8) {
-        return a == null || this.a(n5, n8, n7, n4, n3, (n8 << 7) + n4 * 64, (n7 << 7) + n3 * 64, n2, a, n6, false, n, b);
+    public final boolean addObject(final int n, final byte b, final int n2, final int n3, final Renderable a, final int n4, final int n5, final int n6, final int n7, final int n8) {
+        return a == null || this.addRenderable(n5, n8, n7, n4, n3, (n8 << 7) + n4 * 64, (n7 << 7) + n3 * 64, n2, a, n6, false, n, b);
     }
     
-    public final boolean a(final int n, final int n2, final int n3, final int n4, final int n5, int n6, final int n7, final Renderable a, final boolean b) {
+    public final boolean addEntity(final int n, final int n2, final int n3, final int n4, final int n5, int n6, final int n7, final Renderable a, final boolean b) {
         if (a == null) {
             return true;
         }
@@ -347,14 +347,14 @@ public final class SceneGraph
         final int n12 = n9 / 128;
         final int n13 = n10 / 128;
         n6 /= 128;
-        return this.a(n, n11, n12, n13 - n11 + 1, n6 - n12 + 1, n7, n5, n3, a, n2, true, n4, (byte)0);
+        return this.addRenderable(n, n11, n12, n13 - n11 + 1, n6 - n12 + 1, n7, n5, n3, a, n2, true, n4, (byte)0);
     }
     
-    public final boolean a(final int n, final int n2, final Renderable a, final int n3, final int n4, final int n5, final int n6, final int n7, final int n8, final int n9, final int n10) {
-        return a == null || this.a(n, n7, n10, n8 - n7 + 1, n4 - n10 + 1, n5, n2, n6, a, n3, true, n9, (byte)0);
+    public final boolean addRenderable(final int n, final int n2, final Renderable a, final int n3, final int n4, final int n5, final int n6, final int n7, final int n8, final int n9, final int n10) {
+        return a == null || this.addRenderable(n, n7, n10, n8 - n7 + 1, n4 - n10 + 1, n5, n2, n6, a, n3, true, n9, (byte)0);
     }
     
-    private boolean a(final int a, final int g, final int i, final int n, final int n2, int c, int j, final int b, final Renderable e, final int f, final boolean b2, final int m, final byte n3) {
+    private boolean addRenderable(final int a, final int g, final int i, final int n, final int n2, int c, int j, final int b, final Renderable e, final int f, final boolean b2, final int m, final byte n3) {
         for (int k = g; k < g + n; ++k) {
             for (int l = i; l < i + n2; ++l) {
                 if (k < 0 || l < 0 || k >= 104 || l >= 104) {
@@ -366,8 +366,8 @@ public final class SceneGraph
                 }
             }
         }
-        final v v;
-        (v = new v()).m = m;
+        final GameObject v;
+        (v = new GameObject()).m = m;
         v.n = n3;
         v.a = a;
         v.c = c;
@@ -417,13 +417,13 @@ public final class SceneGraph
     
     public final void c() {
         for (int i = 0; i < this.k; ++i) {
-            this.a(this.l[i]);
+            this.removeInteractable(this.l[i]);
             this.l[i] = null;
         }
         this.k = 0;
     }
     
-    private void a(final v v) {
+    private void removeInteractable(final GameObject v) {
         for (int i = v.g; i <= v.h; ++i) {
             for (int j = v.i; j <= v.j; ++j) {
                 final SceneTile q;
@@ -434,7 +434,7 @@ public final class SceneGraph
                             --q2.k;
                             for (int l = k; l < q.k; ++l) {
                                 final int n = l;
-                                final v[] m = q.l;
+                                final GameObject[] m = q.l;
                                 m[n] = m[l + 1];
                                 final int n2 = l;
                                 final int[] m2 = q.m;
@@ -454,12 +454,12 @@ public final class SceneGraph
         }
     }
     
-    public final void b(int n, final int n2, int n3, final int n4) {
+    public final void displaceWallDecor(int n, final int n2, int n3, final int n4) {
         final SceneTile q;
         if ((q = this.i[n4][n3][n]) == null) {
             return;
         }
-        final ac h;
+        final WallDecoration h;
         if ((h = q.h) != null) {
             n3 = (n3 << 7) + 64;
             n = (n << 7) + 64;
@@ -488,9 +488,9 @@ public final class SceneGraph
             return;
         }
         for (int i = 0; i < q.k; ++i) {
-            final v v;
+            final GameObject v;
             if (((v = q.l[i]).m >> 29 & 0x3) == 0x2 && v.g == n2 && v.i == n3) {
-                this.a(v);
+                this.removeInteractable(v);
                 return;
             }
         }
@@ -511,7 +511,7 @@ public final class SceneGraph
         }
     }
     
-    public final ab e(final int n, final int n2, final int n3) {
+    public final Wall getTileWall(final int n, final int n2, final int n3) {
         final SceneTile q;
         if ((q = this.i[n][n2][n3]) == null) {
             return null;
@@ -519,7 +519,7 @@ public final class SceneGraph
         return q.g;
     }
     
-    public final ac f(final int n, final int n2, final int n3) {
+    public final WallDecoration getTileWallDecoration(final int n, final int n2, final int n3) {
         final SceneTile q;
         if ((q = this.i[n3][n][n2]) == null) {
             return null;
@@ -527,13 +527,13 @@ public final class SceneGraph
         return q.h;
     }
     
-    public final v g(final int n, final int n2, final int n3) {
+    public final GameObject firstGameObject(final int n, final int n2, final int n3) {
         final SceneTile q;
         if ((q = this.i[n3][n][n2]) == null) {
             return null;
         }
         for (int i = 0; i < q.k; ++i) {
-            final v v;
+            final GameObject v;
             if (((v = q.l[i]).m >> 29 & 0x3) == 0x2 && v.g == n && v.i == n2) {
                 return v;
             }
@@ -541,7 +541,7 @@ public final class SceneGraph
         return null;
     }
     
-    public final Z_1 h(final int n, final int n2, final int n3) {
+    public final GroundDecoration getTileFloorDecoration(final int n, final int n2, final int n3) {
         final SceneTile q;
         if ((q = this.i[n3][n2][n]) == null || q.i == null) {
             return null;
@@ -549,7 +549,7 @@ public final class SceneGraph
         return q.i;
     }
     
-    public final int i(final int n, final int n2, final int n3) {
+    public final int getWallKey(final int n, final int n2, final int n3) {
         final SceneTile q;
         if ((q = this.i[n][n2][n3]) == null || q.g == null) {
             return 0;
@@ -557,7 +557,7 @@ public final class SceneGraph
         return q.g.h;
     }
     
-    public final int j(final int n, final int n2, final int n3) {
+    public final int getWallDecorationKey(final int n, final int n2, final int n3) {
         final SceneTile q;
         if ((q = this.i[n][n2][n3]) == null || q.h == null) {
             return 0;
@@ -571,7 +571,7 @@ public final class SceneGraph
             return 0;
         }
         for (int i = 0; i < q.k; ++i) {
-            final v v;
+            final GameObject v;
             if (((v = q.l[i]).m >> 29 & 0x3) == 0x2 && v.g == n2 && v.i == n3) {
                 return v.m;
             }
@@ -614,10 +614,10 @@ public final class SceneGraph
         n = n * 768 >> 8;
         int k;
         SceneTile q;
-        ab g;
+        Wall g;
         int l;
-        v v;
-        Z_1 m;
+        GameObject v;
+        GroundDecoration m;
         int n2;
         int n3;
         Model d;
@@ -690,7 +690,7 @@ public final class SceneGraph
                             final SceneTile q;
                             if (k >= 0 && k < 104 && (!b || j >= n7 || k >= n9 || (k < n5 && j != n4)) && (q = this.i[i][j][k]) != null) {
                                 final int n10 = (this.h[i][j][k] + this.h[i][j + 1][k] + this.h[i][j][k + 1] + this.h[i][j + 1][k + 1]) / 4 - (this.h[n][n4][n5] + this.h[n][n4 + 1][n5] + this.h[n][n4][n5 + 1] + this.h[n][n4 + 1][n5 + 1]) / 4;
-                                final ab g;
+                                final Wall g;
                                 if ((g = q.g) != null && g.f != null && g.f.aC != null) {
                                     this.a(d, (Model)g.f, (j - n4 << 7) + (1 - n2 << 6), n10, (k - n5 << 7) + (1 - n3 << 6), b);
                                 }
@@ -698,7 +698,7 @@ public final class SceneGraph
                                     this.a(d, (Model)g.g, (j - n4 << 7) + (1 - n2 << 6), n10, (k - n5 << 7) + (1 - n3 << 6), b);
                                 }
                                 for (int l = 0; l < q.k; ++l) {
-                                    final v v;
+                                    final GameObject v;
                                     if ((v = q.l[l]) != null && v.e != null && v.e.aC != null) {
                                         this.a(d, (Model)v.e, (v.g - n4 << 7) + (v.h - v.g + 1 - n2 << 6), n10, (v.i - n5 << 7) + (v.j - v.i + 1 - n3 << 6), b);
                                     }
@@ -719,31 +719,31 @@ public final class SceneGraph
         final int[] c = d2.c;
         final int b2 = d2.b;
         for (int i = 0; i < d.b; ++i) {
-            final F_1 f = d.aC[i];
-            final F_1 f2;
+            final VertexNormal f = d.aC[i];
+            final VertexNormal f2;
             final int n5;
             final int n6;
             final int n7;
             if ((f2 = d.x[i]).d != 0 && (n5 = d.d[i] - n2) <= d2.q && (n6 = d.c[i] - n) >= d2.l && n6 <= d2.m && (n7 = d.e[i] - n3) >= d2.o && n7 <= d2.n) {
                 for (int j = 0; j < b2; ++j) {
-                    final F_1 f3 = d2.aC[j];
-                    final F_1 f4 = d2.x[j];
+                    final VertexNormal f3 = d2.aC[j];
+                    final VertexNormal f4 = d2.x[j];
                     if (n6 == c[j] && n7 == d2.e[j] && n5 == d2.d[j] && f4.d != 0) {
-                        final F_1 f5 = f;
+                        final VertexNormal f5 = f;
                         f5.a += f4.a;
-                        final F_1 f6 = f;
+                        final VertexNormal f6 = f;
                         f6.b += f4.b;
-                        final F_1 f7 = f;
+                        final VertexNormal f7 = f;
                         f7.c += f4.c;
-                        final F_1 f8 = f;
+                        final VertexNormal f8 = f;
                         f8.d += f4.d;
-                        final F_1 f9 = f3;
+                        final VertexNormal f9 = f3;
                         f9.a += f2.a;
-                        final F_1 f10 = f3;
+                        final VertexNormal f10 = f3;
                         f10.b += f2.b;
-                        final F_1 f11 = f3;
+                        final VertexNormal f11 = f3;
                         f11.c += f2.c;
-                        final F_1 f12 = f3;
+                        final VertexNormal f12 = f3;
                         f12.d += f2.d;
                         ++n4;
                         this.Z[i] = this.ab;
@@ -1232,8 +1232,8 @@ public final class SceneGraph
     }
     
     private void a(SceneTile q, boolean b) {
-        uwotm8.SceneGraph.Q.a(q);
-        while ((q = (SceneTile)uwotm8.SceneGraph.Q.a()) != null) {
+        uwotm8.SceneGraph.Q.insertBack(q);
+        while ((q = (SceneTile)uwotm8.SceneGraph.Q.popTail()) != null) {
             if (q.q) {
                 final int b2 = q.b;
                 final int c = q.c;
@@ -1267,20 +1267,20 @@ public final class SceneGraph
                         final SceneTile w;
                         if ((w = q.w).e != null) {
                             if (!this.n(0, b2, c)) {
-                                this.a(w.e, 0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, b2, c);
+                                this.drawPlainTile(w.e, 0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, b2, c);
                             }
                         }
                         else if (w.f != null && !this.n(0, b2, c)) {
-                            this.a(b2, uwotm8.SceneGraph.z, uwotm8.SceneGraph.B, w.f, uwotm8.SceneGraph.A, c, uwotm8.SceneGraph.C);
+                            this.drawTexuredTile(b2, uwotm8.SceneGraph.z, uwotm8.SceneGraph.B, w.f, uwotm8.SceneGraph.A, c, uwotm8.SceneGraph.C);
                         }
-                        final ab g;
+                        final Wall g;
                         if ((g = w.g) != null) {
-                            g.f.a(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, g.b - uwotm8.SceneGraph.w, g.a - uwotm8.SceneGraph.x, g.c - uwotm8.SceneGraph.y, g.h);
+                            g.f.renderAtPoint(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, g.b - uwotm8.SceneGraph.w, g.a - uwotm8.SceneGraph.x, g.c - uwotm8.SceneGraph.y, g.h);
                         }
                         for (int i = 0; i < w.k; ++i) {
-                            final v v;
+                            final GameObject v;
                             if ((v = w.l[i]) != null) {
-                                v.e.a(v.f, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, v.c - uwotm8.SceneGraph.w, v.b - uwotm8.SceneGraph.x, v.d - uwotm8.SceneGraph.y, v.m);
+                                v.e.renderAtPoint(v.f, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, v.c - uwotm8.SceneGraph.w, v.b - uwotm8.SceneGraph.x, v.d - uwotm8.SceneGraph.y, v.m);
                             }
                         }
                     }
@@ -1288,17 +1288,17 @@ public final class SceneGraph
                     if (q.e != null) {
                         if (!this.n(d, b2, c)) {
                             b3 = true;
-                            this.a(q.e, d, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, b2, c);
+                            this.drawPlainTile(q.e, d, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, b2, c);
                         }
                     }
                     else if (q.f != null && !this.n(d, b2, c)) {
                         b3 = true;
-                        this.a(b2, uwotm8.SceneGraph.z, uwotm8.SceneGraph.B, q.f, uwotm8.SceneGraph.A, c, uwotm8.SceneGraph.C);
+                        this.drawTexuredTile(b2, uwotm8.SceneGraph.z, uwotm8.SceneGraph.B, q.f, uwotm8.SceneGraph.A, c, uwotm8.SceneGraph.C);
                     }
                     int n = 0;
                     int n2 = 0;
-                    final ab g2 = q.g;
-                    final ac h = q.h;
+                    final Wall g2 = q.g;
+                    final WallDecoration h = q.h;
                     if (g2 != null || h != null) {
                         if (uwotm8.SceneGraph.u == b2) {
                             ++n;
@@ -1342,15 +1342,15 @@ public final class SceneGraph
                             q.s = 0;
                         }
                         if ((g2.d & n2) != 0x0 && !this.d(d, b2, c, g2.d)) {
-                            g2.f.a(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, g2.b - uwotm8.SceneGraph.w, g2.a - uwotm8.SceneGraph.x, g2.c - uwotm8.SceneGraph.y, g2.h);
+                            g2.f.renderAtPoint(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, g2.b - uwotm8.SceneGraph.w, g2.a - uwotm8.SceneGraph.x, g2.c - uwotm8.SceneGraph.y, g2.h);
                         }
                         if ((g2.e & n2) != 0x0 && !this.d(d, b2, c, g2.e)) {
-                            g2.g.a(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, g2.b - uwotm8.SceneGraph.w, g2.a - uwotm8.SceneGraph.x, g2.c - uwotm8.SceneGraph.y, g2.h);
+                            g2.g.renderAtPoint(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, g2.b - uwotm8.SceneGraph.w, g2.a - uwotm8.SceneGraph.x, g2.c - uwotm8.SceneGraph.y, g2.h);
                         }
                     }
                     if (h != null && !this.e(d, b2, c, h.f.aD)) {
                         if ((h.d & n2) != 0x0) {
-                            h.f.a(h.e, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, h.b - uwotm8.SceneGraph.w, h.a - uwotm8.SceneGraph.x, h.c - uwotm8.SceneGraph.y, h.g);
+                            h.f.renderAtPoint(h.e, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, h.b - uwotm8.SceneGraph.w, h.a - uwotm8.SceneGraph.x, h.c - uwotm8.SceneGraph.y, h.g);
                         }
                         else if ((h.d & 0x300) != 0x0) {
                             final int n3 = h.b - uwotm8.SceneGraph.w;
@@ -1372,28 +1372,28 @@ public final class SceneGraph
                                 n7 = n5;
                             }
                             if ((h.d & 0x100) != 0x0 && n7 < n6) {
-                                h.f.a((e << 9) + 256, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, n3 + uwotm8.SceneGraph.E[e], n4, n5 + uwotm8.SceneGraph.F[e], h.g);
+                                h.f.renderAtPoint((e << 9) + 256, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, n3 + uwotm8.SceneGraph.E[e], n4, n5 + uwotm8.SceneGraph.F[e], h.g);
                             }
                             if ((h.d & 0x200) != 0x0 && n7 > n6) {
-                                h.f.a((e << 9) + 1280 & 0x7FF, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, n3 + uwotm8.SceneGraph.G[e], n4, n5 + uwotm8.SceneGraph.H[e], h.g);
+                                h.f.renderAtPoint((e << 9) + 1280 & 0x7FF, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, n3 + uwotm8.SceneGraph.G[e], n4, n5 + uwotm8.SceneGraph.H[e], h.g);
                             }
                         }
                     }
                     if (b3) {
-                        final Z_1 j;
+                        final GroundDecoration j;
                         if ((j = q.i) != null) {
-                            j.d.a(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, j.b - uwotm8.SceneGraph.w, j.a - uwotm8.SceneGraph.x, j.c - uwotm8.SceneGraph.y, j.e);
+                            j.d.renderAtPoint(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, j.b - uwotm8.SceneGraph.w, j.a - uwotm8.SceneGraph.x, j.c - uwotm8.SceneGraph.y, j.e);
                         }
-                        final R_1 k;
+                        final GroundItem k;
                         if ((k = q.j) != null && k.h == 0) {
                             if (k.e != null) {
-                                k.e.a(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, k.b - uwotm8.SceneGraph.w, k.a - uwotm8.SceneGraph.x, k.c - uwotm8.SceneGraph.y, k.g);
+                                k.e.renderAtPoint(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, k.b - uwotm8.SceneGraph.w, k.a - uwotm8.SceneGraph.x, k.c - uwotm8.SceneGraph.y, k.g);
                             }
                             if (k.f != null) {
-                                k.f.a(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, k.b - uwotm8.SceneGraph.w, k.a - uwotm8.SceneGraph.x, k.c - uwotm8.SceneGraph.y, k.g);
+                                k.f.renderAtPoint(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, k.b - uwotm8.SceneGraph.w, k.a - uwotm8.SceneGraph.x, k.c - uwotm8.SceneGraph.y, k.g);
                             }
                             if (k.d != null) {
-                                k.d.a(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, k.b - uwotm8.SceneGraph.w, k.a - uwotm8.SceneGraph.x, k.c - uwotm8.SceneGraph.y, k.g);
+                                k.d.renderAtPoint(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, k.b - uwotm8.SceneGraph.w, k.a - uwotm8.SceneGraph.x, k.c - uwotm8.SceneGraph.y, k.g);
                             }
                         }
                     }
@@ -1401,19 +1401,19 @@ public final class SceneGraph
                     if ((n8 = q.n) != 0) {
                         final SceneTile q7;
                         if (b2 < uwotm8.SceneGraph.u && (n8 & 0x4) != 0x0 && (q7 = array[b2 + 1][c]) != null && q7.q) {
-                            uwotm8.SceneGraph.Q.a(q7);
+                            uwotm8.SceneGraph.Q.insertBack(q7);
                         }
                         final SceneTile q8;
                         if (c < uwotm8.SceneGraph.v && (n8 & 0x2) != 0x0 && (q8 = array[b2][c + 1]) != null && q8.q) {
-                            uwotm8.SceneGraph.Q.a(q8);
+                            uwotm8.SceneGraph.Q.insertBack(q8);
                         }
                         final SceneTile q9;
                         if (b2 > uwotm8.SceneGraph.u && (n8 & 0x1) != 0x0 && (q9 = array[b2 - 1][c]) != null && q9.q) {
-                            uwotm8.SceneGraph.Q.a(q9);
+                            uwotm8.SceneGraph.Q.insertBack(q9);
                         }
                         final SceneTile q10;
                         if (c > uwotm8.SceneGraph.v && (n8 & 0x8) != 0x0 && (q10 = array[b2][c - 1]) != null && q10.q) {
-                            uwotm8.SceneGraph.Q.a(q10);
+                            uwotm8.SceneGraph.Q.insertBack(q10);
                         }
                     }
                 }
@@ -1426,9 +1426,9 @@ public final class SceneGraph
                         }
                     }
                     if (b4) {
-                        final ab g3 = q.g;
+                        final Wall g3 = q.g;
                         if (!this.d(d, b2, c, g3.d)) {
-                            g3.f.a(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, g3.b - uwotm8.SceneGraph.w, g3.a - uwotm8.SceneGraph.x, g3.c - uwotm8.SceneGraph.y, g3.h);
+                            g3.f.renderAtPoint(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, g3.b - uwotm8.SceneGraph.w, g3.a - uwotm8.SceneGraph.x, g3.c - uwotm8.SceneGraph.y, g3.h);
                         }
                         q.s = 0;
                     }
@@ -1440,7 +1440,7 @@ public final class SceneGraph
                         int n9 = 0;
                     Label_2398:
                         for (int n10 = 0; n10 < m; ++n10) {
-                            final v v2;
+                            final GameObject v2;
                             if ((v2 = q.l[n10]).l != uwotm8.SceneGraph.p) {
                                 for (int g4 = v2.g; g4 <= v2.h; ++g4) {
                                     for (int i2 = v2.i; i2 <= v2.j; ++i2) {
@@ -1490,7 +1490,7 @@ public final class SceneGraph
                             int k2 = -50;
                             int n16 = -1;
                             for (int n17 = 0; n17 < n9; ++n17) {
-                                final v v3;
+                                final GameObject v3;
                                 if ((v3 = uwotm8.SceneGraph.D[n17]).l != uwotm8.SceneGraph.p) {
                                     if (v3.k > k2) {
                                         k2 = v3.k;
@@ -1517,19 +1517,19 @@ public final class SceneGraph
                             if (n16 == -1) {
                                 break;
                             }
-                            final v v4;
+                            final GameObject v4;
                             (v4 = uwotm8.SceneGraph.D[n16]).l = uwotm8.SceneGraph.p;
                             if (!this.b(d, v4.g, v4.h, v4.i, v4.j, v4.e.aD)) {
-                                v4.e.a(v4.f, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, v4.c - uwotm8.SceneGraph.w, v4.b - uwotm8.SceneGraph.x, v4.d - uwotm8.SceneGraph.y, v4.m);
+                                v4.e.renderAtPoint(v4.f, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, v4.c - uwotm8.SceneGraph.w, v4.b - uwotm8.SceneGraph.x, v4.d - uwotm8.SceneGraph.y, v4.m);
                             }
                             for (int g5 = v4.g; g5 <= v4.h; ++g5) {
                                 for (int i3 = v4.i; i3 <= v4.j; ++i3) {
                                     final SceneTile q12;
                                     if ((q12 = array[g5][i3]).s != 0) {
-                                        uwotm8.SceneGraph.Q.a(q12);
+                                        uwotm8.SceneGraph.Q.insertBack(q12);
                                     }
                                     else if ((g5 != b2 || i3 != c) && q12.q) {
-                                        uwotm8.SceneGraph.Q.a(q12);
+                                        uwotm8.SceneGraph.Q.insertBack(q12);
                                     }
                                 }
                             }
@@ -1551,23 +1551,23 @@ public final class SceneGraph
                 }
                 q.q = false;
                 --uwotm8.SceneGraph.n;
-                final R_1 j2;
+                final GroundItem j2;
                 if ((j2 = q.j) != null && j2.h != 0) {
                     if (j2.e != null) {
-                        j2.e.a(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, j2.b - uwotm8.SceneGraph.w, j2.a - uwotm8.SceneGraph.x - j2.h, j2.c - uwotm8.SceneGraph.y, j2.g);
+                        j2.e.renderAtPoint(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, j2.b - uwotm8.SceneGraph.w, j2.a - uwotm8.SceneGraph.x - j2.h, j2.c - uwotm8.SceneGraph.y, j2.g);
                     }
                     if (j2.f != null) {
-                        j2.f.a(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, j2.b - uwotm8.SceneGraph.w, j2.a - uwotm8.SceneGraph.x - j2.h, j2.c - uwotm8.SceneGraph.y, j2.g);
+                        j2.f.renderAtPoint(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, j2.b - uwotm8.SceneGraph.w, j2.a - uwotm8.SceneGraph.x - j2.h, j2.c - uwotm8.SceneGraph.y, j2.g);
                     }
                     if (j2.d != null) {
-                        j2.d.a(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, j2.b - uwotm8.SceneGraph.w, j2.a - uwotm8.SceneGraph.x - j2.h, j2.c - uwotm8.SceneGraph.y, j2.g);
+                        j2.d.renderAtPoint(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, j2.b - uwotm8.SceneGraph.w, j2.a - uwotm8.SceneGraph.x - j2.h, j2.c - uwotm8.SceneGraph.y, j2.g);
                     }
                 }
                 if (q.v != 0) {
-                    final ac h2;
+                    final WallDecoration h2;
                     if ((h2 = q.h) != null && !this.e(d, b2, c, h2.f.aD)) {
                         if ((h2.d & q.v) != 0x0) {
-                            h2.f.a(h2.e, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, h2.b - uwotm8.SceneGraph.w, h2.a - uwotm8.SceneGraph.x, h2.c - uwotm8.SceneGraph.y, h2.g);
+                            h2.f.renderAtPoint(h2.e, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, h2.b - uwotm8.SceneGraph.w, h2.a - uwotm8.SceneGraph.x, h2.c - uwotm8.SceneGraph.y, h2.g);
                         }
                         else if ((h2.d & 0x300) != 0x0) {
                             final int n29 = h2.b - uwotm8.SceneGraph.w;
@@ -1589,49 +1589,49 @@ public final class SceneGraph
                                 n33 = n31;
                             }
                             if ((h2.d & 0x100) != 0x0 && n33 >= n32) {
-                                h2.f.a((e2 << 9) + 256, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, n29 + uwotm8.SceneGraph.E[e2], n30, n31 + uwotm8.SceneGraph.F[e2], h2.g);
+                                h2.f.renderAtPoint((e2 << 9) + 256, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, n29 + uwotm8.SceneGraph.E[e2], n30, n31 + uwotm8.SceneGraph.F[e2], h2.g);
                             }
                             if ((h2.d & 0x200) != 0x0 && n33 <= n32) {
-                                h2.f.a((e2 << 9) + 1280 & 0x7FF, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, n29 + uwotm8.SceneGraph.G[e2], n30, n31 + uwotm8.SceneGraph.H[e2], h2.g);
+                                h2.f.renderAtPoint((e2 << 9) + 1280 & 0x7FF, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, n29 + uwotm8.SceneGraph.G[e2], n30, n31 + uwotm8.SceneGraph.H[e2], h2.g);
                             }
                         }
                     }
-                    final ab g6;
+                    final Wall g6;
                     if ((g6 = q.g) != null) {
                         if ((g6.e & q.v) != 0x0 && !this.d(d, b2, c, g6.e)) {
-                            g6.g.a(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, g6.b - uwotm8.SceneGraph.w, g6.a - uwotm8.SceneGraph.x, g6.c - uwotm8.SceneGraph.y, g6.h);
+                            g6.g.renderAtPoint(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, g6.b - uwotm8.SceneGraph.w, g6.a - uwotm8.SceneGraph.x, g6.c - uwotm8.SceneGraph.y, g6.h);
                         }
                         if ((g6.d & q.v) != 0x0 && !this.d(d, b2, c, g6.d)) {
-                            g6.f.a(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, g6.b - uwotm8.SceneGraph.w, g6.a - uwotm8.SceneGraph.x, g6.c - uwotm8.SceneGraph.y, g6.h);
+                            g6.f.renderAtPoint(0, uwotm8.SceneGraph.z, uwotm8.SceneGraph.A, uwotm8.SceneGraph.B, uwotm8.SceneGraph.C, g6.b - uwotm8.SceneGraph.w, g6.a - uwotm8.SceneGraph.x, g6.c - uwotm8.SceneGraph.y, g6.h);
                         }
                     }
                 }
                 final SceneTile q17;
                 if (a < 3 && (q17 = this.i[a + 1][b2][c]) != null && q17.q) {
-                    uwotm8.SceneGraph.Q.a(q17);
+                    uwotm8.SceneGraph.Q.insertBack(q17);
                 }
                 final SceneTile q18;
                 if (b2 < uwotm8.SceneGraph.u && (q18 = array[b2 + 1][c]) != null && q18.q) {
-                    uwotm8.SceneGraph.Q.a(q18);
+                    uwotm8.SceneGraph.Q.insertBack(q18);
                 }
                 final SceneTile q19;
                 if (c < uwotm8.SceneGraph.v && (q19 = array[b2][c + 1]) != null && q19.q) {
-                    uwotm8.SceneGraph.Q.a(q19);
+                    uwotm8.SceneGraph.Q.insertBack(q19);
                 }
                 final SceneTile q20;
                 if (b2 > uwotm8.SceneGraph.u && (q20 = array[b2 - 1][c]) != null && q20.q) {
-                    uwotm8.SceneGraph.Q.a(q20);
+                    uwotm8.SceneGraph.Q.insertBack(q20);
                 }
                 final SceneTile q21;
                 if (c <= uwotm8.SceneGraph.v || (q21 = array[b2][c - 1]) == null || !q21.q) {
                     continue;
                 }
-                uwotm8.SceneGraph.Q.a(q21);
+                uwotm8.SceneGraph.Q.insertBack(q21);
             }
         }
     }
     
-    private void a(final SimpleTile v, int n, int n2, int n3, int n4, int n5, final int n6, final int n7) {
+    private void drawPlainTile(final SimpleTile v, int n, int n2, int n3, int n4, int n5, final int n6, final int n7) {
         final int n9;
         final int n8 = n9 = (n6 << 7) - uwotm8.SceneGraph.w;
         final int n11;
@@ -1697,20 +1697,20 @@ public final class SceneGraph
             }
             if (v.e == -1) {
                 if (v.c != 12345678) {
-                    uwotm8.Rasterizer3D.a(n43, n45, n5, n42, n44, n4, v.c, v.d, v.b);
+                    uwotm8.Rasterizer3D.drawShadedTriangle(n43, n45, n5, n42, n44, n4, v.c, v.d, v.b);
                 }
             }
             else if (!uwotm8.SceneGraph.a) {
                 if (v.f) {
-                    uwotm8.Rasterizer3D.a(n43, n45, n5, n42, n44, n4, v.c, v.d, v.b, n21, n27, n39, n24, n30, n, n23, n29, n41, v.e);
+                    uwotm8.Rasterizer3D.drawTexturedTriangle(n43, n45, n5, n42, n44, n4, v.c, v.d, v.b, n21, n27, n39, n24, n30, n, n23, n29, n41, v.e);
                 }
                 else {
-                    uwotm8.Rasterizer3D.a(n43, n45, n5, n42, n44, n4, v.c, v.d, v.b, n33, n39, n27, n36, n, n30, n35, n41, n29, v.e);
+                    uwotm8.Rasterizer3D.drawTexturedTriangle(n43, n45, n5, n42, n44, n4, v.c, v.d, v.b, n33, n39, n27, n36, n, n30, n35, n41, n29, v.e);
                 }
             }
             else {
                 final int n46 = uwotm8.SceneGraph.Y[v.e];
-                uwotm8.Rasterizer3D.a(n43, n45, n5, n42, n44, n4, c(n46, v.c), c(n46, v.d), c(n46, v.b));
+                uwotm8.Rasterizer3D.drawShadedTriangle(n43, n45, n5, n42, n44, n4, c(n46, v.c), c(n46, v.d), c(n46, v.b));
             }
         }
         if ((n2 - n4) * (n45 - n5) - (n3 - n5) * (n44 - n4) > 0) {
@@ -1721,21 +1721,21 @@ public final class SceneGraph
             }
             if (v.e == -1) {
                 if (v.a != 12345678) {
-                    uwotm8.Rasterizer3D.a(n3, n5, n45, n2, n4, n44, v.a, v.b, v.d);
+                    uwotm8.Rasterizer3D.drawShadedTriangle(n3, n5, n45, n2, n4, n44, v.a, v.b, v.d);
                 }
             }
             else {
                 if (!uwotm8.SceneGraph.a) {
-                    uwotm8.Rasterizer3D.a(n3, n5, n45, n2, n4, n44, v.a, v.b, v.d, n21, n27, n39, n24, n30, n, n23, n29, n41, v.e);
+                    uwotm8.Rasterizer3D.drawTexturedTriangle(n3, n5, n45, n2, n4, n44, v.a, v.b, v.d, n21, n27, n39, n24, n30, n, n23, n29, n41, v.e);
                     return;
                 }
                 final int n47 = uwotm8.SceneGraph.Y[v.e];
-                uwotm8.Rasterizer3D.a(n3, n5, n45, n2, n4, n44, c(n47, v.a), c(n47, v.b), c(n47, v.d));
+                uwotm8.Rasterizer3D.drawShadedTriangle(n3, n5, n45, n2, n4, n44, c(n47, v.a), c(n47, v.b), c(n47, v.d));
             }
         }
     }
     
-    private void a(final int b, int n, int n2, final ShapedTile u, int n3, final int c, int n4) {
+    private void drawTexuredTile(final int b, int n, int n2, final ShapedTile u, int n3, final int c, int n4) {
         for (int length = u.a.length, i = 0; i < length; ++i) {
             final int n5 = u.a[i] - uwotm8.SceneGraph.w;
             final int n6 = u.b[i] - uwotm8.SceneGraph.x;
@@ -1776,20 +1776,20 @@ public final class SceneGraph
                 }
                 if (u.j == null || u.j[j] == -1) {
                     if (u.d[j] != 12345678) {
-                        uwotm8.Rasterizer3D.a(n3, n4, n18, n17, n, n2, u.d[j], u.e[j], u.f[j]);
+                        uwotm8.Rasterizer3D.drawShadedTriangle(n3, n4, n18, n17, n, n2, u.d[j], u.e[j], u.f[j]);
                     }
                 }
                 else if (!uwotm8.SceneGraph.a) {
                     if (u.k) {
-                        uwotm8.Rasterizer3D.a(n3, n4, n18, n17, n, n2, u.d[j], u.e[j], u.f[j], uwotm8.ShapedTile.r[0], uwotm8.ShapedTile.r[1], uwotm8.ShapedTile.r[3], uwotm8.ShapedTile.s[0], uwotm8.ShapedTile.s[1], uwotm8.ShapedTile.s[3], uwotm8.ShapedTile.t[0], uwotm8.ShapedTile.t[1], uwotm8.ShapedTile.t[3], u.j[j]);
+                        uwotm8.Rasterizer3D.drawTexturedTriangle(n3, n4, n18, n17, n, n2, u.d[j], u.e[j], u.f[j], uwotm8.ShapedTile.r[0], uwotm8.ShapedTile.r[1], uwotm8.ShapedTile.r[3], uwotm8.ShapedTile.s[0], uwotm8.ShapedTile.s[1], uwotm8.ShapedTile.s[3], uwotm8.ShapedTile.t[0], uwotm8.ShapedTile.t[1], uwotm8.ShapedTile.t[3], u.j[j]);
                     }
                     else {
-                        uwotm8.Rasterizer3D.a(n3, n4, n18, n17, n, n2, u.d[j], u.e[j], u.f[j], uwotm8.ShapedTile.r[n14], uwotm8.ShapedTile.r[n15], uwotm8.ShapedTile.r[n16], uwotm8.ShapedTile.s[n14], uwotm8.ShapedTile.s[n15], uwotm8.ShapedTile.s[n16], uwotm8.ShapedTile.t[n14], uwotm8.ShapedTile.t[n15], uwotm8.ShapedTile.t[n16], u.j[j]);
+                        uwotm8.Rasterizer3D.drawTexturedTriangle(n3, n4, n18, n17, n, n2, u.d[j], u.e[j], u.f[j], uwotm8.ShapedTile.r[n14], uwotm8.ShapedTile.r[n15], uwotm8.ShapedTile.r[n16], uwotm8.ShapedTile.s[n14], uwotm8.ShapedTile.s[n15], uwotm8.ShapedTile.s[n16], uwotm8.ShapedTile.t[n14], uwotm8.ShapedTile.t[n15], uwotm8.ShapedTile.t[n16], u.j[j]);
                     }
                 }
                 else {
                     final int n19 = uwotm8.SceneGraph.Y[u.j[j]];
-                    uwotm8.Rasterizer3D.a(n3, n4, n18, n17, n, n2, c(n19, u.d[j]), c(n19, u.e[j]), c(n19, u.f[j]));
+                    uwotm8.Rasterizer3D.drawShadedTriangle(n3, n4, n18, n17, n, n2, c(n19, u.d[j]), c(n19, u.e[j]), c(n19, u.f[j]));
                 }
             }
         }

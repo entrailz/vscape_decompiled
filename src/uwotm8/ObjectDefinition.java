@@ -59,7 +59,7 @@ public final class ObjectDefinition
         uwotm8.ObjectDefinition.A = new Cache(500);
     }
     
-    public static ObjectDefinition a(final int h) {
+    public static ObjectDefinition decode(final int h) {
         if (h > uwotm8.ObjectDefinition.N.length) {
             return null;
         }
@@ -306,7 +306,7 @@ public final class ObjectDefinition
         return j;
     }
     
-    public static void a() {
+    public static void dispose() {
     	uwotm8.ObjectDefinition.A = null;
     	uwotm8.ObjectDefinition.y = null;
     	uwotm8.ObjectDefinition.N = null;
@@ -314,10 +314,10 @@ public final class ObjectDefinition
     	uwotm8.ObjectDefinition.M = null;
     }
     
-    public static void a(final Archive g) {
-    	uwotm8.ObjectDefinition.M = new Buffer(g.b("loc.dat"));
+    public static void init(final Archive g) {
+    	uwotm8.ObjectDefinition.M = new Buffer(g.getEntry("loc.dat"));
         final Buffer i;
-        uwotm8.ObjectDefinition.N = new int[uwotm8.ObjectDefinition.a = (i = new Buffer(g.b("loc.idx"))).g()];
+        uwotm8.ObjectDefinition.N = new int[uwotm8.ObjectDefinition.a = (i = new Buffer(g.getEntry("loc.idx"))).g()];
         int n = 2;
         for (int j = 0; j < uwotm8.ObjectDefinition.a; ++j) {
         	uwotm8.ObjectDefinition.N[j] = n;
@@ -329,7 +329,7 @@ public final class ObjectDefinition
         }
     }
     
-    public final Model a(int n, int n2, final int n3, final int n4, final int n5, final int n6, int i) {
+    public final Model modelAt(int n, int n2, final int n3, final int n4, final int n5, final int n6, int i) {
         final int n7 = n;
         final int n8 = i;
         n = n2;
@@ -347,7 +347,7 @@ public final class ObjectDefinition
                 }
                 n10 = (this.h << 6) + n + (n9 + 1 << 32);
                 final Model d4;
-                if ((d4 = (Model)uwotm8.ObjectDefinition.y.a(n10)) != null) {
+                if ((d4 = (Model)uwotm8.ObjectDefinition.y.get(n10)) != null) {
                     d2 = (d3 = d4);
                     break Label_0755;
                 }
@@ -362,7 +362,7 @@ public final class ObjectDefinition
                     if (b) {
                         n11 += 65536;
                     }
-                    if ((d = (Model)uwotm8.ObjectDefinition.A.a(n11)) == null) {
+                    if ((d = (Model)uwotm8.ObjectDefinition.A.get(n11)) == null) {
                         if ((d = uwotm8.Model.a(n11 & 0xFFFF)) == null) {
                             d2 = (d3 = null);
                             break Label_0755;
@@ -370,7 +370,7 @@ public final class ObjectDefinition
                         if (b) {
                             d.f();
                         }
-                        uwotm8.ObjectDefinition.A.a(d, n11);
+                        uwotm8.ObjectDefinition.A.put(d, n11);
                     }
                     if (i > 1) {
                         uwotm8.ObjectDefinition.G[j] = d;
@@ -394,7 +394,7 @@ public final class ObjectDefinition
                 }
                 n10 = (this.h << 6) + (n12 << 3) + n + (n9 + 1 << 32);
                 final Model d5;
-                if ((d5 = (Model)uwotm8.ObjectDefinition.y.a(n10)) != null) {
+                if ((d5 = (Model)uwotm8.ObjectDefinition.y.get(n10)) != null) {
                     d2 = (d3 = d5);
                     break Label_0755;
                 }
@@ -403,7 +403,7 @@ public final class ObjectDefinition
                 if (b2 = (this.L ^ n > 3)) {
                     i += 65536;
                 }
-                if ((d = (Model)uwotm8.ObjectDefinition.A.a(i)) == null) {
+                if ((d = (Model)uwotm8.ObjectDefinition.A.get(i)) == null) {
                     if ((d = uwotm8.Model.a(i & 0xFFFF)) == null) {
                         d2 = (d3 = null);
                         break Label_0755;
@@ -411,12 +411,12 @@ public final class ObjectDefinition
                     if (b2) {
                         d.f();
                     }
-                    uwotm8.ObjectDefinition.A.a(d, i);
+                    uwotm8.ObjectDefinition.A.put(d, i);
                 }
             }
             final boolean b3 = this.K != 128 || this.S != 128 || this.F != 128;
             final boolean b4 = this.E != 0 || this.I != 0 || this.U != 0;
-            final Model d6 = new Model(this.V == null, uwotm8.Frame.b(n9), n == 0 && n9 == -1 && !b3 && !b4, d);
+            final Model d6 = new Model(this.V == null, uwotm8.Frame.isValid(n9), n == 0 && n9 == -1 && !b3 && !b4, d);
             if (n9 != -1) {
                 d6.d();
                 d6.c(n9);
@@ -442,7 +442,7 @@ public final class ObjectDefinition
                 final Model d7 = d6;
                 d7.t = d7.aD;
             }
-            uwotm8.ObjectDefinition.y.a(d6, n10);
+            uwotm8.ObjectDefinition.y.put(d6, n10);
             d2 = (d3 = d6);
         }
         Model d8 = d3;

@@ -7,9 +7,9 @@ public final class VariableBits
     public int c;
     public int d;
     
-    public static void a(final Archive g) {
+    public static void init(final Archive g) {
         final Buffer i;
-        final int g2 = (i = new Buffer(g.b("varbit.dat"))).g();
+        final int g2 = (i = new Buffer(g.getEntry("varbit.dat"))).g();
         if (VariableBits.a == null) {
             VariableBits.a = new VariableBits[g2];
         }
