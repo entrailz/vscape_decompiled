@@ -31,70 +31,70 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import uwotm8.A;
-import uwotm8.B_1;
-import uwotm8.C_1;
-import uwotm8.D_1;
-import uwotm8.G_1;
-import uwotm8.I_1;
-import uwotm8.K_1;
-import uwotm8.M_1;
+import uwotm8.Renderable;
+import uwotm8.RenderableObject;
+import uwotm8.IdentityKit;
+import uwotm8.Model;
+import uwotm8.Archive;
+import uwotm8.Buffer;
+import uwotm8.Node;
+import uwotm8.LinkedList;
 import uwotm8.CollisionMap;
-import uwotm8.S_1;
-import uwotm8.W_1;
-import uwotm8.X_1;
+import uwotm8.MapRegion;
+import uwotm8.SceneGraph;
+import uwotm8.Floor;
 import uwotm8.Y_1;
 import uwotm8.Z_1;
-import uwotm8.aB_1;
+import uwotm8.SpriteGroupLoader;
 import uwotm8.aE_1;
 import uwotm8.aF;
 import uwotm8.aG_1;
 import uwotm8.aH_1;
-import uwotm8.aa;
+import uwotm8.UnknownClass1;
 import uwotm8.ab;
 import uwotm8.ac;
-import uwotm8.ad;
-import uwotm8.ae;
-import uwotm8.af_1;
+import uwotm8.IsaacCipher;
+import uwotm8.Resource;
+import uwotm8.ResourceProvider;
 import uwotm8.ah;
-import uwotm8.ai;
+import uwotm8.BufferedStream;
 import uwotm8.VariableBits;
 import uwotm8.VariableParameter;
-import uwotm8.al;
-import uwotm8.ao;
+import uwotm8.SignLink;
+import uwotm8.MidiPlayer;
 import uwotm8.ap;
-import uwotm8.aq;
-import uwotm8.as;
-import uwotm8.at;
-import uwotm8.au;
-import uwotm8.av;
+import uwotm8.Track;
+import uwotm8.MessageCensor;
+import uwotm8.MouseMonitor;
+import uwotm8.SkillsConstants;
+import uwotm8.ChatMessageCodec;
 import uwotm8.StringUtils;
 import uwotm8.Settings;
 import uwotm8.CacheUpdater;
-import uwotm8.c;
+import uwotm8.Index;
 import uwotm8.Animation;
-import uwotm8.e;
-import uwotm8.g;
+import uwotm8.Frame;
+import uwotm8.SpotAnimation;
 import uwotm8.ActorDefinition;
-import uwotm8.i;
-import uwotm8.j;
-import uwotm8.k;
-import uwotm8.l;
+import uwotm8.ItemDefinition;
+import uwotm8.ObjectDefinition;
+import uwotm8.IndexedImage;
+import uwotm8.RSFont;
 import uwotm8.m;
 import uwotm8.Sprite;
 import uwotm8.o;
-import uwotm8.p;
+import uwotm8.Rasterizer2D;
 import uwotm8.q;
-import uwotm8.r;
-import uwotm8.t;
-import uwotm8.u;
+import uwotm8.Rasterizer3D;
+import uwotm8.AnimableObject;
+import uwotm8.Actor;
 import uwotm8.v;
-import uwotm8.w;
+import uwotm8.Item;
 import uwotm8.Npc;
-import uwotm8.y;
-import uwotm8.z;
+import uwotm8.Player;
+import uwotm8.Projectile;
 
-public class Client extends b {
+public class Client extends ScapeApplet {
    public static a a;
    public static int b;
    public static int c;
@@ -151,11 +151,11 @@ public class Client extends b {
    private long bk;
    private int[][] bl;
    private int[] bm;
-   private M_1[][][] bn;
+   private LinkedList[][][] bn;
    private volatile boolean bo;
    private Socket bp;
    private int bq;
-   private I_1 br;
+   private Buffer br;
    private Npc[] bs;
    private int bt;
    private int[] bu;
@@ -166,7 +166,7 @@ public class Client extends b {
    private int bz;
    private String bA;
    public int u;
-   private I_1 bB;
+   private Buffer bB;
    private boolean bC;
    private static int bD;
    private static int bE;
@@ -187,7 +187,7 @@ public class Client extends b {
    private long bS;
    private int bT;
    private int bU;
-   private at bV;
+   private MouseMonitor bV;
    private String bW;
    private int bX;
    private boolean bY;
@@ -195,12 +195,12 @@ public class Client extends b {
    private String ca;
    private final int cb;
    private final int cc;
-   private y[] cd;
+   private Player[] cd;
    private int ce;
    private int[] cf;
    private int cg;
    private int[] ch;
-   private I_1[] ci;
+   private Buffer[] ci;
    private int cj;
    private int ck;
    private int cl;
@@ -232,7 +232,7 @@ public class Client extends b {
    private final String[] cL;
    private final String[] cM;
    private int cN;
-   private W_1 cO;
+   private SceneGraph cO;
    public Sprite[] w;
    private int cP;
    private int cQ;
@@ -253,7 +253,7 @@ public class Client extends b {
    private int de;
    private final int[] df;
    public final int[] y;
-   public final c[] z;
+   public final Index[] z;
    public int[] A;
    private boolean dg;
    private final int dh;
@@ -278,7 +278,7 @@ public class Client extends b {
    private int dA;
    private int dB;
    private int dC;
-   private ad dD;
+   private IsaacCipher dD;
    private Sprite dE;
    private Sprite dF;
    public static final int[][] B;
@@ -290,7 +290,7 @@ public class Client extends b {
    private int dL;
    private int dM;
    private int dN;
-   private M_1 dO;
+   private LinkedList dO;
    private int dP;
    private int dQ;
    private int dR;
@@ -302,8 +302,8 @@ public class Client extends b {
    private int dX;
    private Sprite dY;
    private Sprite dZ;
-   private k ea;
-   private k eb;
+   private IndexedImage ea;
+   private IndexedImage eb;
    private int ec;
    private final int[] ed;
    private boolean ee;
@@ -323,20 +323,20 @@ public class Client extends b {
    private String es;
    private static int et;
    private final int[] eu;
-   private G_1 ev;
+   private Archive ev;
    public int C;
    private int ew;
-   private M_1 ex;
+   private LinkedList ex;
    public final int[] D;
    private m ey;
-   private k[] ez;
+   private IndexedImage[] ez;
    private int eA;
    private final int eB;
    private int eC;
    private final int[] eD;
    private int eE;
    private int eF;
-   public af_1 E;
+   public ResourceProvider E;
    private int eG;
    private int eH;
    private int eI;
@@ -351,7 +351,7 @@ public class Client extends b {
    private int eR;
    private boolean eS;
    private String[] eT;
-   private I_1 eU;
+   private Buffer eU;
    private int eV;
    private int eW;
    private int eX;
@@ -397,7 +397,7 @@ public class Client extends b {
    private q fF;
    private q fG;
    private q fH;
-   public static y L;
+   public static Player L;
    private final String[] fI;
    private final boolean[] fJ;
    private final int[][][] fK;
@@ -431,7 +431,7 @@ public class Client extends b {
    private static q gg;
    private static q gh;
    private int gi;
-   private ai gj;
+   private BufferedStream gj;
    private int gk;
    public static String S;
    public static String T;
@@ -440,7 +440,7 @@ public class Client extends b {
    private boolean gm;
    private final int[] gn;
    private int go;
-   private M_1 gp;
+   private LinkedList gp;
    private static int[] gq;
    private static int[] gr;
    private static int[] gs;
@@ -451,10 +451,10 @@ public class Client extends b {
    private int gw;
    private static int gx;
    public int W;
-   private I_1 gy;
+   private Buffer gy;
    private int gz;
    private int gA;
-   private k gB;
+   private IndexedImage gB;
    public String[] X;
    private final int[] gC;
    public static final int[] Y;
@@ -466,7 +466,7 @@ public class Client extends b {
    private int[][][] gH;
    private long gI;
    private int gJ;
-   private final k[] gK;
+   private final IndexedImage[] gK;
    private long gL;
    public static int aa;
    private int gM;
@@ -477,7 +477,7 @@ public class Client extends b {
    private boolean gP;
    private int gQ;
    private boolean gR;
-   private ao gS;
+   private MidiPlayer gS;
    private final int[] gT;
    private CollisionMap[] gU;
    public static int[] ad;
@@ -519,13 +519,13 @@ public class Client extends b {
    private o hC;
    private o hD;
    private o hE;
-   public l ag;
-   public l ah;
-   private l hF;
-   private l hG;
-   private l hH;
-   private l hI;
-   private l hJ;
+   public RSFont ag;
+   public RSFont ah;
+   private RSFont hF;
+   private RSFont hG;
+   private RSFont hH;
+   private RSFont hI;
+   private RSFont hJ;
    public int ai;
    private int hK;
    private int[] hL;
@@ -651,24 +651,24 @@ public class Client extends b {
    }
 
    private static void l() {
-      uwotm8.r.a(c, d);
-      int[] var10000 = uwotm8.r.t;
-      uwotm8.r.a(a == com.runescape.a.a ? (gh != null ? gh.a : 519) : c, a == com.runescape.a.a ? (gh != null ? gh.b : 165) : d);
-      gq = uwotm8.r.t;
-      uwotm8.r.a(a == com.runescape.a.a ? (ge != null ? ge.a : 249) : c, a == com.runescape.a.a ? (ge != null ? ge.b : 335) : d);
-      gr = uwotm8.r.t;
-      uwotm8.r.a(aD, aE);
-      gs = uwotm8.r.t;
+      uwotm8.Rasterizer3D.a(c, d);
+      int[] var10000 = uwotm8.Rasterizer3D.t;
+      uwotm8.Rasterizer3D.a(a == com.runescape.a.a ? (gh != null ? gh.a : 519) : c, a == com.runescape.a.a ? (gh != null ? gh.b : 165) : d);
+      gq = uwotm8.Rasterizer3D.t;
+      uwotm8.Rasterizer3D.a(a == com.runescape.a.a ? (ge != null ? ge.a : 249) : c, a == com.runescape.a.a ? (ge != null ? ge.b : 335) : d);
+      gr = uwotm8.Rasterizer3D.t;
+      uwotm8.Rasterizer3D.a(aD, aE);
+      gs = uwotm8.Rasterizer3D.t;
       int[] var0 = new int[9];
 
       for(int var1 = 0; var1 < 9; ++var1) {
          int var2 = 128 + (var1 << 5) + 15;
          int var3 = 600 + var2 * 3;
-         var2 = uwotm8.r.r[var2];
+         var2 = uwotm8.Rasterizer3D.r[var2];
          var0[var1] = var3 * var2 >> 16;
       }
 
-      uwotm8.W_1.a(500, 800, aD, aE, var0);
+      uwotm8.SceneGraph.a(500, 800, aD, aE, var0);
       if (Q) {
          gg = new q(aD, aE);
       }
@@ -781,7 +781,7 @@ public class Client extends b {
                   if (var18 >= 104) {
                      for(var18 = 0; var18 < var1.bt; ++var18) {
                         Npc var19;
-                        if ((var19 = var1.bs[var1.bu[var18]]) != null && var19.c()) {
+                        if ((var19 = var1.bs[var1.bu[var18]]) != null && var19.isVisible()) {
                            ActorDefinition var20 = var19.ad;
                            if (var19.ad.r != null) {
                               var20 = var20.b();
@@ -796,7 +796,7 @@ public class Client extends b {
                      }
 
                      for(var18 = 0; var18 < var1.ce; ++var18) {
-                        y var21;
+                        Player var21;
                         if ((var21 = var1.cd[var1.cf[var18]]) != null && var21.aq) {
                            var4 = var21.V / 32 - L.V / 32;
                            var5 = var21.W / 32 - L.W / 32;
@@ -850,7 +850,7 @@ public class Client extends b {
                            var1.a(var1.bO, var3, var18);
                         }
 
-                        y var23;
+                        Player var23;
                         if (var1.bF == 10 && var1.cD >= 0 && var1.cD < var1.cd.length && (var23 = var1.cd[var1.cD]) != null) {
                            var3 = var23.V / 32 - L.V / 32;
                            var4 = var23.W / 32 - L.W / 32;
@@ -892,7 +892,7 @@ public class Client extends b {
          }
 
       } catch (Exception var17) {
-    	  uwotm8.al.b("Game Frame Drawing, " + var17.toString());
+    	  uwotm8.SignLink.b("Game Frame Drawing, " + var17.toString());
          throw new RuntimeException();
       }
    }
@@ -1124,7 +1124,7 @@ public class Client extends b {
          this.gK[1].a(var2, var3);
          return 15;
       case 4:
-         aB_1.a("chaticons", 0).d(var2, var3);
+         SpriteGroupLoader.a("chaticons", 0).d(var2, var3);
          return 13;
       default:
          return 0;
@@ -1158,7 +1158,7 @@ public class Client extends b {
             }
 
             this.aF = 0;
-            int var7 = this.ac == 3 ? uwotm8.i.x : (this.ac == 4 ? uwotm8.ActorDefinition.a : uwotm8.j.a);
+            int var7 = this.ac == 3 ? uwotm8.ItemDefinition.x : (this.ac == 4 ? uwotm8.ActorDefinition.a : uwotm8.ObjectDefinition.a);
             int var3 = 0;
 
             while(true) {
@@ -1173,8 +1173,8 @@ public class Client extends b {
                label101: {
                   String var4 = null;
                   if (this.ac == 3) {
-                     i var5;
-                     if ((var5 = uwotm8.i.c(var3)) == null || var5.h != -1 || var5.k == null || var5.k.isEmpty()) {
+                     ItemDefinition var5;
+                     if ((var5 = uwotm8.ItemDefinition.c(var3)) == null || var5.h != -1 || var5.k == null || var5.k.isEmpty()) {
                         break label101;
                      }
 
@@ -1187,8 +1187,8 @@ public class Client extends b {
 
                      var4 = var8.f.toLowerCase();
                   } else if (this.ac == 5) {
-                     j var9;
-                     if ((var9 = uwotm8.j.a(var3)) == null || var9.c == null || var9.c.isEmpty()) {
+                     ObjectDefinition var9;
+                     if ((var9 = uwotm8.ObjectDefinition.a(var3)) == null || var9.c == null || var9.c.isEmpty()) {
                         break label101;
                      }
 
@@ -1231,11 +1231,11 @@ public class Client extends b {
       o var4 = this.hz;
       o var5 = this.hz;
       int var15 = this.hz.a;
-      uwotm8.p.b(var3 + 20 + 3, var2, (int)var1.getWidth(), var3);
+      uwotm8.Rasterizer2D.b(var3 + 20 + 3, var2, (int)var1.getWidth(), var3);
       var3 += var15 - 1;
       this.hF.b("SEARCH NAME: <col=255>" + this.dG + "*</col>", (int)var1.getCenterX(), var3, 0, -1);
-      uwotm8.p.c(var3 += 4, g ? 5723991 : 8418912, (int)var1.getWidth() - 12, var2);
-      uwotm8.p.b((int)var1.getHeight() + var3, var2, (int)var1.getWidth(), var3);
+      uwotm8.Rasterizer2D.c(var3 += 4, g ? 5723991 : 8418912, (int)var1.getWidth() - 12, var2);
+      uwotm8.Rasterizer2D.b((int)var1.getHeight() + var3, var2, (int)var1.getWidth(), var3);
       if (this.dG.length() == 0) {
          this.hF.b("ENTER SEARCH NAME", (int)var1.getCenterX(), var3 + (int)var1.getCenterY() - 20, 255, -1);
       } else if (this.aF <= 0) {
@@ -1255,14 +1255,14 @@ public class Client extends b {
                      int var11 = var9 % 3;
                      int var12 = var2 + var6 * var11;
                      if (this.b(var12, var7 + var10, var6, 34)) {
-                        uwotm8.p.a(16777215, var10, var6, 34, 64, var12);
+                        uwotm8.Rasterizer2D.a(16777215, var10, var6, 34, 64, var12);
                      }
 
                      Sprite var13;
-                     if ((var13 = uwotm8.i.a(this.aH[var9], 64, 0)) != null) {
+                     if ((var13 = uwotm8.ItemDefinition.a(this.aH[var9], 64, 0)) != null) {
                         var13.d(var12, var10);
                      } else {
-                        uwotm8.p.a(16711680, var10 + 2, 32, 32, 128, var12 + 2);
+                        uwotm8.Rasterizer2D.a(16711680, var10 + 2, 32, 32, 128, var12 + 2);
                      }
 
                      var10 += 2;
@@ -1278,7 +1278,7 @@ public class Client extends b {
                }
             }
 
-            uwotm8.p.e();
+            uwotm8.Rasterizer2D.e();
             var9 = (int)var1.getHeight() + 1;
             if (this.ac == 3) {
                if ((j = (var8 + 1) * 34) < (int)var1.getHeight() - 1) {
@@ -1299,7 +1299,7 @@ public class Client extends b {
          }
       }
 
-      uwotm8.p.e();
+      uwotm8.Rasterizer2D.e();
    }
 
    private void a(String var1, String var2, int var3, int var4) {
@@ -1312,7 +1312,7 @@ public class Client extends b {
          gh.a();
       }
 
-      uwotm8.r.t = gq;
+      uwotm8.Rasterizer3D.t = gq;
       if (this.q()) {
          e = true;
       }
@@ -1341,7 +1341,7 @@ public class Client extends b {
          o var6 = this.hz;
          int var17 = this.hz.a;
          int var7 = 0;
-         uwotm8.p.b((int)var1.getMaxY() + var2, var3, (int)var1.getWidth(), var4);
+         uwotm8.Rasterizer2D.b((int)var1.getMaxY() + var2, var3, (int)var1.getWidth(), var4);
 
          int var8;
          String var9;
@@ -1461,7 +1461,7 @@ public class Client extends b {
             }
          }
 
-         uwotm8.p.e();
+         uwotm8.Rasterizer2D.e();
          var8 = (int)var1.getHeight();
          if ((Z = var7 * (var17 + 3) + 3) < (int)var1.getHeight() - 1) {
             Z = (int)var1.getHeight() - 1;
@@ -1475,13 +1475,13 @@ public class Client extends b {
          }
 
          var3 = (int)var1.getX();
-         uwotm8.p.b((var4 = var2 + (int)var1.getMaxY()) + 20, var3, (int)var1.getWidth(), var4);
-         uwotm8.p.c(var4, g ? 5723991 : 8418912, (int)var1.getWidth() - 12, var3);
+         uwotm8.Rasterizer2D.b((var4 = var2 + (int)var1.getMaxY()) + 20, var3, (int)var1.getWidth(), var4);
+         uwotm8.Rasterizer2D.c(var4, g ? 5723991 : 8418912, (int)var1.getWidth() - 12, var3);
          var4 += var17;
          var3 += this.d(this.bL, L.aB ? 4 : 0, var3, var4 - 12);
          var5.b(0, var9 + ":", var4, var3);
          var5.b(255, var3 + var5.a(var9 + ":") + 2, this.ca + "*", var4, false);
-         uwotm8.p.e();
+         uwotm8.Rasterizer2D.e();
       }
 
       if (this.bY) {
@@ -1493,7 +1493,7 @@ public class Client extends b {
       }
 
       gg.a();
-      uwotm8.r.t = gs;
+      uwotm8.Rasterizer3D.t = gs;
    }
 
    public final void a(Runnable var1, int var2) {
@@ -1501,7 +1501,7 @@ public class Client extends b {
          var2 = 10;
       }
 
-      Applet var10000 = uwotm8.al.e;
+      Applet var10000 = uwotm8.SignLink.e;
       super.a(var1, var2);
    }
 
@@ -1604,8 +1604,8 @@ public class Client extends b {
                         var13 -= 73;
                         var3 -= 77;
                         var6 = this.V & 2047;
-                        var2 = uwotm8.r.r[var6];
-                        var4 = uwotm8.r.s[var6];
+                        var2 = uwotm8.Rasterizer3D.r[var6];
+                        var4 = uwotm8.Rasterizer3D.s[var6];
                         var2 = var2 << 8 >> 8;
                         var4 = var4 << 8 >> 8;
                         var6 = var3 * var2 + var13 * var4 >> 11;
@@ -1695,7 +1695,7 @@ public class Client extends b {
          this.dr = false;
          this.ex.f();
          this.dO.f();
-         uwotm8.r.c();
+         uwotm8.Rasterizer3D.c();
          u();
          this.cO.b();
          System.gc();
@@ -1712,7 +1712,7 @@ public class Client extends b {
             }
          }
 
-         S_1 var12 = new S_1(this.ho, this.gH);
+         MapRegion var12 = new MapRegion(this.ho, this.gH);
          var2 = this.gt.length;
          this.gy.writeOpCode(0);
          if (!this.gb) {
@@ -1825,7 +1825,7 @@ public class Client extends b {
          var12.a(this.gU, this.cO);
          gg.a();
          this.gy.writeOpCode(0);
-         int var10000 = uwotm8.S_1.b;
+         int var10000 = uwotm8.MapRegion.b;
          this.cO.a(0);
 
          for(var4 = 0; var4 < 104; ++var4) {
@@ -1841,7 +1841,7 @@ public class Client extends b {
 
          Client var13 = this;
 
-         for(aa var14 = (aa)this.gp.b(); var14 != null; var14 = (aa)var13.gp.d()) {
+         for(UnknownClass1 var14 = (UnknownClass1)this.gp.b(); var14 != null; var14 = (UnknownClass1)var13.gp.d()) {
             if (var14.d == -1) {
                var14.l = 0;
                var13.a(var14);
@@ -1853,14 +1853,14 @@ public class Client extends b {
          ;
       }
 
-      uwotm8.j.A.a();
+      uwotm8.ObjectDefinition.A.a();
       if (super.aq != null) {
          this.gy.writeOpCode(210);
          this.gy.f(1057001181);
       }
 
       System.gc();
-      uwotm8.r.d();
+      uwotm8.Rasterizer3D.d();
       this.E.e();
       var1 = (this.eG - 6) / 8 - 1;
       var2 = (this.eG + 6) / 8 + 1;
@@ -1890,13 +1890,13 @@ public class Client extends b {
    }
 
    private static void u() {
-      uwotm8.j.A.a();
-      uwotm8.j.y.a();
+      uwotm8.ObjectDefinition.A.a();
+      uwotm8.ObjectDefinition.y.a();
       uwotm8.ActorDefinition.t.a();
-      uwotm8.i.e.a();
-      uwotm8.i.d.a();
-      uwotm8.y.aj.a();
-      uwotm8.g.h.a();
+      uwotm8.ItemDefinition.e.a();
+      uwotm8.ItemDefinition.d.a();
+      uwotm8.Player.aj.a();
+      uwotm8.SpotAnimation.h.a();
    }
 
    private void h(int var1) {
@@ -1926,7 +1926,7 @@ public class Client extends b {
       }
 
       Sprite var8 = this.hs;
-      uwotm8.p.a(this.hs.c, var8.b, var8.a);
+      uwotm8.Rasterizer2D.a(this.hs.c, var8.b, var8.a);
 
       for(var5 = 1; var5 < 103; ++var5) {
          for(int var9 = 1; var9 < 103; ++var9) {
@@ -1947,8 +1947,8 @@ public class Client extends b {
 
       for(var3 = 0; var3 < 104; ++var3) {
          for(var4 = 0; var4 < 104; ++var4) {
-            j var11;
-            if ((var5 = var10.cO.l(var1, var3, var4)) != 0 && (var11 = uwotm8.j.a(var5 >> 14 & 32767)) != null && (var5 = var11.e) >= 0) {
+            ObjectDefinition var11;
+            if ((var5 = var10.cO.l(var1, var3, var4)) != 0 && (var11 = uwotm8.ObjectDefinition.a(var5 >> 14 & 32767)) != null && (var5 = var11.e) >= 0) {
                var10.fR[var10.eI] = var10.ef[var5];
                var10.eJ[var10.eI] = var3;
                var10.eK[var10.eI] = var4;
@@ -1960,18 +1960,18 @@ public class Client extends b {
    }
 
    private void c(int var1, int var2) {
-      M_1 var3;
+      LinkedList var3;
       if ((var3 = this.bn[this.cu][var1][var2]) == null) {
          this.cO.d(this.cu, var1, var2);
       } else {
          int var4 = -99999999;
-         w var5 = null;
+         Item var5 = null;
 
-         w var6;
+         Item var6;
          int var8;
-         for(var6 = (w)var3.b(); var6 != null; var6 = (w)var3.d()) {
-            i var7;
-            var8 = (var7 = uwotm8.i.c(var6.a)).a;
+         for(var6 = (Item)var3.b(); var6 != null; var6 = (Item)var3.d()) {
+            ItemDefinition var7;
+            var8 = (var7 = uwotm8.ItemDefinition.c(var6.a)).a;
             if (var7.n) {
                var8 *= var6.b + 1;
             }
@@ -1982,22 +1982,22 @@ public class Client extends b {
             }
          }
 
-         var3.b((K_1)var5);
+         var3.b((Node)var5);
          var6 = null;
-         w var9 = null;
+         Item var9 = null;
 
-         for(w var10 = (w)var3.b(); var10 != null; var10 = (w)var3.d()) {
-            if (var10.a != ((w)var5).a && var6 == null) {
+         for(Item var10 = (Item)var3.b(); var10 != null; var10 = (Item)var3.d()) {
+            if (var10.a != ((Item)var5).a && var6 == null) {
                var6 = var10;
             }
 
-            if (var10.a != ((w)var5).a && var10.a != ((w)var6).a && var9 == null) {
+            if (var10.a != ((Item)var5).a && var10.a != ((Item)var6).a && var9 == null) {
                var9 = var10;
             }
          }
 
          var8 = var1 + (var2 << 7) + 1610612736;
-         this.cO.a(var1, var8, (A)var6, this.b(this.cu, (var2 << 7) + 64, (var1 << 7) + 64), (A)var9, (A)var5, this.cu, var2);
+         this.cO.a(var1, var8, (Renderable)var6, this.b(this.cu, (var2 << 7) + 64, (var1 << 7) + 64), (Renderable)var9, (Renderable)var5, this.cu, var2);
       }
    }
 
@@ -2005,7 +2005,7 @@ public class Client extends b {
       for(int var2 = 0; var2 < this.bt; ++var2) {
          Npc var3 = this.bs[this.bu[var2]];
          int var4 = 536870912 + (this.bu[var2] << 14);
-         if (var3 != null && var3.c() && var3.ad.s == var1) {
+         if (var3 != null && var3.isVisible() && var3.ad.s == var1) {
             int var5 = var3.V >> 7;
             int var6 = var3.W >> 7;
             if (var5 >= 0 && var5 < 104 && var6 >= 0 && var6 < 104) {
@@ -2210,7 +2210,7 @@ public class Client extends b {
                               this.eE = var18;
                               this.eF = var9.o;
                               if (var9.w[var18] > 0) {
-                                 i var19 = uwotm8.i.c(var9.w[var18] - 1);
+                                 ItemDefinition var19 = uwotm8.ItemDefinition.c(var9.w[var18] - 1);
                                  if (this.hN == 1 && var9.z) {
                                     if (var9.o != this.hP || var18 != this.hO) {
                                        this.X[this.N] = "Use " + this.hR + " with @lre@" + var19.k;
@@ -2385,146 +2385,146 @@ public class Client extends b {
       if (t.d()) {
          this.ea.a(var4, var3);
          this.eb.a(var4, var3 + var1 - 16);
-         uwotm8.p.a(var1 - 32, var3 + 16, var4, 2301979, 16);
+         uwotm8.Rasterizer2D.a(var1 - 32, var3 + 16, var4, 2301979, 16);
          if ((var6 = (var1 - 32) * var1 / var5) < 8) {
             var6 = 8;
          }
 
          var1 = (var1 - 32 - var6) * var2 / (var5 - var1);
-         uwotm8.p.a(var6, var3 + 16 + var1, var4, 5063219, 16);
-         uwotm8.p.d(var3 + 16 + var1, 7759444, var6, var4);
-         uwotm8.p.d(var3 + 16 + var1, 7759444, var6, var4 + 1);
-         uwotm8.p.c(var3 + 16 + var1, 7759444, 16, var4);
-         uwotm8.p.c(var3 + 17 + var1, 7759444, 16, var4);
-         uwotm8.p.d(var3 + 16 + var1, 3353893, var6, var4 + 15);
-         uwotm8.p.d(var3 + 17 + var1, 3353893, var6 - 1, var4 + 14);
-         uwotm8.p.c(var3 + 15 + var1 + var6, 3353893, 16, var4);
-         uwotm8.p.c(var3 + 14 + var1 + var6, 3353893, 15, var4 + 1);
+         uwotm8.Rasterizer2D.a(var6, var3 + 16 + var1, var4, 5063219, 16);
+         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 7759444, var6, var4);
+         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 7759444, var6, var4 + 1);
+         uwotm8.Rasterizer2D.c(var3 + 16 + var1, 7759444, 16, var4);
+         uwotm8.Rasterizer2D.c(var3 + 17 + var1, 7759444, 16, var4);
+         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 3353893, var6, var4 + 15);
+         uwotm8.Rasterizer2D.d(var3 + 17 + var1, 3353893, var6 - 1, var4 + 14);
+         uwotm8.Rasterizer2D.c(var3 + 15 + var1 + var6, 3353893, 16, var4);
+         uwotm8.Rasterizer2D.c(var3 + 14 + var1 + var6, 3353893, 15, var4 + 1);
       } else {
          this.dY.d(var4, var3);
          this.dZ.d(var4, var3 + var1 - 16);
-         uwotm8.p.b(var1 - 32, var3 + 16, var4, 1, 16);
-         uwotm8.p.b(var1 - 32, var3 + 16, var4, 4011046, 15);
-         uwotm8.p.b(var1 - 32, var3 + 16, var4, 3419425, 13);
-         uwotm8.p.b(var1 - 32, var3 + 16, var4, 3024925, 11);
-         uwotm8.p.b(var1 - 32, var3 + 16, var4, 2696219, 10);
-         uwotm8.p.b(var1 - 32, var3 + 16, var4, 2433049, 9);
-         uwotm8.p.b(var1 - 32, var3 + 16, var4, 1, 1);
+         uwotm8.Rasterizer2D.b(var1 - 32, var3 + 16, var4, 1, 16);
+         uwotm8.Rasterizer2D.b(var1 - 32, var3 + 16, var4, 4011046, 15);
+         uwotm8.Rasterizer2D.b(var1 - 32, var3 + 16, var4, 3419425, 13);
+         uwotm8.Rasterizer2D.b(var1 - 32, var3 + 16, var4, 3024925, 11);
+         uwotm8.Rasterizer2D.b(var1 - 32, var3 + 16, var4, 2696219, 10);
+         uwotm8.Rasterizer2D.b(var1 - 32, var3 + 16, var4, 2433049, 9);
+         uwotm8.Rasterizer2D.b(var1 - 32, var3 + 16, var4, 1, 1);
          if ((var6 = (var1 - 32) * var1 / var5) < 8) {
             var6 = 8;
          }
 
          var1 = (var1 - 32 - var6) * var2 / (var5 - var1);
-         uwotm8.p.b(var6, var3 + 16 + var1, var4, 5063219, 16);
-         uwotm8.p.d(var3 + 16 + var1, 1, var6, var4);
-         uwotm8.p.d(var3 + 16 + var1, 8482897, var6, var4 + 1);
-         uwotm8.p.d(var3 + 16 + var1, 7562570, var6, var4 + 2);
-         uwotm8.p.d(var3 + 16 + var1, 6970435, var6, var4 + 3);
-         uwotm8.p.d(var3 + 16 + var1, 6970435, var6, var4 + 4);
-         uwotm8.p.d(var3 + 16 + var1, 6641729, var6, var4 + 5);
-         uwotm8.p.d(var3 + 16 + var1, 6641729, var6, var4 + 6);
-         uwotm8.p.d(var3 + 16 + var1, 6378814, var6, var4 + 7);
-         uwotm8.p.d(var3 + 16 + var1, 6378814, var6, var4 + 8);
-         uwotm8.p.d(var3 + 16 + var1, 6115644, var6, var4 + 9);
-         uwotm8.p.d(var3 + 16 + var1, 6115644, var6, var4 + 10);
-         uwotm8.p.d(var3 + 16 + var1, 5852730, var6, var4 + 11);
-         uwotm8.p.d(var3 + 16 + var1, 5852730, var6, var4 + 12);
-         uwotm8.p.d(var3 + 16 + var1, 5326389, var6, var4 + 13);
-         uwotm8.p.d(var3 + 16 + var1, 4931889, var6, var4 + 14);
-         uwotm8.p.c(var3 + 16 + var1, 1, 15, var4);
-         uwotm8.p.c(var3 + 17 + var1, 1, 15, var4);
-         uwotm8.p.c(var3 + 17 + var1, 6641729, 14, var4);
-         uwotm8.p.c(var3 + 17 + var1, 6970435, 13, var4);
-         uwotm8.p.c(var3 + 17 + var1, 7167816, 11, var4);
-         uwotm8.p.c(var3 + 17 + var1, 7562570, 10, var4);
-         uwotm8.p.c(var3 + 17 + var1, 7759947, 7, var4);
-         uwotm8.p.c(var3 + 17 + var1, 8088141, 5, var4);
-         uwotm8.p.c(var3 + 17 + var1, 8285776, 4, var4);
-         uwotm8.p.c(var3 + 17 + var1, 8482897, 3, var4);
-         uwotm8.p.c(var3 + 17 + var1, 1, 2, var4);
-         uwotm8.p.c(var3 + 18 + var1, 1, 16, var4);
-         uwotm8.p.c(var3 + 18 + var1, 5655352, 15, var4);
-         uwotm8.p.c(var3 + 18 + var1, 6115644, 14, var4);
-         uwotm8.p.c(var3 + 18 + var1, 6444608, 11, var4);
-         uwotm8.p.c(var3 + 18 + var1, 6641729, 10, var4);
-         uwotm8.p.c(var3 + 18 + var1, 6970435, 7, var4);
-         uwotm8.p.c(var3 + 18 + var1, 7233606, 5, var4);
-         uwotm8.p.c(var3 + 18 + var1, 7430727, 4, var4);
-         uwotm8.p.c(var3 + 18 + var1, 8088141, 3, var4);
-         uwotm8.p.c(var3 + 18 + var1, 8482897, 2, var4);
-         uwotm8.p.c(var3 + 18 + var1, 1, 1, var4);
-         uwotm8.p.c(var3 + 19 + var1, 1, 16, var4);
-         uwotm8.p.c(var3 + 19 + var1, 5326389, 15, var4);
-         uwotm8.p.c(var3 + 19 + var1, 5655352, 14, var4);
-         uwotm8.p.c(var3 + 19 + var1, 6115644, 11, var4);
-         uwotm8.p.c(var3 + 19 + var1, 6378814, 9, var4);
-         uwotm8.p.c(var3 + 19 + var1, 6641729, 7, var4);
-         uwotm8.p.c(var3 + 19 + var1, 6970435, 5, var4);
-         uwotm8.p.c(var3 + 19 + var1, 7233606, 4, var4);
-         uwotm8.p.c(var3 + 19 + var1, 7562570, 3, var4);
-         uwotm8.p.c(var3 + 19 + var1, 8482897, 2, var4);
-         uwotm8.p.c(var3 + 19 + var1, 1, 1, var4);
-         uwotm8.p.c(var3 + 20 + var1, 1, 16, var4);
-         uwotm8.p.c(var3 + 20 + var1, 4931889, 15, var4);
-         uwotm8.p.c(var3 + 20 + var1, 5523766, 14, var4);
-         uwotm8.p.c(var3 + 20 + var1, 5852730, 13, var4);
-         uwotm8.p.c(var3 + 20 + var1, 6115644, 10, var4);
-         uwotm8.p.c(var3 + 20 + var1, 6378814, 8, var4);
-         uwotm8.p.c(var3 + 20 + var1, 6641729, 6, var4);
-         uwotm8.p.c(var3 + 20 + var1, 6970435, 4, var4);
-         uwotm8.p.c(var3 + 20 + var1, 7562570, 3, var4);
-         uwotm8.p.c(var3 + 20 + var1, 8482897, 2, var4);
-         uwotm8.p.c(var3 + 20 + var1, 1, 1, var4);
-         uwotm8.p.d(var3 + 16 + var1, 1, var6, var4 + 15);
-         uwotm8.p.c(var3 + 15 + var1 + var6, 1, 16, var4);
-         uwotm8.p.c(var3 + 14 + var1 + var6, 1, 15, var4);
-         uwotm8.p.c(var3 + 14 + var1 + var6, 4142890, 14, var4);
-         uwotm8.p.c(var3 + 14 + var1 + var6, 4471853, 10, var4);
-         uwotm8.p.c(var3 + 14 + var1 + var6, 4734511, 9, var4);
-         uwotm8.p.c(var3 + 14 + var1 + var6, 4866095, 7, var4);
-         uwotm8.p.c(var3 + 14 + var1 + var6, 4931889, 4, var4);
-         uwotm8.p.c(var3 + 14 + var1 + var6, 5655352, 3, var4);
-         uwotm8.p.c(var3 + 14 + var1 + var6, 1, 2, var4);
-         uwotm8.p.c(var3 + 13 + var1 + var6, 1, 16, var4);
-         uwotm8.p.c(var3 + 13 + var1 + var6, 4471853, 15, var4);
-         uwotm8.p.c(var3 + 13 + var1 + var6, 4931889, 11, var4);
-         uwotm8.p.c(var3 + 13 + var1 + var6, 5326389, 9, var4);
-         uwotm8.p.c(var3 + 13 + var1 + var6, 5523766, 7, var4);
-         uwotm8.p.c(var3 + 13 + var1 + var6, 5655352, 6, var4);
-         uwotm8.p.c(var3 + 13 + var1 + var6, 5852730, 4, var4);
-         uwotm8.p.c(var3 + 13 + var1 + var6, 6444608, 3, var4);
-         uwotm8.p.c(var3 + 13 + var1 + var6, 6970435, 2, var4);
-         uwotm8.p.c(var3 + 13 + var1 + var6, 1, 1, var4);
-         uwotm8.p.c(var3 + 12 + var1 + var6, 1, 16, var4);
-         uwotm8.p.c(var3 + 12 + var1 + var6, 4471853, 15, var4);
-         uwotm8.p.c(var3 + 12 + var1 + var6, 4931889, 14, var4);
-         uwotm8.p.c(var3 + 12 + var1 + var6, 5523766, 12, var4);
-         uwotm8.p.c(var3 + 12 + var1 + var6, 5655352, 11, var4);
-         uwotm8.p.c(var3 + 12 + var1 + var6, 5852730, 10, var4);
-         uwotm8.p.c(var3 + 12 + var1 + var6, 6115644, 7, var4);
-         uwotm8.p.c(var3 + 12 + var1 + var6, 6378814, 4, var4);
-         uwotm8.p.c(var3 + 12 + var1 + var6, 7233606, 3, var4);
-         uwotm8.p.c(var3 + 12 + var1 + var6, 8088141, 2, var4);
-         uwotm8.p.c(var3 + 12 + var1 + var6, 1, 1, var4);
-         uwotm8.p.c(var3 + 11 + var1 + var6, 1, 16, var4);
-         uwotm8.p.c(var3 + 11 + var1 + var6, 4931889, 15, var4);
-         uwotm8.p.c(var3 + 11 + var1 + var6, 5326389, 14, var4);
-         uwotm8.p.c(var3 + 11 + var1 + var6, 5655352, 13, var4);
-         uwotm8.p.c(var3 + 11 + var1 + var6, 5852730, 11, var4);
-         uwotm8.p.c(var3 + 11 + var1 + var6, 6115644, 9, var4);
-         uwotm8.p.c(var3 + 11 + var1 + var6, 6378814, 7, var4);
-         uwotm8.p.c(var3 + 11 + var1 + var6, 6641729, 5, var4);
-         uwotm8.p.c(var3 + 11 + var1 + var6, 6970435, 4, var4);
-         uwotm8.p.c(var3 + 11 + var1 + var6, 7562570, 3, var4);
-         uwotm8.p.c(var3 + 11 + var1 + var6, 8088141, 2, var4);
-         uwotm8.p.c(var3 + 11 + var1 + var6, 1, 1, var4);
+         uwotm8.Rasterizer2D.b(var6, var3 + 16 + var1, var4, 5063219, 16);
+         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 1, var6, var4);
+         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 8482897, var6, var4 + 1);
+         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 7562570, var6, var4 + 2);
+         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 6970435, var6, var4 + 3);
+         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 6970435, var6, var4 + 4);
+         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 6641729, var6, var4 + 5);
+         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 6641729, var6, var4 + 6);
+         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 6378814, var6, var4 + 7);
+         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 6378814, var6, var4 + 8);
+         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 6115644, var6, var4 + 9);
+         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 6115644, var6, var4 + 10);
+         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 5852730, var6, var4 + 11);
+         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 5852730, var6, var4 + 12);
+         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 5326389, var6, var4 + 13);
+         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 4931889, var6, var4 + 14);
+         uwotm8.Rasterizer2D.c(var3 + 16 + var1, 1, 15, var4);
+         uwotm8.Rasterizer2D.c(var3 + 17 + var1, 1, 15, var4);
+         uwotm8.Rasterizer2D.c(var3 + 17 + var1, 6641729, 14, var4);
+         uwotm8.Rasterizer2D.c(var3 + 17 + var1, 6970435, 13, var4);
+         uwotm8.Rasterizer2D.c(var3 + 17 + var1, 7167816, 11, var4);
+         uwotm8.Rasterizer2D.c(var3 + 17 + var1, 7562570, 10, var4);
+         uwotm8.Rasterizer2D.c(var3 + 17 + var1, 7759947, 7, var4);
+         uwotm8.Rasterizer2D.c(var3 + 17 + var1, 8088141, 5, var4);
+         uwotm8.Rasterizer2D.c(var3 + 17 + var1, 8285776, 4, var4);
+         uwotm8.Rasterizer2D.c(var3 + 17 + var1, 8482897, 3, var4);
+         uwotm8.Rasterizer2D.c(var3 + 17 + var1, 1, 2, var4);
+         uwotm8.Rasterizer2D.c(var3 + 18 + var1, 1, 16, var4);
+         uwotm8.Rasterizer2D.c(var3 + 18 + var1, 5655352, 15, var4);
+         uwotm8.Rasterizer2D.c(var3 + 18 + var1, 6115644, 14, var4);
+         uwotm8.Rasterizer2D.c(var3 + 18 + var1, 6444608, 11, var4);
+         uwotm8.Rasterizer2D.c(var3 + 18 + var1, 6641729, 10, var4);
+         uwotm8.Rasterizer2D.c(var3 + 18 + var1, 6970435, 7, var4);
+         uwotm8.Rasterizer2D.c(var3 + 18 + var1, 7233606, 5, var4);
+         uwotm8.Rasterizer2D.c(var3 + 18 + var1, 7430727, 4, var4);
+         uwotm8.Rasterizer2D.c(var3 + 18 + var1, 8088141, 3, var4);
+         uwotm8.Rasterizer2D.c(var3 + 18 + var1, 8482897, 2, var4);
+         uwotm8.Rasterizer2D.c(var3 + 18 + var1, 1, 1, var4);
+         uwotm8.Rasterizer2D.c(var3 + 19 + var1, 1, 16, var4);
+         uwotm8.Rasterizer2D.c(var3 + 19 + var1, 5326389, 15, var4);
+         uwotm8.Rasterizer2D.c(var3 + 19 + var1, 5655352, 14, var4);
+         uwotm8.Rasterizer2D.c(var3 + 19 + var1, 6115644, 11, var4);
+         uwotm8.Rasterizer2D.c(var3 + 19 + var1, 6378814, 9, var4);
+         uwotm8.Rasterizer2D.c(var3 + 19 + var1, 6641729, 7, var4);
+         uwotm8.Rasterizer2D.c(var3 + 19 + var1, 6970435, 5, var4);
+         uwotm8.Rasterizer2D.c(var3 + 19 + var1, 7233606, 4, var4);
+         uwotm8.Rasterizer2D.c(var3 + 19 + var1, 7562570, 3, var4);
+         uwotm8.Rasterizer2D.c(var3 + 19 + var1, 8482897, 2, var4);
+         uwotm8.Rasterizer2D.c(var3 + 19 + var1, 1, 1, var4);
+         uwotm8.Rasterizer2D.c(var3 + 20 + var1, 1, 16, var4);
+         uwotm8.Rasterizer2D.c(var3 + 20 + var1, 4931889, 15, var4);
+         uwotm8.Rasterizer2D.c(var3 + 20 + var1, 5523766, 14, var4);
+         uwotm8.Rasterizer2D.c(var3 + 20 + var1, 5852730, 13, var4);
+         uwotm8.Rasterizer2D.c(var3 + 20 + var1, 6115644, 10, var4);
+         uwotm8.Rasterizer2D.c(var3 + 20 + var1, 6378814, 8, var4);
+         uwotm8.Rasterizer2D.c(var3 + 20 + var1, 6641729, 6, var4);
+         uwotm8.Rasterizer2D.c(var3 + 20 + var1, 6970435, 4, var4);
+         uwotm8.Rasterizer2D.c(var3 + 20 + var1, 7562570, 3, var4);
+         uwotm8.Rasterizer2D.c(var3 + 20 + var1, 8482897, 2, var4);
+         uwotm8.Rasterizer2D.c(var3 + 20 + var1, 1, 1, var4);
+         uwotm8.Rasterizer2D.d(var3 + 16 + var1, 1, var6, var4 + 15);
+         uwotm8.Rasterizer2D.c(var3 + 15 + var1 + var6, 1, 16, var4);
+         uwotm8.Rasterizer2D.c(var3 + 14 + var1 + var6, 1, 15, var4);
+         uwotm8.Rasterizer2D.c(var3 + 14 + var1 + var6, 4142890, 14, var4);
+         uwotm8.Rasterizer2D.c(var3 + 14 + var1 + var6, 4471853, 10, var4);
+         uwotm8.Rasterizer2D.c(var3 + 14 + var1 + var6, 4734511, 9, var4);
+         uwotm8.Rasterizer2D.c(var3 + 14 + var1 + var6, 4866095, 7, var4);
+         uwotm8.Rasterizer2D.c(var3 + 14 + var1 + var6, 4931889, 4, var4);
+         uwotm8.Rasterizer2D.c(var3 + 14 + var1 + var6, 5655352, 3, var4);
+         uwotm8.Rasterizer2D.c(var3 + 14 + var1 + var6, 1, 2, var4);
+         uwotm8.Rasterizer2D.c(var3 + 13 + var1 + var6, 1, 16, var4);
+         uwotm8.Rasterizer2D.c(var3 + 13 + var1 + var6, 4471853, 15, var4);
+         uwotm8.Rasterizer2D.c(var3 + 13 + var1 + var6, 4931889, 11, var4);
+         uwotm8.Rasterizer2D.c(var3 + 13 + var1 + var6, 5326389, 9, var4);
+         uwotm8.Rasterizer2D.c(var3 + 13 + var1 + var6, 5523766, 7, var4);
+         uwotm8.Rasterizer2D.c(var3 + 13 + var1 + var6, 5655352, 6, var4);
+         uwotm8.Rasterizer2D.c(var3 + 13 + var1 + var6, 5852730, 4, var4);
+         uwotm8.Rasterizer2D.c(var3 + 13 + var1 + var6, 6444608, 3, var4);
+         uwotm8.Rasterizer2D.c(var3 + 13 + var1 + var6, 6970435, 2, var4);
+         uwotm8.Rasterizer2D.c(var3 + 13 + var1 + var6, 1, 1, var4);
+         uwotm8.Rasterizer2D.c(var3 + 12 + var1 + var6, 1, 16, var4);
+         uwotm8.Rasterizer2D.c(var3 + 12 + var1 + var6, 4471853, 15, var4);
+         uwotm8.Rasterizer2D.c(var3 + 12 + var1 + var6, 4931889, 14, var4);
+         uwotm8.Rasterizer2D.c(var3 + 12 + var1 + var6, 5523766, 12, var4);
+         uwotm8.Rasterizer2D.c(var3 + 12 + var1 + var6, 5655352, 11, var4);
+         uwotm8.Rasterizer2D.c(var3 + 12 + var1 + var6, 5852730, 10, var4);
+         uwotm8.Rasterizer2D.c(var3 + 12 + var1 + var6, 6115644, 7, var4);
+         uwotm8.Rasterizer2D.c(var3 + 12 + var1 + var6, 6378814, 4, var4);
+         uwotm8.Rasterizer2D.c(var3 + 12 + var1 + var6, 7233606, 3, var4);
+         uwotm8.Rasterizer2D.c(var3 + 12 + var1 + var6, 8088141, 2, var4);
+         uwotm8.Rasterizer2D.c(var3 + 12 + var1 + var6, 1, 1, var4);
+         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 1, 16, var4);
+         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 4931889, 15, var4);
+         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 5326389, 14, var4);
+         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 5655352, 13, var4);
+         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 5852730, 11, var4);
+         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 6115644, 9, var4);
+         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 6378814, 7, var4);
+         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 6641729, 5, var4);
+         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 6970435, 4, var4);
+         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 7562570, 3, var4);
+         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 8088141, 2, var4);
+         uwotm8.Rasterizer2D.c(var3 + 11 + var1 + var6, 1, 1, var4);
       }
    }
 
-   private void a(I_1 var1, int var2) {
+   private void a(Buffer var1, int var2) {
       this.bv = 0;
       this.cg = 0;
-      I_1 var4 = var1;
+      Buffer var4 = var1;
       Client var3 = this;
       var1.n();
       int var5;
@@ -2536,7 +2536,7 @@ public class Client extends b {
       }
 
       if (var5 > var3.bt) {
-    	  uwotm8.al.b(S + " Too many npcs");
+    	  uwotm8.SignLink.b(S + " Too many npcs");
          throw new RuntimeException("eek");
       } else {
          var3.bt = 0;
@@ -2557,7 +2557,7 @@ public class Client extends b {
                   var3.bu[var3.bt++] = var7;
                   var8.I = R;
                   var9 = var4.i(3);
-                  var8.a(false, var9);
+                  var8.walk(false, var9);
                   if (var4.i(1) == 1) {
                      var3.ch[var3.cg++] = var7;
                   }
@@ -2565,9 +2565,9 @@ public class Client extends b {
                   var3.bu[var3.bt++] = var7;
                   var8.I = R;
                   var9 = var4.i(3);
-                  var8.a(true, var9);
+                  var8.walk(true, var9);
                   var9 = var4.i(3);
-                  var8.a(true, var9);
+                  var8.walk(true, var9);
                   if (var4.i(1) == 1) {
                      var3.ch[var3.cg++] = var7;
                   }
@@ -2590,12 +2590,12 @@ public class Client extends b {
          }
 
          if (var1.b != var2) {
-        	 uwotm8.al.b(S + " size mismatch in getnpcpos - pos:" + var1.b + " psize:" + var2);
+        	 uwotm8.SignLink.b(S + " size mismatch in getnpcpos - pos:" + var1.b + " psize:" + var2);
             throw new RuntimeException("eek");
          } else {
             for(var10 = 0; var10 < this.bt; ++var10) {
                if (this.bs[this.bu[var10]] == null) {
-            	   uwotm8.al.b(S + " null entry in npc list - pos:" + var10 + " size:" + this.bt);
+            	   uwotm8.SignLink.b(S + " null entry in npc list - pos:" + var10 + " size:" + this.bt);
                   throw new RuntimeException("eek");
                }
             }
@@ -2681,8 +2681,8 @@ public class Client extends b {
                this.aX = 0.6D;
             }
 
-            uwotm8.r.a(this.aX);
-            uwotm8.i.d.a();
+            uwotm8.Rasterizer3D.a(this.aX);
+            uwotm8.ItemDefinition.d.a();
             this.hm = true;
          }
 
@@ -2735,25 +2735,25 @@ public class Client extends b {
             if (var3 == 0) {
                this.bC = true;
                var5 = false;
-               uwotm8.al.g = 0;
+               uwotm8.SignLink.g = 0;
             }
 
             if (var3 == 1) {
                this.bC = true;
                var5 = true;
-               uwotm8.al.g = -400;
+               uwotm8.SignLink.g = -400;
             }
 
             if (var3 == 2) {
                this.bC = true;
                var5 = true;
-               uwotm8.al.g = -800;
+               uwotm8.SignLink.g = -800;
             }
 
             if (var3 == 3) {
                this.bC = true;
                var5 = true;
-               uwotm8.al.g = -1200;
+               uwotm8.SignLink.g = -1200;
             }
 
             if (var3 == 4) {
@@ -2804,7 +2804,7 @@ public class Client extends b {
                var3 = this.bs[this.bu[var2 - this.ce]];
             }
 
-            if (var3 != null && ((u)var3).c()) {
+            if (var3 != null && ((Actor)var3).isVisible()) {
                ActorDefinition var4;
                if (var3 instanceof Npc) {
                   var4 = ((Npc)var3).ad;
@@ -2819,9 +2819,9 @@ public class Client extends b {
 
                if (var2 < this.ce) {
                   var12 = 30;
-                  y var5;
-                  if ((var5 = (y)var3).al >= 0) {
-                     this.a((u)var3, ((u)var3).h + 15);
+                  Player var5;
+                  if ((var5 = (Player)var3).al >= 0) {
+                     this.a((Actor)var3, ((Actor)var3).h + 15);
                      if (this.dd >= 0) {
                         if (var5.am < 2) {
                            this.fi[var5.am].d(this.dd - 12, this.de - 30);
@@ -2836,7 +2836,7 @@ public class Client extends b {
                   }
 
                   if (var2 >= 0 && this.bF == 10 && this.cD == this.cf[var2]) {
-                     this.a((u)var3, ((u)var3).h + 15);
+                     this.a((Actor)var3, ((Actor)var3).h + 15);
                      if (this.dd >= 0) {
                         this.fj[0].d(this.dd - 12, this.de - var12);
                      }
@@ -2844,56 +2844,56 @@ public class Client extends b {
                } else {
                   var4 = ((Npc)var3).ad;
                   if (((Npc)var3).ad.j >= 0 && var4.j < this.fh.length) {
-                     this.a((u)var3, ((u)var3).h + 15);
+                     this.a((Actor)var3, ((Actor)var3).h + 15);
                      if (this.dd >= 0) {
                         this.fh[var4.j].d(this.dd - 12, this.de - 30);
                      }
                   }
 
                   if (this.bF == 1 && this.gM == this.bu[var2 - this.ce] && R % 20 < 10) {
-                     this.a((u)var3, ((u)var3).h + 15);
+                     this.a((Actor)var3, ((Actor)var3).h + 15);
                      if (this.dd >= 0) {
                         this.fj[0].d(this.dd - 12, this.de - 28);
                      }
                   }
                }
 
-               if (((u)var3).g != null && (var2 >= this.ce || this.aj == 0 || this.aj == 3 || this.aj == 1 && this.e(((y)var3).ai))) {
-                  this.a((u)var3, ((u)var3).h);
+               if (((Actor)var3).g != null && (var2 >= this.ce || this.aj == 0 || this.aj == 3 || this.aj == 1 && this.e(((Player)var3).ai))) {
+                  this.a((Actor)var3, ((Actor)var3).h);
                   if (this.dd >= 0 && var1 < 50) {
-                     this.dl[var1] = this.hA.b(((u)var3).g) / 2;
+                     this.dl[var1] = this.hA.b(((Actor)var3).g) / 2;
                      this.dk[var1] = this.hA.a;
                      this.di[var1] = this.dd;
                      this.dj[var1] = this.de;
-                     this.dm[var1] = ((u)var3).l;
-                     this.dn[var1] = ((u)var3).D;
-                     this.xD[var1] = ((u)var3).H;
-                     this.dp[var1++] = ((u)var3).g;
-                     if (this.hg == 0 && ((u)var3).D > 0 && ((u)var3).D <= 3) {
+                     this.dm[var1] = ((Actor)var3).l;
+                     this.dn[var1] = ((Actor)var3).D;
+                     this.xD[var1] = ((Actor)var3).H;
+                     this.dp[var1++] = ((Actor)var3).g;
+                     if (this.hg == 0 && ((Actor)var3).D > 0 && ((Actor)var3).D <= 3) {
                         this.dk[var1] += 10;
                         this.dj[var1] += 5;
                      }
 
-                     if (this.hg == 0 && ((u)var3).D == 4) {
+                     if (this.hg == 0 && ((Actor)var3).D == 4) {
                         this.dl[var1] = 60;
                      }
 
-                     if (this.hg == 0 && ((u)var3).D == 5) {
+                     if (this.hg == 0 && ((Actor)var3).D == 5) {
                         this.dk[var1] += 5;
                      }
                   }
                }
 
-               if (((u)var3).E > R) {
+               if (((Actor)var3).E > R) {
                   try {
-                     this.a((u)var3, ((u)var3).h + 15);
+                     this.a((Actor)var3, ((Actor)var3).h + 15);
                      if (this.dd >= 0) {
-                        if ((var12 = ((u)var3).F * 30 / ((u)var3).G) > 30) {
+                        if ((var12 = ((Actor)var3).F * 30 / ((Actor)var3).G) > 30) {
                            var12 = 30;
                         }
 
-                        uwotm8.p.b(5, this.de - 3, this.dd - 15, 65280, var12);
-                        uwotm8.p.b(5, this.de - 3, this.dd - 15 + var12, 16711680, 30 - var12);
+                        uwotm8.Rasterizer2D.b(5, this.de - 3, this.dd - 15, 65280, var12);
+                        uwotm8.Rasterizer2D.b(5, this.de - 3, this.dd - 15 + var12, 16711680, 30 - var12);
                      }
                   } catch (Exception var9) {
                      ;
@@ -2901,8 +2901,8 @@ public class Client extends b {
                }
 
                for(var12 = 0; var12 < 4; ++var12) {
-                  if (((u)var3).o[var12] > R) {
-                     this.a((u)var3, ((u)var3).h / 2);
+                  if (((Actor)var3).o[var12] > R) {
+                     this.a((Actor)var3, ((Actor)var3).h / 2);
                      if (this.dd >= 0) {
                         if (var12 == 1) {
                            this.de -= 20;
@@ -2918,9 +2918,9 @@ public class Client extends b {
                            this.de -= 10;
                         }
 
-                        this.du[((u)var3).n[var12]].d(this.dd - 12, this.de - 12);
-                        this.af.a(0, String.valueOf(((u)var3).m[var12]), this.de + 4, this.dd);
-                        this.af.a(16777215, String.valueOf(((u)var3).m[var12]), this.de + 3, this.dd - 1);
+                        this.du[((Actor)var3).n[var12]].d(this.dd - 12, this.de - 12);
+                        this.af.a(0, String.valueOf(((Actor)var3).m[var12]), this.de + 4, this.dd);
+                        this.af.a(16777215, String.valueOf(((Actor)var3).m[var12]), this.de + 3, this.dd - 1);
                      }
                   }
                }
@@ -3019,10 +3019,10 @@ public class Client extends b {
                if (this.dn[var2] == 4) {
                   var12 = this.hA.b(var14);
                   var13 = (150 - this.xD[var2]) * (var12 + 100) / 150;
-                  uwotm8.p.b(334, this.dd - 50, this.dd + 50, 0);
+                  uwotm8.Rasterizer2D.b(334, this.dd - 50, this.dd + 50, 0);
                   this.hA.b(0, var14, this.de + 1, this.dd + 50 - var13);
                   this.hA.b(var11, var14, this.de, this.dd + 50 - var13);
-                  uwotm8.p.e();
+                  uwotm8.Rasterizer2D.e();
                }
 
                if (this.dn[var2] == 5) {
@@ -3034,10 +3034,10 @@ public class Client extends b {
                      var13 = var12 - 125;
                   }
 
-                  uwotm8.p.b(this.de + 5, 0, 512, this.de - this.hA.a - 1);
+                  uwotm8.Rasterizer2D.b(this.de + 5, 0, 512, this.de - this.hA.a - 1);
                   this.hA.a(0, var14, this.de + 1 + var13, this.dd);
                   this.hA.a(var11, var14, this.de + var13, this.dd);
-                  uwotm8.p.e();
+                  uwotm8.Rasterizer2D.e();
                }
             } else {
                this.hA.a(0, var14, this.de + 1, this.dd);
@@ -3071,7 +3071,7 @@ public class Client extends b {
             }
 
          } catch (RuntimeException var4) {
-        	 uwotm8.al.b("18622, false, " + var1 + ", " + var4.toString());
+        	 uwotm8.SignLink.b("18622, false, " + var1 + ", " + var4.toString());
             throw new RuntimeException();
          }
       }
@@ -3086,7 +3086,7 @@ public class Client extends b {
          ge.a();
       }
 
-      uwotm8.r.t = gr;
+      uwotm8.Rasterizer3D.t = gr;
       if (this.w()) {
          f = true;
       }
@@ -3101,7 +3101,7 @@ public class Client extends b {
       }
 
       gg.a();
-      uwotm8.r.t = gs;
+      uwotm8.Rasterizer3D.t = gs;
    }
 
    private void y() {
@@ -3114,7 +3114,7 @@ public class Client extends b {
             var2 = this.cf[var1];
          }
 
-         y var3;
+         Player var3;
          if ((var3 = this.cd[var2]) != null && var3.H > 0) {
             var3.H = var3.H - 1;
             if (var3.H == 0) {
@@ -3144,9 +3144,9 @@ public class Client extends b {
       ab = true;
       K = true;
       P = true;
-      uwotm8.p.b(var6, var4, var3, 6116423, var5);
-      uwotm8.p.b(16, var4 + 1, var3 + 1, 0, var5 - 2);
-      uwotm8.p.c(var3 + 1, var5 - 2, var6 - 19, 0, var4 + 18);
+      uwotm8.Rasterizer2D.b(var6, var4, var3, 6116423, var5);
+      uwotm8.Rasterizer2D.b(16, var4 + 1, var3 + 1, 0, var5 - 2);
+      uwotm8.Rasterizer2D.c(var3 + 1, var5 - 2, var6 - 19, 0, var4 + 18);
       this.hA.b(6116423, "Choose Option", var4 + 14, var3 + 3);
       var1 = super.au - var1;
       var2 = -var2 + super.av;
@@ -3155,7 +3155,7 @@ public class Client extends b {
          int var7 = var4 + 31 + (this.N - 1 - var6) * 15;
          int var8 = 16777215;
          if (var1 > var3 && var1 < var3 + var5 && var2 > var7 - 13 && var2 < var7 + 3) {
-            uwotm8.p.b(15, var7 - 11, var3 + 3, 7301469, this.cR - 6);
+            uwotm8.Rasterizer2D.b(15, var7 - 11, var3 + 3, 7301469, this.cR - 6);
             var8 = 16776960;
          }
 
@@ -3171,7 +3171,7 @@ public class Client extends b {
          if (var0.charAt(var2) == '@' && var2 + 4 < var0.length() && var0.charAt(var2 + 4) == '@') {
             String var3;
             String var4;
-            if (!(var4 = uwotm8.l.b(var3 = var0.substring(var2 + 1, var2 + 4))).equals("")) {
+            if (!(var4 = uwotm8.RSFont.b(var3 = var0.substring(var2 + 1, var2 + 4))).equals("")) {
                var1 = var1.replaceAll(var0.substring(var2, var2 + 5), "<col=" + var4 + ">");
             } else if (var3.equals("str")) {
                var1 = var1.replaceAll(var0.substring(var2, var2 + 5), "<str>");
@@ -3216,7 +3216,7 @@ public class Client extends b {
                }
             }
          } catch (RuntimeException var5) {
-        	 uwotm8.al.b("15283, 68, " + var1 + ", " + var5.toString());
+        	 uwotm8.SignLink.b("15283, 68, " + var1 + ", " + var5.toString());
             throw new RuntimeException();
          }
       }
@@ -3298,8 +3298,8 @@ public class Client extends b {
       for(int var1 = 0; var1 < 7; ++var1) {
          this.eD[var1] = -1;
 
-         for(int var2 = 0; var2 < uwotm8.C_1.a; ++var2) {
-            if (!uwotm8.C_1.b[var2].d && uwotm8.C_1.b[var2].c == var1 + (this.eq ? 0 : 7)) {
+         for(int var2 = 0; var2 < uwotm8.IdentityKit.a; ++var2) {
+            if (!uwotm8.IdentityKit.b[var2].d && uwotm8.IdentityKit.b[var2].c == var1 + (this.eq ? 0 : 7)) {
                this.eD[var1] = var2;
                break;
             }
@@ -3308,7 +3308,7 @@ public class Client extends b {
 
    }
 
-   private void a(int var1, I_1 var2) {
+   private void a(int var1, Buffer var2) {
       int var3;
       while(var2.c + 21 < var1 << 3 && (var3 = var2.i(14)) != 16383) {
          boolean var4 = false;
@@ -3349,7 +3349,7 @@ public class Client extends b {
          var5.ab = var5.ad.o;
          var5.ac = var5.ad.c;
          var5.j = var5.ad.k;
-         var5.a(L.a[0] + var7, L.b[0] + var6, var8 == 1);
+         var5.setPosition(L.a[0] + var7, L.b[0] + var6, var8 == 1);
       }
 
       var2.o();
@@ -3506,7 +3506,7 @@ public class Client extends b {
       }
 
       for(int var3 = 0; var3 < var2; ++var3) {
-         y var4;
+         Player var4;
          int var5;
          if (var1) {
             var4 = L;
@@ -3607,18 +3607,18 @@ public class Client extends b {
                   if (var3 == 0) {
                      --var4;
                      if (var4 < 0) {
-                        var4 = uwotm8.C_1.a - 1;
+                        var4 = uwotm8.IdentityKit.a - 1;
                      }
                   }
 
                   if (var3 == 1) {
                      ++var4;
-                     if (var4 >= uwotm8.C_1.a) {
+                     if (var4 >= uwotm8.IdentityKit.a) {
                         var4 = 0;
                      }
                   }
 
-                  if (!uwotm8.C_1.b[var4].d && uwotm8.C_1.b[var4].c == var2 + (this.eq ? 0 : 7)) {
+                  if (!uwotm8.IdentityKit.b[var4].d && uwotm8.IdentityKit.b[var4].c == var2 + (this.eq ? 0 : 7)) {
                      this.eD[var2] = var4;
                      this.ee = true;
                      break;
@@ -3695,17 +3695,17 @@ public class Client extends b {
       }
    }
 
-   private void a(I_1 var1) {
+   private void a(Buffer var1) {
       for(int var2 = 0; var2 < this.cg; ++var2) {
          int var3 = this.ch[var2];
-         y var4 = this.cd[var3];
+         Player var4 = this.cd[var3];
          int var5;
          if (((var5 = var1.e()) & 64) != 0) {
             var5 += var1.e() << 8;
          }
 
-         y var7 = var4;
-         I_1 var6 = var1;
+         Player var7 = var4;
+         Buffer var6 = var1;
          Client var18 = this;
          if ((var5 & 1024) != 0) {
             var4.O = var1.u();
@@ -3715,7 +3715,7 @@ public class Client extends b {
             var4.S = var1.y() + R;
             var4.T = var1.x() + R;
             var4.U = var1.u();
-            var4.b();
+            var4.resetPath();
          }
 
          int var8;
@@ -3801,14 +3801,14 @@ public class Client extends b {
                      var18.br.b = 0;
                      byte[] var14 = var18.br.a;
                      var12 = false;
-                     I_1 var22 = var6;
+                     Buffer var22 = var6;
 
                      for(var13 = var10 + 0 - 1; var13 >= 0; --var13) {
                         var14[var13] = var22.a[var22.b++];
                      }
 
                      var18.br.b = 0;
-                     String var23 = uwotm8.av.a(var10, var18.br);
+                     String var23 = uwotm8.ChatMessageCodec.a(var10, var18.br);
                      var7.g = var23;
                      var7.l = var8 >> 8;
                      var7.ad = var9;
@@ -3821,7 +3821,7 @@ public class Client extends b {
                         var18.a(var23, var8, var7.ai, var9);
                      }
                   } catch (Exception var17) {
-                	  uwotm8.al.b("cde2");
+                	  uwotm8.SignLink.b("cde2");
                   }
                }
             }
@@ -3838,7 +3838,7 @@ public class Client extends b {
 
          if ((var5 & 16) != 0) {
             byte[] var20 = new byte[var8 = var1.t()];
-            I_1 var21 = new I_1(var20);
+            Buffer var21 = new Buffer(var20);
             var1.a(var8, 0, var20);
             var18.ci[var3] = var21;
             var4.a(var21);
@@ -3852,7 +3852,7 @@ public class Client extends b {
          if ((var5 & 32) != 0) {
             var8 = var1.e();
             var9 = var1.s();
-            var4.a(var9, var8, R);
+            var4.updateHits(var9, var8, R);
             var4.E = R + 300;
             var4.F = var1.t();
             var4.G = var1.e();
@@ -3861,7 +3861,7 @@ public class Client extends b {
          if ((var5 & 512) != 0) {
             var8 = var1.e();
             var9 = var1.u();
-            var4.a(var9, var8, R);
+            var4.updateHits(var9, var8, R);
             var4.E = R + 300;
             var4.F = var1.e();
             var4.G = var1.t();
@@ -3884,9 +3884,9 @@ public class Client extends b {
 
          int[] var8 = this.hs.a;
          var9 = 24624 + (var3 << 2) + (103 - var1 << 9 << 2);
-         j var10;
-         if ((var10 = uwotm8.j.a(var2 >> 14 & 32767)) != null && var10.j != -1) {
-            k var11;
+         ObjectDefinition var10;
+         if ((var10 = uwotm8.ObjectDefinition.a(var2 >> 14 & 32767)) != null && var10.j != -1) {
+            IndexedImage var11;
             if ((var11 = this.ez[var10.j]) != null) {
                var4 = ((var10.d << 2) - var11.c) / 2;
                var6 = ((var10.l << 2) - var11.d) / 2;
@@ -3958,10 +3958,10 @@ public class Client extends b {
       if ((var2 = this.cO.k(var5, var3, var1)) != 0) {
          var6 = (var4 = this.cO.c(var5, var3, var1, var2)) >> 6 & 3;
          var4 &= 31;
-         j var15;
+         ObjectDefinition var15;
          int var17;
-         if ((var15 = uwotm8.j.a(var2 >> 14 & 32767)) != null && var15.j != -1) {
-            k var18;
+         if ((var15 = uwotm8.ObjectDefinition.a(var2 >> 14 & 32767)) != null && var15.j != -1) {
+            IndexedImage var18;
             if ((var18 = this.ez[var15.j]) != null) {
                var2 = ((var15.d << 2) - var18.c) / 2;
                var17 = ((var15.l << 2) - var18.d) / 2;
@@ -3989,9 +3989,9 @@ public class Client extends b {
          }
       }
 
-      k var13;
-      j var14;
-      if ((var2 = this.cO.l(var5, var3, var1)) != 0 && (var14 = uwotm8.j.a(var2 >> 14 & 32767)) != null && var14.j != -1 && (var13 = this.ez[var14.j]) != null) {
+      IndexedImage var13;
+      ObjectDefinition var14;
+      if ((var2 = this.cO.l(var5, var3, var1)) != 0 && (var14 = uwotm8.ObjectDefinition.a(var2 >> 14 & 32767)) != null && var14.j != -1 && (var13 = this.ez[var14.j]) != null) {
          var7 = ((var14.d << 2) - var13.c) / 2;
          int var16 = ((var14.l << 2) - var13.d) / 2;
          var13.a(48 + (var3 << 2) + var7, 48 + (104 - var1 - var14.l << 2) + var16);
@@ -4003,14 +4003,14 @@ public class Client extends b {
       try {
          cZ = 10;
          x = 0;
-         uwotm8.W_1.a = false;
-         uwotm8.r.a = false;
+         uwotm8.SceneGraph.a = false;
+         uwotm8.Rasterizer3D.a = false;
          dc = false;
-         uwotm8.S_1.c = false;
-         uwotm8.j.g = false;
+         uwotm8.MapRegion.c = false;
+         uwotm8.ObjectDefinition.g = false;
          db = true;
-         uwotm8.al.a = 32;
-         uwotm8.al.a(InetAddress.getLocalHost());
+         uwotm8.SignLink.a = 32;
+         uwotm8.SignLink.a(InetAddress.getLocalHost());
          if (var0.length == 1 && var0[0].equals("mute")) {
             aW = true;
          }
@@ -4022,7 +4022,7 @@ public class Client extends b {
          var10000.aA = false;
          var4.am = var1;
          var4.an = var2;
-         var4.aq = new com.runescape.c(var4, var4.am, var4.an, a == com.runescape.a.b, a == com.runescape.a.c);
+         var4.aq = new com.runescape.ScapeFrame(var4, var4.am, var4.an, a == com.runescape.a.b, a == com.runescape.a.c);
          var4.aq.setFocusTraversalKeysEnabled(false);
          var4.ao = var4.g().getGraphics();
          var4.ap = new q(var4.am, var4.an);
@@ -4037,7 +4037,7 @@ public class Client extends b {
    }
 
    public AppletContext getAppletContext() {
-      Applet var10000 = uwotm8.al.e;
+      Applet var10000 = uwotm8.SignLink.e;
       return super.getAppletContext();
    }
 
@@ -4064,17 +4064,17 @@ public class Client extends b {
       if (!aW && this.bC && this.eA < 50) {
          this.gD[this.eA] = var1;
          this.gZ[this.eA] = var2;
-         this.hh[this.eA] = var3 + uwotm8.aq.a[var1];
+         this.hh[this.eA] = var3 + uwotm8.Track.a[var1];
          ++this.eA;
       }
 
    }
 
    private void C() {
-      ae var1;
+      Resource var1;
       while((var1 = this.E.d()) != null) {
          if (var1.a == 0) {
-            uwotm8.D_1.a(var1.b, var1.c);
+            uwotm8.Model.a(var1.b, var1.c);
             P = true;
             if (this.ai != -1) {
                ab = true;
@@ -4082,7 +4082,7 @@ public class Client extends b {
          }
 
          if (var1.a == 1 && var1.b != null) {
-            uwotm8.e.a(var1.b, var1.c);
+            uwotm8.Frame.a(var1.b, var1.c);
          }
 
          if (var1.a == 2 && var1.c == this.gO && var1.b != null) {
@@ -4119,7 +4119,7 @@ public class Client extends b {
          }
 
          if (var1.a == 93 && this.E.b(var1.c)) {
-            uwotm8.S_1.a(new I_1(var1.b), this.E);
+            uwotm8.MapRegion.a(new Buffer(var1.b), this.E);
          }
       }
 
@@ -4230,7 +4230,7 @@ public class Client extends b {
                         var7 = 10;
                      }
 
-                     var15 &= uwotm8.S_1.a(var6, var5, var7);
+                     var15 &= uwotm8.MapRegion.a(var6, var5, var7);
                   }
                }
 
@@ -4240,7 +4240,7 @@ public class Client extends b {
                   var10000 = -4;
                } else {
                   var3.dX = 2;
-                  uwotm8.S_1.a = var3.cu;
+                  uwotm8.MapRegion.a = var3.cu;
                   var3.t();
                   var3.gy.writeOpCode(121);
                   var10000 = 0;
@@ -4249,7 +4249,7 @@ public class Client extends b {
 
             byte var11 = var10000;
             if (var10000 != 0 && System.currentTimeMillis() - this.bk > 360000L) {
-            	uwotm8.al.b(S + " glcfb " + this.gI + "," + var11 + ",false" + "," + this.z[0] + "," + this.E.b() + "," + this.cu + "," + this.eG + "," + this.eH);
+            	uwotm8.SignLink.b(S + " glcfb " + this.gI + "," + var11 + ",false" + "," + this.z[0] + "," + this.E.b() + "," + this.cu + "," + this.eG + "," + this.eH);
                this.bk = System.currentTimeMillis();
             }
          }
@@ -4394,11 +4394,11 @@ public class Client extends b {
             }
          }
 
-         if (uwotm8.W_1.b != -1) {
-            var1 = uwotm8.W_1.b;
-            var2 = uwotm8.W_1.c;
+         if (uwotm8.SceneGraph.b != -1) {
+            var1 = uwotm8.SceneGraph.b;
+            var2 = uwotm8.SceneGraph.c;
             boolean var16 = this.a(0, 0, 0, 0, L.b[0], 0, 0, var2, L.a[0], true, var1);
-            uwotm8.W_1.b = -1;
+            uwotm8.SceneGraph.b = -1;
             if (var16) {
                this.cq = super.ax;
                this.cr = super.ay;
@@ -4584,23 +4584,23 @@ public class Client extends b {
          gg = null;
          this.fH = null;
          this.fv = new q(128, 265);
-         uwotm8.p.f();
+         uwotm8.Rasterizer2D.f();
          this.fw = new q(128, 265);
-         uwotm8.p.f();
+         uwotm8.Rasterizer2D.f();
          this.fs = new q(509, 171);
-         uwotm8.p.f();
+         uwotm8.Rasterizer2D.f();
          this.ft = new q(360, 132);
-         uwotm8.p.f();
+         uwotm8.Rasterizer2D.f();
          this.fu = new q(c, d);
-         uwotm8.p.f();
+         uwotm8.Rasterizer2D.f();
          this.fx = new q(202, 238);
-         uwotm8.p.f();
+         uwotm8.Rasterizer2D.f();
          this.fy = new q(203, 238);
-         uwotm8.p.f();
+         uwotm8.Rasterizer2D.f();
          this.fz = new q(74, 94);
-         uwotm8.p.f();
+         uwotm8.Rasterizer2D.f();
          this.fA = new q(75, 94);
-         uwotm8.p.f();
+         uwotm8.Rasterizer2D.f();
          this.hm = true;
       }
    }
@@ -4620,10 +4620,10 @@ public class Client extends b {
          this.fA = null;
          gh = new q(519, 165);
          this.gf = new q(249, 168);
-         uwotm8.p.f();
+         uwotm8.Rasterizer2D.f();
          ge = new q(249, 335);
          gg = new q(512, 334);
-         uwotm8.p.f();
+         uwotm8.Rasterizer2D.f();
          this.fH = new q(249, 45);
          this.hm = true;
       }
@@ -4638,10 +4638,10 @@ public class Client extends b {
       } else {
          this.fu.a();
          this.hA.a(16777215, "vscape is loading - please wait...", 54, 180);
-         uwotm8.p.c(28, 304, 34, 9179409, 62);
-         uwotm8.p.c(29, 302, 32, 0, 63);
-         uwotm8.p.b(30, 64, 30, 9179409, var1 * 3);
-         uwotm8.p.b(30, 64, 30 + var1 * 3, 0, 300 - var1 * 3);
+         uwotm8.Rasterizer2D.c(28, 304, 34, 9179409, 62);
+         uwotm8.Rasterizer2D.c(29, 302, 32, 0, 63);
+         uwotm8.Rasterizer2D.b(30, 64, 30, 9179409, var1 * 3);
+         uwotm8.Rasterizer2D.b(30, 64, 30 + var1 * 3, 0, 300 - var1 * 3);
          this.hA.a(16777215, var2, 85, 180);
          this.fu.a(171, super.ao, 202);
       }
@@ -4695,8 +4695,8 @@ public class Client extends b {
          if (var5 != 10 && var5 != 11 && var5 != 22) {
             this.a(2, var1, 0, var5 + 1, L.b[0], 0, 0, var2, L.a[0], false, var3);
          } else {
-            j var7;
-            if ((var7 = uwotm8.j.a(var4)) != null) {
+            ObjectDefinition var7;
+            if ((var7 = uwotm8.ObjectDefinition.a(var4)) != null) {
                int var6;
                if (var1 != 0 && var1 != 2) {
                   var5 = var7.l;
@@ -4723,7 +4723,7 @@ public class Client extends b {
       }
    }
 
-   private G_1 a(int var1, String var2, String var3, int var4, int var5) {
+   private Archive a(int var1, String var2, String var3, int var4, int var5) {
       byte[] var6 = null;
       int var7 = 5;
 
@@ -4736,7 +4736,7 @@ public class Client extends b {
       }
 
       if (var6 != null) {
-         return new G_1(var6);
+         return new Archive(var6);
       } else {
          while(var6 == null) {
             String var8 = "Unknown error";
@@ -4748,8 +4748,8 @@ public class Client extends b {
                DataInputStream var10 = this.f(var3 + var4);
                byte[] var11 = new byte[6];
                var10.readFully(var11, 0, 6);
-               I_1 var21;
-               (var21 = new I_1(var11)).b = 3;
+               Buffer var21;
+               (var21 = new Buffer(var11)).b = 3;
                int var12 = var21.i() + 6;
                int var13 = 6;
                var6 = new byte[var12];
@@ -4789,19 +4789,19 @@ public class Client extends b {
             } catch (NullPointerException var18) {
                var8 = "Null error";
                var6 = null;
-               if (!uwotm8.al.h) {
+               if (!uwotm8.SignLink.h) {
                   return null;
                }
             } catch (ArrayIndexOutOfBoundsException var19) {
                var8 = "Bounds error";
                var6 = null;
-               if (!uwotm8.al.h) {
+               if (!uwotm8.SignLink.h) {
                   return null;
                }
             } catch (Exception var20) {
                var8 = "Unexpected error";
                var6 = null;
-               if (!uwotm8.al.h) {
+               if (!uwotm8.SignLink.h) {
                   return null;
                }
             }
@@ -4825,7 +4825,7 @@ public class Client extends b {
             }
          }
 
-         return new G_1(var6);
+         return new Archive(var6);
       }
    }
 
@@ -4841,7 +4841,7 @@ public class Client extends b {
          gg.a(4, super.ao, 4);
          this.dW = 0;
          this.hq = 0;
-         ai var1 = this.gj;
+         BufferedStream var1 = this.gj;
          Q = false;
          this.ek = 0;
          this.a(S, T, true);
@@ -4984,7 +4984,7 @@ public class Client extends b {
             }
          }
 
-         y var11;
+         Player var11;
          if (var4 == 561 && (var11 = this.cd[var5]) != null) {
             this.a(2, 0, 1, 0, L.b[0], 1, 0, var11.b[0], L.a[0], false, var11.a[0]);
             this.cq = super.ax;
@@ -5024,9 +5024,9 @@ public class Client extends b {
 
          if (var4 == 519) {
             if (!this.bY) {
-               uwotm8.W_1.b(super.ay - 4, super.ax - 4);
+               uwotm8.SceneGraph.b(super.ay - 4, super.ax - 4);
             } else {
-               uwotm8.W_1.b(var3 - 4, var2 - 4);
+               uwotm8.SceneGraph.b(var3 - 4, var2 - 4);
             }
          }
 
@@ -5161,7 +5161,7 @@ public class Client extends b {
             boolean var9 = false;
 
             for(var18 = 0; var18 < this.ce; ++var18) {
-               y var15;
+               Player var15;
                if ((var15 = this.cd[this.cf[var18]]) != null && var15.ai != null && var15.ai.equalsIgnoreCase(var14)) {
                   this.a(2, 0, 1, 0, L.b[0], 1, 0, var15.b[0], L.a[0], false, var15.a[0]);
                   if (var4 == 484) {
@@ -5887,9 +5887,9 @@ public class Client extends b {
                this.gy.m(var3 + this.eh);
             }
 
-            i var21;
+            ItemDefinition var21;
             if (var4 == 1125) {
-               var21 = uwotm8.i.c(var5);
+               var21 = uwotm8.ItemDefinition.c(var5);
                if ((var16 = uwotm8.m.a(var3)) != null && var16.x[var2] >= 100000) {
                   var14 = var16.x[var2] + " x " + var21.k;
                } else if (var21.o != null) {
@@ -5917,13 +5917,13 @@ public class Client extends b {
                this.hO = var2;
                this.hP = var3;
                this.hQ = var5;
-               this.hR = uwotm8.i.c(var5).k;
+               this.hR = uwotm8.ItemDefinition.c(var5).k;
                this.fN = 0;
                P = true;
             } else {
                if (var4 == 1226) {
-                  j var19;
-                  if ((var19 = uwotm8.j.a(var18 = var5 >> 14 & 32767)) != null) {
+                  ObjectDefinition var19;
+                  if ((var19 = uwotm8.ObjectDefinition.a(var18 = var5 >> 14 & 32767)) != null) {
                      if (var19.v != null) {
                         var14 = new String(var19.v);
                      } else {
@@ -5952,7 +5952,7 @@ public class Client extends b {
                }
 
                if (var4 == 1448) {
-                  if ((var21 = uwotm8.i.c(var5)).o != null) {
+                  if ((var21 = uwotm8.ItemDefinition.c(var5)).o != null) {
                      var20 = new String(var21.o);
                   } else {
                      var20 = "It's a " + var21.k + ".";
@@ -5984,9 +5984,9 @@ public class Client extends b {
 
       int var1 = -1;
 
-      for(int var2 = 0; var2 < uwotm8.D_1.B; ++var2) {
+      for(int var2 = 0; var2 < uwotm8.Model.B; ++var2) {
          int var3;
-         int var4 = (var3 = uwotm8.D_1.C[var2]) & 127;
+         int var4 = (var3 = uwotm8.Model.C[var2]) & 127;
          int var5 = var3 >> 7 & 127;
          int var6 = var3 >> 29 & 3;
          int var7 = var3 >> 14 & 32767;
@@ -5994,8 +5994,8 @@ public class Client extends b {
             var1 = var3;
             int var9;
             if (var6 == 2 && this.cO.c(this.cu, var4, var5, var3) >= 0) {
-               j var8;
-               if ((var8 = uwotm8.j.a(var7)) == null) {
+               ObjectDefinition var8;
+               if ((var8 = uwotm8.ObjectDefinition.a(var7)) == null) {
                   continue;
                }
 
@@ -6007,12 +6007,12 @@ public class Client extends b {
                      int var11 = var17.c;
                      var9 = var17.d;
                      var9 = ad[var9 - var11];
-                     var9 &= uwotm8.j.o.A[var10] >> var11;
+                     var9 &= uwotm8.ObjectDefinition.o.A[var10] >> var11;
                   } else if (var8.f != -1) {
-                     var9 = uwotm8.j.o.A[var8.f];
+                     var9 = uwotm8.ObjectDefinition.o.A[var8.f];
                   }
 
-                  var8 = var9 >= 0 && var9 < var8.k.length && var8.k[var9] != -1 ? uwotm8.j.a(var8.k[var9]) : null;
+                  var8 = var9 >= 0 && var9 < var8.k.length && var8.k[var9] != -1 ? uwotm8.ObjectDefinition.a(var8.k[var9]) : null;
                }
 
                if (this.hN == 1) {
@@ -6074,7 +6074,7 @@ public class Client extends b {
             }
 
             Npc var14;
-            y var15;
+            Player var15;
             if (var6 == 1) {
                Npc var18 = this.bs[var7];
 
@@ -6100,7 +6100,7 @@ public class Client extends b {
             }
 
             if (var6 == 0) {
-               y var19 = this.cd[var7];
+               Player var19 = this.cd[var7];
 
                try {
                   if ((var19.V & 127) == 64 && (var19.W & 127) == 64) {
@@ -6123,10 +6123,10 @@ public class Client extends b {
                }
             }
 
-            M_1 var20;
+            LinkedList var20;
             if (var6 == 3 && (var20 = this.bn[this.cu][var4][var5]) != null) {
-               for(w var21 = (w)var20.c(); var21 != null; var21 = (w)var20.e()) {
-                  i var16 = uwotm8.i.c(var21.a);
+               for(Item var21 = (Item)var20.c(); var21 != null; var21 = (Item)var20.e()) {
+                  ItemDefinition var16 = uwotm8.ItemDefinition.c(var21.a);
                   if (this.hN == 1) {
                      this.X[this.N] = "Use " + this.hR + " with @lre@" + var16.k;
                      this.J[this.N] = 511;
@@ -6201,7 +6201,7 @@ public class Client extends b {
    }
 
    public final void f() {
-	   uwotm8.al.h = false;
+	   uwotm8.SignLink.h = false;
 
       try {
          if (this.gj != null) {
@@ -6311,27 +6311,27 @@ public class Client extends b {
       this.fA = null;
       this.dF = null;
       this.bo = false;
-      uwotm8.j.a();
+      uwotm8.ObjectDefinition.a();
       uwotm8.ActorDefinition.c();
-      uwotm8.i.a();
-      uwotm8.X_1.a = null;
-      uwotm8.C_1.b = null;
+      uwotm8.ItemDefinition.a();
+      uwotm8.Floor.a = null;
+      uwotm8.IdentityKit.b = null;
       uwotm8.m.a = null;
       uwotm8.Animation.a = null;
-      uwotm8.g.a = null;
-      uwotm8.g.h = null;
+      uwotm8.SpotAnimation.a = null;
+      uwotm8.SpotAnimation.h = null;
       uwotm8.VariableParameter.a = null;
       super.ap = null;
-      uwotm8.y.aj = null;
-      uwotm8.r.a();
-      uwotm8.W_1.a();
-      uwotm8.D_1.b();
-      uwotm8.e.a();
+      uwotm8.Player.aj = null;
+      uwotm8.Rasterizer3D.a();
+      uwotm8.SceneGraph.a();
+      uwotm8.Model.b();
+      uwotm8.Frame.a();
       System.gc();
    }
 
    final Component g() {
-      Applet var10000 = uwotm8.al.e;
+      Applet var10000 = uwotm8.SignLink.e;
       return (Component)(super.aq != null ? super.aq : this);
    }
 
@@ -6378,9 +6378,9 @@ public class Client extends b {
                      this.gy.b(0);
                      var12 = this.gy.b;
                      this.gy.a(this.cT);
-                     uwotm8.av.a(this.gF, this.gy);
+                     uwotm8.ChatMessageCodec.a(this.gF, this.gy);
                      this.gy.h(this.gy.b - var12);
-                     this.gF = uwotm8.av.a(this.gF);
+                     this.gF = uwotm8.ChatMessageCodec.a(this.gF);
                      this.a(this.gF, 6, uwotm8.StringUtils.c(uwotm8.StringUtils.a(this.cT)));
                      if (this.u == 2) {
                         this.u = 1;
@@ -6410,7 +6410,7 @@ public class Client extends b {
                            var13.gy.writeOpCode(61);
                            var13.gy.a(var7);
                         } catch (RuntimeException var9) {
-                        	uwotm8.al.b("47229, 3, " + var14 + ", " + var9.toString());
+                        	uwotm8.SignLink.b("47229, 3, " + var14 + ", " + var9.toString());
                            throw new RuntimeException();
                         }
                      }
@@ -6456,7 +6456,7 @@ public class Client extends b {
                   ab = true;
                }
             } else if (this.ac == 2) {
-               if (uwotm8.av.a((char)var1) && this.dG.length() < 12) {
+               if (uwotm8.ChatMessageCodec.a((char)var1) && this.dG.length() < 12) {
                   this.dG = this.dG + (char)var1;
                   ab = true;
                }
@@ -6476,7 +6476,7 @@ public class Client extends b {
                   ab = true;
                }
             } else if (this.ac >= 3 && this.ac <= 5) {
-               if (uwotm8.av.a((char)var1) && this.dG.length() < 40) {
+               if (uwotm8.ChatMessageCodec.a((char)var1) && this.dG.length() < 40) {
                   this.dG = this.dG + (char)var1;
                   ab = true;
                }
@@ -6491,12 +6491,12 @@ public class Client extends b {
                   ab = true;
                }
 
-               if (uwotm8.av.a((char)var1) && this.dG.length() < 40 || var1 == 8 && this.dG.length() > 0) {
+               if (uwotm8.ChatMessageCodec.a((char)var1) && this.dG.length() < 40 || var1 == 8 && this.dG.length() > 0) {
                   this.a(this.dG);
                   ab = true;
                }
             } else if (this.ai == -1) {
-               if (uwotm8.av.a((char)var1) && this.ca.length() < 80) {
+               if (uwotm8.ChatMessageCodec.a((char)var1) && this.ca.length() < 80) {
                   this.ca = this.ca + (char)var1;
                   ab = true;
                }
@@ -6615,10 +6615,10 @@ public class Client extends b {
                      this.gy.k(var11);
                      this.gy.k(var3);
                      this.br.b = 0;
-                     uwotm8.av.a(this.ca, this.br);
+                     uwotm8.ChatMessageCodec.a(this.ca, this.br);
                      this.gy.a(0, this.br.a, this.br.b);
                      this.gy.h(this.gy.b - var12);
-                     this.ca = uwotm8.av.a(this.ca);
+                     this.ca = uwotm8.ChatMessageCodec.a(this.ca);
                      L.g = this.ca;
                      L.l = var3;
                      L.D = var11;
@@ -7107,7 +7107,7 @@ public class Client extends b {
    }
 
    private void a(String var1, String var2, boolean var3) {
-      uwotm8.al.i = var1;
+      uwotm8.SignLink.i = var1;
 
       try {
          if (!var3) {
@@ -7115,7 +7115,7 @@ public class Client extends b {
             this.hv = "Connecting to server...";
          }
 
-         File var4 = new File(uwotm8.al.a() + "cacheVersion.dat");
+         File var4 = new File(uwotm8.SignLink.a() + "cacheVersion.dat");
          new CacheUpdater(this);
          int var5 = uwotm8.CacheUpdater.a();
          int var6;
@@ -7128,7 +7128,7 @@ public class Client extends b {
             }
          }
 
-         this.gj = new ai(this, a(43594));
+         this.gj = new BufferedStream(this, a(43594));
          int var12 = (int)(uwotm8.StringUtils.a(var1) >> 16 & 31L);
          this.gy.b = 0;
          this.gy.b(14);
@@ -7183,13 +7183,13 @@ public class Client extends b {
             }
 
             this.bB.a(this.gy.a, this.gy.b, 0);
-            this.gy.d = new ad(var13);
+            this.gy.d = new IsaacCipher(var13);
 
             for(var7 = 0; var7 < 4; ++var7) {
                var13[var7] += 50;
             }
 
-            this.dD = new ad(var13);
+            this.dD = new IsaacCipher(var13);
             this.gj.a(this.bB.b, this.bB.a);
             var12 = this.gj.b();
          }
@@ -7251,7 +7251,7 @@ public class Client extends b {
                this.bs[var12] = null;
             }
 
-            L = this.cd[2047] = new y();
+            L = this.cd[2047] = new Player();
             this.dO.f();
             this.ex.f();
 
@@ -7263,7 +7263,7 @@ public class Client extends b {
                }
             }
 
-            this.gp = new M_1();
+            this.gp = new LinkedList();
             this.cm = 0;
             this.ck = 0;
             this.bj = 0;
@@ -7635,7 +7635,7 @@ public class Client extends b {
       }
    }
 
-   private void b(I_1 var1) {
+   private void b(Buffer var1) {
       for(int var2 = 0; var2 < this.cg; ++var2) {
          int var3 = this.ch[var2];
          Npc var7 = this.bs[var3];
@@ -7672,7 +7672,7 @@ public class Client extends b {
          if ((var4 & 8) != 0) {
             var5 = var1.s();
             var6 = var1.t();
-            var7.a(var6, var5, R);
+            var7.updateHits(var6, var5, R);
             var7.E = R + 300;
             var7.F = var1.s();
             var7.G = var1.e();
@@ -7709,7 +7709,7 @@ public class Client extends b {
          if ((var4 & 64) != 0) {
             var5 = var1.t();
             var6 = var1.u();
-            var7.a(var6, var5, R);
+            var7.updateHits(var6, var5, R);
             var7.E = R + 300;
             var7.F = var1.u();
             var7.G = var1.t();
@@ -7850,7 +7850,7 @@ public class Client extends b {
       }
    }
 
-   private void a(int var1, int var2, y var3, int var4) {
+   private void a(int var1, int var2, Player var3, int var4) {
       if (var3 != L) {
          if (this.N < 400) {
             String var5;
@@ -7937,7 +7937,7 @@ public class Client extends b {
       }
    }
 
-   private void a(aa var1) {
+   private void a(UnknownClass1 var1) {
       int var2 = 0;
       int var3 = -1;
       int var4 = 0;
@@ -7974,7 +7974,7 @@ public class Client extends b {
       if (!aW) {
          while(this.eA > 0) {
             try {
-               I_1 var1 = uwotm8.aq.a(this.gZ[0], this.gD[0]);
+               Buffer var1 = uwotm8.Track.a(this.gZ[0], this.gD[0]);
                new ap(new ByteArrayInputStream(var1.a, 0, var1.b), this.hh[0]);
                if (System.currentTimeMillis() + (long)(var1.b / 22) > this.bS + (long)(this.bT / 22)) {
                   this.bT = var1.b;
@@ -8037,11 +8037,11 @@ public class Client extends b {
          ;
       }
 
-      boolean var10000 = uwotm8.al.d;
+      boolean var10000 = uwotm8.SignLink.d;
       int var23;
-      if (uwotm8.al.b != null) {
+      if (uwotm8.SignLink.b != null) {
          for(var23 = 0; var23 < 6; ++var23) {
-            this.z[var23] = new c(uwotm8.al.b, uwotm8.al.c[var23], var23 + 1);
+            this.z[var23] = new Index(uwotm8.SignLink.b, uwotm8.SignLink.c[var23], var23 + 1);
          }
       }
 
@@ -8054,22 +8054,22 @@ public class Client extends b {
          this.hC = new o(true, "fancy_m", this.ev);
          this.hD = new o(true, "fancy_l", this.ev);
          this.hE = new o(true, "gravestone", this.ev);
-         this.ag = new l(false, "p11_full", this.ev);
-         this.ah = new l(false, "p12_full", this.ev);
-         this.hF = new l(false, "b12_full", this.ev);
-         this.hG = new l(true, "q8_full", this.ev);
-         this.hH = new l(true, "fancy_m", this.ev);
-         this.hI = new l(true, "fancy_l", this.ev);
-         this.hJ = new l(true, "gravestone", this.ev);
-         G_1 var24 = this.a(2, "config", "config", this.fc[2], 30);
-         G_1 var27 = this.a(3, "interface", "interface", this.fc[3], 35);
-         G_1 var29 = this.a(4, "2d graphics", "media", this.fc[4], 40);
-         G_1 var4 = this.a(6, "textures", "textures", this.fc[6], 45);
-         G_1 var5 = this.a(7, "chat system", "wordenc", this.fc[7], 50);
-         G_1 var6 = this.a(8, "sound effects", "sounds", this.fc[8], 55);
+         this.ag = new RSFont(false, "p11_full", this.ev);
+         this.ah = new RSFont(false, "p12_full", this.ev);
+         this.hF = new RSFont(false, "b12_full", this.ev);
+         this.hG = new RSFont(true, "q8_full", this.ev);
+         this.hH = new RSFont(true, "fancy_m", this.ev);
+         this.hI = new RSFont(true, "fancy_l", this.ev);
+         this.hJ = new RSFont(true, "gravestone", this.ev);
+         Archive var24 = this.a(2, "config", "config", this.fc[2], 30);
+         Archive var27 = this.a(3, "interface", "interface", this.fc[3], 35);
+         Archive var29 = this.a(4, "2d graphics", "media", this.fc[4], 40);
+         Archive var4 = this.a(6, "textures", "textures", this.fc[6], 45);
+         Archive var5 = this.a(7, "chat system", "wordenc", this.fc[7], 50);
+         Archive var6 = this.a(8, "sound effects", "sounds", this.fc[8], 55);
          this.ho = new byte[4][104][104];
          this.gH = new int[4][105][105];
-         this.cO = new W_1(this.gH);
+         this.cO = new SceneGraph(this.gH);
 
          int var7;
          for(var7 = 0; var7 < 4; ++var7) {
@@ -8077,11 +8077,11 @@ public class Client extends b {
          }
 
          this.hs = new Sprite(512, 512);
-         G_1 var33 = this.a(5, "update list", "versionlist", this.fc[5], 60);
+         Archive var33 = this.a(5, "update list", "versionlist", this.fc[5], 60);
          this.a(60, (String)"Connecting to update server");
-         this.E = new af_1();
+         this.E = new ResourceProvider();
          this.E.a(var33, this);
-         uwotm8.D_1.a(40000, this.E);
+         uwotm8.Model.a(40000, this.E);
          if (O && !aW) {
             this.gO = 0;
 
@@ -8112,17 +8112,17 @@ public class Client extends b {
          this.a(80, (String)"Unpacking media");
 
          try {
-            aB_1.a();
+            SpriteGroupLoader.a();
          } catch (Exception var12) {
             System.out.println("Unable to load sprite cache.");
          }
 
-         this.bf = aB_1.a("login", 0);
+         this.bf = SpriteGroupLoader.a("login", 0);
          this.bg = new Sprite("background");
          this.r = new Sprite("mascot_inv");
          this.s = new Sprite("mascot_chat");
          this.dF = new Sprite(var29, "overlay_multiway", 0);
-         this.gB = new k(var29, "mapback", 0);
+         this.gB = new IndexedImage(var29, "mapback", 0);
 
          for(var7 = 0; var7 <= 17; ++var7) {
             this.w[var7] = new Sprite(var29, "staticons", var7);
@@ -8138,7 +8138,7 @@ public class Client extends b {
 
          try {
             for(var7 = 0; var7 < 100; ++var7) {
-               this.ez[var7] = new k(var29, "mapscene", var7);
+               this.ez[var7] = new IndexedImage(var29, "mapscene", var7);
             }
          } catch (Exception var21) {
             ;
@@ -8193,14 +8193,14 @@ public class Client extends b {
          this.eN = new Sprite(var29, "mapdots", 2);
          this.eO = new Sprite(var29, "mapdots", 3);
          this.eP = new Sprite(var29, "mapdots", 4);
-         this.eQ = aB_1.a("clanchat", 7);
+         this.eQ = SpriteGroupLoader.a("clanchat", 7);
          this.dY = new Sprite(var29, "scrollbar", 2);
          this.dZ = new Sprite(var29, "scrollbar", 3);
-         this.ea = new k(var29, "scrollbar", 0);
-         this.eb = new k(var29, "scrollbar", 1);
+         this.ea = new IndexedImage(var29, "scrollbar", 0);
+         this.eb = new IndexedImage(var29, "scrollbar", 1);
 
          for(var7 = 0; var7 < 2; ++var7) {
-            this.gK[var7] = new k(var29, "mod_icons", var7);
+            this.gK[var7] = new IndexedImage(var29, "mod_icons", var7);
          }
 
          Sprite var36 = new Sprite(var29, "screenframe", 0);
@@ -8225,27 +8225,27 @@ public class Client extends b {
          }
 
          this.a(83, (String)"Unpacking textures");
-         uwotm8.r.a(var4);
-         uwotm8.r.a(0.8D);
-         uwotm8.r.d();
+         uwotm8.Rasterizer3D.a(var4);
+         uwotm8.Rasterizer3D.a(0.8D);
+         uwotm8.Rasterizer3D.d();
          this.a(86, (String)"Unpacking config");
          uwotm8.Animation.a(var24);
-         uwotm8.j.a(var24);
-         uwotm8.X_1.a(var24);
+         uwotm8.ObjectDefinition.a(var24);
+         uwotm8.Floor.a(var24);
          uwotm8.Y_1.a(var24);
-         uwotm8.i.a(var24);
+         uwotm8.ItemDefinition.a(var24);
          uwotm8.ActorDefinition.a(var24);
-         uwotm8.C_1.a(var24);
-         uwotm8.g.a(var24);
+         uwotm8.IdentityKit.a(var24);
+         uwotm8.SpotAnimation.a(var24);
          uwotm8.VariableParameter.a(var24);
          uwotm8.VariableBits.a(var24);
-         uwotm8.i.q = db;
+         uwotm8.ItemDefinition.q = db;
          this.a(90, (String)"Unpacking sounds");
          byte[] var34 = var6.b("sounds.dat");
-         uwotm8.aq.a(new I_1(var34));
+         uwotm8.Track.a(new Buffer(var34));
          this.a(95, (String)"Unpacking interfaces");
          o[] var35 = new o[]{this.af, this.hz, this.hA, this.hB, this.hC, this.hD, this.hE};
-         l[] var26 = new l[]{this.ag, this.ah, this.hF, this.hG, this.hH, this.hI, this.hJ};
+         RSFont[] var26 = new RSFont[]{this.ag, this.ah, this.hF, this.hG, this.hH, this.hI, this.hJ};
          uwotm8.m.a(var27, this.z[5], var29, var35, var26);
          this.a(100, (String)"Preparing game engine");
 
@@ -8290,47 +8290,47 @@ public class Client extends b {
             this.gT[var23 - 5] = var30 - var28;
          }
 
-         uwotm8.r.a(765, 503);
-         int[] var37 = uwotm8.r.t;
-         uwotm8.r.a(516, 165);
-         gq = uwotm8.r.t;
-         uwotm8.r.a(250, 335);
-         gr = uwotm8.r.t;
-         uwotm8.r.a(512, 334);
-         gs = uwotm8.r.t;
+         uwotm8.Rasterizer3D.a(765, 503);
+         int[] var37 = uwotm8.Rasterizer3D.t;
+         uwotm8.Rasterizer3D.a(516, 165);
+         gq = uwotm8.Rasterizer3D.t;
+         uwotm8.Rasterizer3D.a(250, 335);
+         gr = uwotm8.Rasterizer3D.t;
+         uwotm8.Rasterizer3D.a(512, 334);
+         gs = uwotm8.Rasterizer3D.t;
          int[] var31 = new int[9];
 
          for(var28 = 0; var28 < 9; ++var28) {
             var30 = 128 + (var28 << 5) + 15;
             var32 = 600 + var30 * 3;
-            var30 = uwotm8.r.r[var30];
+            var30 = uwotm8.Rasterizer3D.r[var30];
             var31[var28] = var32 * var30 >> 16;
          }
 
          l();
-         uwotm8.as.a(var5);
-         this.bV = new at(this);
+         uwotm8.MessageCensor.a(var5);
+         this.bV = new MouseMonitor(this);
          this.a((Runnable)this.bV, 10);
-         uwotm8.B_1.a = this;
-         uwotm8.j.o = this;
+         uwotm8.RenderableObject.a = this;
+         uwotm8.ObjectDefinition.o = this;
          uwotm8.ActorDefinition.n = this;
          uwotm8.aF.a();
          t = uwotm8.aF.c();
       } catch (Exception var22) {
          var22.printStackTrace();
-         uwotm8.al.b("loaderror " + this.es + " " + this.eR);
+         uwotm8.SignLink.b("loaderror " + this.es + " " + this.eR);
          this.cy = true;
       }
    }
 
-   private void b(I_1 var1, int var2) {
+   private void b(Buffer var1, int var2) {
       int var3;
-      y var4;
+      Player var4;
       int var5;
       int var6;
-      for(; var1.c + 10 < var2 << 3 && (var3 = var1.i(11)) != 2047; var4.a(L.a[0] + var6, L.b[0] + var5, var3 == 1)) {
+      for(; var1.c + 10 < var2 << 3 && (var3 = var1.i(11)) != 2047; var4.setPosition(L.a[0] + var6, L.b[0] + var5, var3 == 1)) {
          if (this.cd[var3] == null) {
-            this.cd[var3] = new y();
+            this.cd[var3] = new Player();
             if (this.ci[var3] != null) {
                this.cd[var3].a(this.ci[var3]);
             }
@@ -8401,13 +8401,13 @@ public class Client extends b {
          int var2 = this.bu[var1];
          Npc var3;
          if ((var3 = this.bs[var2]) != null) {
-            this.a((u)var3);
+            this.a((Actor)var3);
          }
       }
 
    }
 
-   private void a(u var1) {
+   private void a(Actor var1) {
       if (var1.V < 128 || var1.W < 128 || var1.V >= 13184 || var1.W >= 13184) {
          var1.y = -1;
          var1.s = -1;
@@ -8415,7 +8415,7 @@ public class Client extends b {
          var1.T = 0;
          var1.V = (var1.a[0] << 7) + (var1.L << 6);
          var1.W = (var1.b[0] << 7) + (var1.L << 6);
-         var1.b();
+         var1.resetPath();
       }
 
       if (var1 == L && (var1.V < 1536 || var1.W < 1536 || var1.V >= 11776 || var1.W >= 11776)) {
@@ -8425,7 +8425,7 @@ public class Client extends b {
          var1.T = 0;
          var1.V = (var1.a[0] << 7) + (var1.L << 6);
          var1.W = (var1.b[0] << 7) + (var1.L << 6);
-         var1.b();
+         var1.resetPath();
       }
 
       if (var1.S > R) {
@@ -8446,7 +8446,7 @@ public class Client extends b {
       f(var1);
    }
 
-   private static void b(u var0) {
+   private static void b(Actor var0) {
       int var1 = var0.S - R;
       int var2 = (var0.O << 7) + (var0.L << 6);
       int var3 = (var0.Q << 7) + (var0.L << 6);
@@ -8471,7 +8471,7 @@ public class Client extends b {
 
    }
 
-   private static void c(u var0) {
+   private static void c(Actor var0) {
       if (var0.T == R || var0.y == -1 || var0.B != 0 || var0.A + 1 > uwotm8.Animation.a[var0.y].a(var0.z)) {
          int var1 = var0.T - var0.S;
          int var2 = R - var0.S;
@@ -8503,7 +8503,7 @@ public class Client extends b {
       var0.X = var0.i;
    }
 
-   private static void d(u var0) {
+   private static void d(Actor var0) {
       var0.p = var0.j;
       if (var0.x == 0) {
          var0.d = 0;
@@ -8631,7 +8631,7 @@ public class Client extends b {
       }
    }
 
-   private void e(u var1) {
+   private void e(Actor var1) {
       if (var1.e != 0) {
          Npc var2;
          int var3;
@@ -8649,7 +8649,7 @@ public class Client extends b {
                var4 = 2047;
             }
 
-            y var5;
+            Player var5;
             if ((var5 = this.cd[var4]) != null) {
             	try
             	{
@@ -8702,7 +8702,7 @@ public class Client extends b {
       }
    }
 
-   private static void f(u var0) {
+   private static void f(Actor var0) {
       var0.M = false;
       Animation var1;
       if (var0.p != -1) {
@@ -8724,7 +8724,7 @@ public class Client extends b {
             var0.t = 0;
          }
 
-         var1 = uwotm8.g.a[var0.s].b;
+         var1 = uwotm8.SpotAnimation.a[var0.s].b;
          ++var0.u;
 
          while(var0.t < var1.b && var0.u > var1.a(var0.t)) {
@@ -8803,7 +8803,7 @@ public class Client extends b {
             Client var2 = var1;
 
             int var26;
-            for(z var8 = (z)var1.dO.b(); var8 != null; var8 = (z)var2.dO.d()) {
+            for(Projectile var8 = (Projectile)var1.dO.b(); var8 != null; var8 = (Projectile)var2.dO.d()) {
                if (var8.i == var2.cu && R <= var8.b) {
                   if (R >= var8.a) {
                      Npc var9;
@@ -8812,7 +8812,7 @@ public class Client extends b {
                      }
 
                      if (var8.g < 0) {
-                        y var10;
+                        Player var10;
                         if ((var26 = -var8.g - 1) == var2.bX) {
                            var10 = L;
                         } else {
@@ -8834,7 +8834,7 @@ public class Client extends b {
 
             var2 = var1;
 
-            for(t var24 = (t)var1.ex.b(); var24 != null; var24 = (t)var2.ex.d()) {
+            for(AnimableObject var24 = (AnimableObject)var1.ex.b(); var24 != null; var24 = (AnimableObject)var2.ex.d()) {
                if (var24.a == var2.cu && !var24.f) {
                   if (R >= var24.e) {
                      var24.a(var2.cN);
@@ -8883,16 +8883,16 @@ public class Client extends b {
                int var17 = 0;
                var25 = var25;
                if (var14 != 0) {
-                  var18 = uwotm8.D_1.D[var14];
-                  var14 = uwotm8.D_1.E[var14];
+                  var18 = uwotm8.Model.D[var14];
+                  var14 = uwotm8.Model.E[var14];
                   var19 = 0 * var14 - var25 * var18 >> 16;
                   var25 = 0 * var18 + var25 * var14 >> 16;
                   var17 = var19;
                }
 
                if (var15 != 0) {
-                  var18 = uwotm8.D_1.D[var15];
-                  var14 = uwotm8.D_1.E[var15];
+                  var18 = uwotm8.Model.D[var15];
+                  var14 = uwotm8.Model.E[var15];
                   var19 = var25 * var18 + 0 * var14 >> 16;
                   var25 = var25 * var14 - 0 * var18 >> 16;
                   var16 = var19;
@@ -9043,12 +9043,12 @@ public class Client extends b {
                }
             }
 
-            var25 = uwotm8.r.w;
-            uwotm8.D_1.y = true;
-            uwotm8.D_1.B = 0;
-            uwotm8.D_1.z = var1.au - 4;
-            uwotm8.D_1.A = var1.av - 4;
-            uwotm8.p.f();
+            var25 = uwotm8.Rasterizer3D.w;
+            uwotm8.Model.y = true;
+            uwotm8.Model.B = 0;
+            uwotm8.Model.z = var1.au - 4;
+            uwotm8.Model.A = var1.av - 4;
+            uwotm8.Rasterizer2D.f();
             var1.cO.a(var1.bG, var1.bI, var1.bK, var1.bH, var22, var1.bJ);
             var1.cO.c();
             var1.v();
@@ -9059,11 +9059,11 @@ public class Client extends b {
                }
             }
 
-            k var28;
+            IndexedImage var28;
             byte[] var29;
             byte[] var32;
-            if (uwotm8.r.v[17] >= var25) {
-               var27 = (var28 = uwotm8.r.u[17]).c * var28.d - 1;
+            if (uwotm8.Rasterizer3D.v[17] >= var25) {
+               var27 = (var28 = uwotm8.Rasterizer3D.u[17]).c * var28.d - 1;
                var11 = var28.c * var1.cN << 1;
                var29 = var28.a;
                var32 = var1.co;
@@ -9074,7 +9074,7 @@ public class Client extends b {
 
                var28.a = var32;
                var1.co = var29;
-               uwotm8.r.b(17);
+               uwotm8.Rasterizer3D.b(17);
                if (++bE > 1235) {
                   bE = 0;
                   var1.gy.writeOpCode(226);
@@ -9097,8 +9097,8 @@ public class Client extends b {
                }
             }
 
-            if (uwotm8.r.v[24] >= var25) {
-               var27 = (var28 = uwotm8.r.u[24]).c * var28.d - 1;
+            if (uwotm8.Rasterizer3D.v[24] >= var25) {
+               var27 = (var28 = uwotm8.Rasterizer3D.u[24]).c * var28.d - 1;
                var11 = var28.c * var1.cN << 1;
                var29 = var28.a;
                var32 = var1.co;
@@ -9109,11 +9109,11 @@ public class Client extends b {
 
                var28.a = var32;
                var1.co = var29;
-               uwotm8.r.b(24);
+               uwotm8.Rasterizer3D.b(24);
             }
 
-            if (uwotm8.r.v[34] >= var25) {
-               var27 = (var28 = uwotm8.r.u[34]).c * var28.d - 1;
+            if (uwotm8.Rasterizer3D.v[34] >= var25) {
+               var27 = (var28 = uwotm8.Rasterizer3D.u[34]).c * var28.d - 1;
                var11 = var28.c * var1.cN << 1;
                var29 = var28.a;
                var32 = var1.co;
@@ -9124,11 +9124,11 @@ public class Client extends b {
 
                var28.a = var32;
                var1.co = var29;
-               uwotm8.r.b(34);
+               uwotm8.Rasterizer3D.b(34);
             }
 
-            int[] var39 = uwotm8.r.v;
-            var27 = (var28 = uwotm8.r.u[40]).c * var28.d - 1;
+            int[] var39 = uwotm8.Rasterizer3D.v;
+            var27 = (var28 = uwotm8.Rasterizer3D.u[40]).c * var28.d - 1;
             var11 = var28.c * var1.cN << 1;
             var29 = var28.a;
             var32 = var1.co;
@@ -9139,9 +9139,9 @@ public class Client extends b {
 
             var28.a = var32;
             var1.co = var29;
-            uwotm8.r.b(40);
+            uwotm8.Rasterizer3D.b(40);
             if (var1.aO > 0 && a != com.runescape.a.a) {
-               uwotm8.p.a(var1.aP, 0, c, d, var1.aO, 0);
+               uwotm8.Rasterizer2D.a(var1.aP, 0, c, d, var1.aO, 0);
             }
 
             if (var1.aK && var1.aL != -10) {
@@ -9162,7 +9162,7 @@ public class Client extends b {
                }
 
                if (var1.aL > 0) {
-                  uwotm8.p.a(var1.aM, 0, c, d, var1.aL, 0);
+                  uwotm8.Rasterizer2D.a(var1.aM, 0, c, d, var1.aL, 0);
                }
             }
 
@@ -9409,7 +9409,7 @@ public class Client extends b {
             var26 = var1.eh + (L.W - 6 >> 7);
             if (da) {
                var27 = e ? d - 173 : d - 34;
-               l var35 = var1.hF;
+               RSFont var35 = var1.hF;
                var12 = var1.hF.a + 3;
                var14 = 16776960;
                if (var1.al < 15) {
@@ -9474,7 +9474,7 @@ public class Client extends b {
             var1.bJ = var6;
             var1.bK = var7;
          } catch (RuntimeException var20) {
-            uwotm8.al.b("97263, " + var20.toString());
+            uwotm8.SignLink.b("97263, " + var20.toString());
             throw new RuntimeException();
          }
       }
@@ -9601,8 +9601,8 @@ public class Client extends b {
             m var8 = var3[var6 + 2];
             var11 = var3[var6 + 3];
             m var9 = var3[var5 + 50];
-            var7.X = aB_1.a("bank", 0);
-            var8.X = aB_1.a("bank", 1);
+            var7.X = SpriteGroupLoader.a("bank", 0);
+            var8.X = SpriteGroupLoader.a("bank", 1);
             if (var5 > 0) {
                var7.aj = "";
                var7.u = true;
@@ -9640,8 +9640,8 @@ public class Client extends b {
             var5 = 9 + (var1 << 2);
             var11 = var3[var5];
             var7 = var3[var5 + 2];
-            var11.X = aB_1.a("bank", 2);
-            var7.X = aB_1.a("bank", 2);
+            var11.X = SpriteGroupLoader.a("bank", 2);
+            var7.X = SpriteGroupLoader.a("bank", 2);
             return;
          }
       } catch (Exception var10) {
@@ -9745,12 +9745,12 @@ public class Client extends b {
    }
 
    public final void a(int var1, int var2, int var3, int var4, m[] var5, int var6, int var7) {
-      int var8 = uwotm8.p.k;
-      int var9 = uwotm8.p.i;
-      int var10 = uwotm8.p.l;
-      int var11 = uwotm8.p.j;
+      int var8 = uwotm8.Rasterizer2D.k;
+      int var9 = uwotm8.Rasterizer2D.i;
+      int var10 = uwotm8.Rasterizer2D.l;
+      int var11 = uwotm8.Rasterizer2D.j;
       if (var5 != null) {
-         uwotm8.p.b(var2 + var4, var1, var1 + var3, var2);
+         uwotm8.Rasterizer2D.b(var2 + var4, var1, var1 + var3, var2);
 
          for(int var12 = 0; var12 < var5.length; ++var12) {
             m var13;
@@ -9776,7 +9776,7 @@ public class Client extends b {
                int var22;
                int var23;
                int var27;
-               D_1 var40;
+               Model var40;
                String var43;
                if (var13.d > 0) {
                   Client var24 = this;
@@ -9829,16 +9829,16 @@ public class Client extends b {
                               while(true) {
                                  if (var21 >= 7) {
                                     var24.ee = false;
-                                    D_1[] var42 = new D_1[7];
+                                    Model[] var42 = new Model[7];
                                     var22 = 0;
 
                                     for(var23 = 0; var23 < 7; ++var23) {
                                        if ((var17 = var24.eD[var23]) >= 0) {
-                                          var42[var22++] = uwotm8.C_1.b[var17].b();
+                                          var42[var22++] = uwotm8.IdentityKit.b[var17].b();
                                        }
                                     }
 
-                                    var40 = new D_1(var22, var42);
+                                    var40 = new Model(var22, var42);
 
                                     for(var17 = 0; var17 < 5; ++var17) {
                                        if (var24.dw[var17] != 0) {
@@ -9858,7 +9858,7 @@ public class Client extends b {
                                     break;
                                  }
 
-                                 if ((var22 = var24.eD[var21]) >= 0 && !uwotm8.C_1.b[var22].a()) {
+                                 if ((var22 = var24.eD[var21]) >= 0 && !uwotm8.IdentityKit.b[var22].a()) {
                                     break;
                                  }
 
@@ -9870,7 +9870,7 @@ public class Client extends b {
                            var13.ae = 150;
                            var13.af = var23;
                            if (this.ee) {
-                              D_1 var29 = L.d();
+                              Model var29 = L.d();
 
                               for(var18 = 0; var18 < 5; ++var18) {
                                  if (var24.dw[var18] != 0) {
@@ -9943,7 +9943,7 @@ public class Client extends b {
                                        var43 = this.dI + " days ago";
                                     }
 
-                                    var13.R = "You last logged in " + var43 + " from: " + uwotm8.al.f;
+                                    var13.R = "You last logged in " + var43 + " from: " + uwotm8.SignLink.f;
                                  } else {
                                     var13.R = "";
                                  }
@@ -10023,7 +10023,7 @@ public class Client extends b {
                               if (var27 >= 10000 && var27 <= 10022) {
                                  var27 -= 10000;
                                  String var19 = "";
-                                 var19 = var19 + uwotm8.StringUtils.c(uwotm8.au.a[aI[var27]]) + ": " + this.cv[aI[var27]] + "/" + this.en[aI[var27]] + "\\n";
+                                 var19 = var19 + uwotm8.StringUtils.c(uwotm8.SkillsConstants.a[aI[var27]]) + ": " + this.cv[aI[var27]] + "/" + this.en[aI[var27]] + "\\n";
                                  var19 = var19 + "Current XP: " + NumberFormat.getIntegerInstance().format((long)this.bM[aI[var27]]) + "\\n";
                                  if (this.en[aI[var27]] < 99) {
                                     var19 = var19 + "Next level: " + NumberFormat.getIntegerInstance().format((long)o(this.en[aI[var27]] + 1)) + "\\n";
@@ -10059,28 +10059,28 @@ public class Client extends b {
                                     switch(var23) {
                                     case 0:
                                        if (this.e(var30) && !var30.equalsIgnoreCase(L.ai)) {
-                                          var38.X = var38.Y = aB_1.a("clanchat", 0);
+                                          var38.X = var38.Y = SpriteGroupLoader.a("clanchat", 0);
                                           break;
                                        }
 
                                        var38.X = var38.Y = null;
                                        break;
                                     case 1:
-                                       var38.X = var38.Y = aB_1.a("clanchat", 1);
+                                       var38.X = var38.Y = SpriteGroupLoader.a("clanchat", 1);
                                        break;
                                     case 2:
-                                       var38.X = var38.Y = aB_1.a("clanchat", 3);
+                                       var38.X = var38.Y = SpriteGroupLoader.a("clanchat", 3);
                                        break;
                                     case 3:
-                                       var38.X = var38.Y = aB_1.a("clanchat", 2);
+                                       var38.X = var38.Y = SpriteGroupLoader.a("clanchat", 2);
                                     }
 
                                     var13.R = uwotm8.StringUtils.c(var30);
                                     var18 = 0;
                                     if (var13.a() instanceof o) {
                                        var18 = ((o)var13.a()).a(var13.R);
-                                    } else if (var13.a() instanceof l) {
-                                       var18 = ((l)var13.a()).a(var13.R);
+                                    } else if (var13.a() instanceof RSFont) {
+                                       var18 = ((RSFont)var13.a()).a(var13.R);
                                     }
 
                                     var13.g = var18;
@@ -10188,14 +10188,14 @@ public class Client extends b {
                               var22 = 0;
                               var23 = 0;
                               var45 = var13.w[var17] - 1;
-                              if (var34 > uwotm8.p.k - 32 && var34 < uwotm8.p.l && var21 > uwotm8.p.i - 32 && var21 < uwotm8.p.j || this.eX != 0 && this.eW == var17) {
+                              if (var34 > uwotm8.Rasterizer2D.k - 32 && var34 < uwotm8.Rasterizer2D.l && var21 > uwotm8.Rasterizer2D.i - 32 && var21 < uwotm8.Rasterizer2D.j || this.eX != 0 && this.eW == var17) {
                                  var25 = 0;
                                  if (this.hN == 1 && this.hO == var17 && this.hP == var13.o) {
                                     var25 = 16777215;
                                  }
 
                                  Sprite var48;
-                                 if ((var48 = uwotm8.i.a(var45, var13.x[var17], var25)) != null) {
+                                 if ((var48 = uwotm8.ItemDefinition.a(var45, var13.x[var17], var25)) != null) {
                                     if (var14 != null && this.eX != 0 && this.eW == var17 && this.eV == var13.o) {
                                        var22 = super.au - this.eY;
                                        var23 = super.av - this.eZ;
@@ -10227,8 +10227,8 @@ public class Client extends b {
                                        }
 
                                        if (!var58) {
-                                          if (var21 + var23 < uwotm8.p.i && var14.t > 0) {
-                                             if ((var25 = this.cN * (uwotm8.p.i - var21 - var23) / 3) > this.cN * 10) {
+                                          if (var21 + var23 < uwotm8.Rasterizer2D.i && var14.t > 0) {
+                                             if ((var25 = this.cN * (uwotm8.Rasterizer2D.i - var21 - var23) / 3) > this.cN * 10) {
                                                 var25 = this.cN * 10;
                                              }
 
@@ -10240,8 +10240,8 @@ public class Client extends b {
                                              this.eZ += var25;
                                           }
 
-                                          if (var21 + var23 + 32 > uwotm8.p.j && var14.t < var14.s - var14.h) {
-                                             if ((var25 = this.cN * (var21 + var23 + 32 - uwotm8.p.j) / 3) > this.cN * 10) {
+                                          if (var21 + var23 + 32 > uwotm8.Rasterizer2D.j && var14.t < var14.s - var14.h) {
+                                             if ((var25 = this.cN * (var21 + var23 + 32 - uwotm8.Rasterizer2D.j) / 3) > this.cN * 10) {
                                                 var25 = this.cN * 10;
                                              }
 
@@ -10254,9 +10254,9 @@ public class Client extends b {
                                           }
                                        }
 
-                                       uwotm8.p.b(var11, var8, var10, var9);
+                                       uwotm8.Rasterizer2D.b(var11, var8, var10, var9);
                                        var48.c(var34 + var22, var21 + var23);
-                                       uwotm8.p.b(var2 + var4, var1, var1 + var3, var2);
+                                       uwotm8.Rasterizer2D.b(var2 + var4, var1, var1 + var3, var2);
                                     } else if (this.he != 0 && this.hd == var17 && this.hc == var13.o) {
                                        var48.c(var34, var21);
                                     } else {
@@ -10295,17 +10295,17 @@ public class Client extends b {
 
                      if (var13.k == 0) {
                         if (var13.K) {
-                           uwotm8.p.b(var13.h, var16, var15, var18, var13.g);
+                           uwotm8.Rasterizer2D.b(var13.h, var16, var15, var18, var13.g);
                         } else {
-                           uwotm8.p.c(var15, var13.g, var13.h, var18, var16);
+                           uwotm8.Rasterizer2D.c(var15, var13.g, var13.h, var18, var16);
                         }
                      } else if (var13.K) {
-                        uwotm8.p.a(var18, var16, var13.g, var13.h, 256 - (var13.k & 255), var15);
+                        uwotm8.Rasterizer2D.a(var18, var16, var13.g, var13.h, 256 - (var13.k & 255), var15);
                      } else {
-                        uwotm8.p.b(var16, var13.h, 256 - (var13.k & 255), var18, var13.g, var15);
+                        uwotm8.Rasterizer2D.b(var16, var13.h, 256 - (var13.k & 255), var18, var13.g, var15);
                      }
                   } else {
-                     p var31;
+                     Rasterizer2D var31;
                      String var46;
                      if (var13.b == 4) {
                         var31 = var13.a();
@@ -10348,15 +10348,15 @@ public class Client extends b {
 
                         var35 = this.a(var13, var35);
                         if (var13.L == 1) {
-                           if (var31 instanceof l) {
-                              ((l)var31).a(var35, var15, var16, var13.g, var13.h, var34, var13.N ? 0 : -1, var13.O, var13.P, var13.Q);
+                           if (var31 instanceof RSFont) {
+                              ((RSFont)var31).a(var35, var15, var16, var13.g, var13.h, var34, var13.N ? 0 : -1, var13.O, var13.P, var13.Q);
                            }
                         } else {
                            var21 = 0;
                            if (var31 instanceof o) {
                               var21 = ((o)var31).a;
-                           } else if (var31 instanceof l) {
-                              var21 = ((l)var31).a;
+                           } else if (var31 instanceof RSFont) {
+                              var21 = ((RSFont)var31).a;
                            }
 
                            for(var22 = var16 + var21; var35.length() > 0; var22 += var21) {
@@ -10376,13 +10376,13 @@ public class Client extends b {
                               if (var13.M) {
                                  if (var31 instanceof o) {
                                     ((o)var31).a(var34, var15 + var13.g / 2, var46, var22, var13.N);
-                                 } else if (var31 instanceof l) {
-                                    ((l)var31).b(var46, var15 + var13.g / 2, var22, var34, var13.N ? 0 : -1);
+                                 } else if (var31 instanceof RSFont) {
+                                    ((RSFont)var31).b(var46, var15 + var13.g / 2, var22, var34, var13.N ? 0 : -1);
                                  }
                               } else if (var31 instanceof o) {
                                  ((o)var31).a(var13.N, var15, var34, var46, var22);
-                              } else if (var31 instanceof l) {
-                                 ((l)var31).a(var46, var15, var22, var34, var13.N ? 0 : -1);
+                              } else if (var31 instanceof RSFont) {
+                                 ((RSFont)var31).a(var46, var15, var22, var34, var13.N ? 0 : -1);
                               }
                            }
                         }
@@ -10404,12 +10404,12 @@ public class Client extends b {
                            }
                         }
                      } else if (var13.b == 6) {
-                        var17 = uwotm8.r.e;
-                        var18 = uwotm8.r.p;
-                        uwotm8.r.e = var15 + var13.g / 2;
-                        uwotm8.r.p = var16 + var13.h / 2;
-                        var37 = uwotm8.r.r[var13.ae] * var13.ad >> 16;
-                        var34 = uwotm8.r.s[var13.ae] * var13.ad >> 16;
+                        var17 = uwotm8.Rasterizer3D.e;
+                        var18 = uwotm8.Rasterizer3D.p;
+                        uwotm8.Rasterizer3D.e = var15 + var13.g / 2;
+                        uwotm8.Rasterizer3D.p = var16 + var13.h / 2;
+                        var37 = uwotm8.Rasterizer3D.r[var13.ae] * var13.ad >> 16;
+                        var34 = uwotm8.Rasterizer3D.s[var13.ae] * var13.ad >> 16;
                         boolean var56;
                         if (var56 = this.e(var13)) {
                            var22 = var13.ac;
@@ -10428,8 +10428,8 @@ public class Client extends b {
                            var40.a(var13.af, 0, var13.ae, 0, var37, var34);
                         }
 
-                        uwotm8.r.e = var17;
-                        uwotm8.r.p = var18;
+                        uwotm8.Rasterizer3D.e = var17;
+                        uwotm8.Rasterizer3D.p = var18;
                      } else if (var13.b == 7) {
                         var31 = var13.a();
                         var18 = 0;
@@ -10437,8 +10437,8 @@ public class Client extends b {
                         for(var37 = 0; var37 < var13.g; ++var37) {
                            for(var34 = 0; var34 < var13.h; ++var34) {
                               if (var13.w[var18] > 0) {
-                                 i var54;
-                                 String var52 = (var54 = uwotm8.i.c(var13.w[var18] - 1)).k;
+                                 ItemDefinition var54;
+                                 String var52 = (var54 = uwotm8.ItemDefinition.c(var13.w[var18] - 1)).k;
                                  if (var54.n || var13.x[var18] != 1) {
                                     var52 = var52 + " x" + e(var13.x[var18]);
                                  }
@@ -10446,8 +10446,8 @@ public class Client extends b {
                                  var23 = var15 + var37 * (115 + var13.E);
                                  var45 = var16 + var34 * (12 + var13.F);
                                  if (var13.L == 1) {
-                                    if (var31 instanceof l) {
-                                       l var47 = (l)var31;
+                                    if (var31 instanceof RSFont) {
+                                       RSFont var47 = (RSFont)var31;
                                        if (var13.O == 0) {
                                           var47.a(var52, var23, var45, var13.T, var13.N ? 0 : -1);
                                        } else if (var13.O == 1) {
@@ -10458,7 +10458,7 @@ public class Client extends b {
                                           var22 = var13.T;
                                           var27 = var10002;
                                           if (var52 != null) {
-                                             uwotm8.l.a(var22, var23);
+                                             uwotm8.RSFont.a(var22, var23);
                                              var47.a(var52, var27 - var47.a(var52), var45);
                                           }
                                        }
@@ -10466,13 +10466,13 @@ public class Client extends b {
                                  } else if (var13.M) {
                                     if (var31 instanceof o) {
                                        ((o)var31).a(var13.T, var23 + var13.g / 2, var52, var45, var13.N);
-                                    } else if (var31 instanceof l) {
-                                       ((l)var31).b(var52, var23 + var13.g / 2, var45, var13.T, var13.N ? 0 : -1);
+                                    } else if (var31 instanceof RSFont) {
+                                       ((RSFont)var31).b(var52, var23 + var13.g / 2, var45, var13.T, var13.N ? 0 : -1);
                                     }
                                  } else if (var31 instanceof o) {
                                     ((o)var31).a(var13.N, var23, var13.T, var52, var45);
-                                 } else if (var31 instanceof l) {
-                                    ((l)var31).a(var52, var23, var45, var13.T, var13.N ? 0 : -1);
+                                 } else if (var31 instanceof RSFont) {
+                                    ((RSFont)var31).a(var52, var23, var45, var13.T, var13.N ? 0 : -1);
                                  }
                               }
 
@@ -10540,8 +10540,8 @@ public class Client extends b {
                            var22 = d - var18;
                         }
 
-                        uwotm8.p.b(var18, var22, var21, 16777120, var17);
-                        uwotm8.p.c(var21, var17, var18, 0, var22);
+                        uwotm8.Rasterizer2D.b(var18, var22, var21, 16777120, var17);
+                        uwotm8.Rasterizer2D.c(var21, var17, var18, 0, var22);
                         String var44 = this.a(var13, var20);
 
                         for(var45 = var22 + var36.a + 2; var44.length() > 0; var45 += var36.a + 1) {
@@ -10577,7 +10577,7 @@ public class Client extends b {
             }
          }
 
-         uwotm8.p.b(var11, var8, var10, var9);
+         uwotm8.Rasterizer2D.b(var11, var8, var10, var9);
       }
    }
 
@@ -10695,7 +10695,7 @@ public class Client extends b {
             this.dq += (var5 - this.dq) / 80;
          }
       } catch (Exception var8) {
-         uwotm8.al.b("glfc_ex " + L.V + "," + L.W + "," + this.dP + "," + this.dQ + "," + this.eG + "," + this.eH + "," + this.eg + "," + this.eh);
+         uwotm8.SignLink.b("glfc_ex " + L.V + "," + L.W + "," + this.dP + "," + this.dQ + "," + this.eG + "," + this.eH + "," + this.eg + "," + this.eh);
          throw new RuntimeException("eek");
       }
    }
@@ -10733,12 +10733,12 @@ public class Client extends b {
             }
 
             boolean var4 = this.b(c - 52, 10, 42, 42);
-            aB_1.a("login", "settings", var4 ? (this.bq == 1 ? 2 : 1) : (this.bq == 1 ? 1 : 0)).d(c - 52, 10);
+            SpriteGroupLoader.a("login", "settings", var4 ? (this.bq == 1 ? 2 : 1) : (this.bq == 1 ? 1 : 0)).d(c - 52, 10);
             if (!aW) {
                if (O) {
-                  aB_1.a("login", 4).d(c - 104, 10);
+                  SpriteGroupLoader.a("login", 4).d(c - 104, 10);
                } else {
-                  aB_1.a("login", 5).d(c - 104, 10);
+                  SpriteGroupLoader.a("login", 5).d(c - 104, 10);
                }
             }
 
@@ -10747,13 +10747,13 @@ public class Client extends b {
                this.bf.d(var2 - this.bf.b / 2, 24);
                var10 = var2 - 145;
                var3 -= 135;
-               aB_1.a("login", "login_box", 0).a(var10, var3, 256);
+               SpriteGroupLoader.a("login", "login_box", 0).a(var10, var3, 256);
                if (this.b(var10 + 35, var3 + 71, 218, 27)) {
-                  aB_1.a("login", "login_box", 1).d(var10 + 35, var3 + 71);
+                  SpriteGroupLoader.a("login", "login_box", 1).d(var10 + 35, var3 + 71);
                } else if (this.b(var10 + 35, var3 + 117, 218, 27)) {
-                  aB_1.a("login", "login_box", 1).d(var10 + 35, var3 + 117);
+                  SpriteGroupLoader.a("login", "login_box", 1).d(var10 + 35, var3 + 117);
                } else if (this.b(var10 + 55, var3 + 174, 179, 25)) {
-                  aB_1.a("login", "login_box", 2).d(var10 + 55, var3 + 174);
+                  SpriteGroupLoader.a("login", "login_box", 2).d(var10 + 55, var3 + 174);
                }
 
                this.hF.a(S + (this.gJ == 0 & R % 40 < 20 ? "|" : ""), var10 + 40, var3 + 90, 15970623, 0);
@@ -10769,7 +10769,7 @@ public class Client extends b {
                   var10001 = var12 ? 3 : 1;
                }
 
-               aB_1.a(var10000, var10001).d(var10 + 35, var3 + 147);
+               SpriteGroupLoader.a(var10000, var10001).d(var10 + 35, var3 + 147);
                this.hF.a("Remember Me", var10 + 52, var3 + 159, 15970623, 0);
                this.hF.b(this.hv, var2, var3 + 226, 15970623, 0);
                this.hF.b(this.hw, var2, var3 + 247, 15970623, 0);
@@ -10780,20 +10780,20 @@ public class Client extends b {
                var10 = var2 - 145;
                this.hI.b("SETTINGS", var2, 64, 16777215, 0);
                Rectangle var5 = new Rectangle(var2 - 138, 88, 276, 200);
-               uwotm8.p.a(0, var5.y, var5.width, var5.height, 100, var5.x);
+               uwotm8.Rasterizer2D.a(0, var5.y, var5.width, var5.height, 100, var5.x);
                this.hI.b("UI", (int)var5.getCenterX(), var5.y + 26, 16777215, 0);
                var2 = var5.y + 30;
                boolean var9 = uwotm8.aF.b(uwotm8.aG_1.a);
-               aB_1.a("login", "settings", !var9 && !this.b((int)var5.getCenterX() - 132, var2, 128, 96) ? 3 : 4).d((int)var5.getCenterX() - 132, var2);
+               SpriteGroupLoader.a("login", "settings", !var9 && !this.b((int)var5.getCenterX() - 132, var2, 128, 96) ? 3 : 4).d((int)var5.getCenterX() - 132, var2);
                this.hH.b("2007", (int)var5.getCenterX() - 68, var2 + 112, var9 ? 16776960 : 16777215, 0);
                var9 = uwotm8.aF.b(uwotm8.aG_1.b);
-               aB_1.a("login", "settings", !var9 && !this.b((int)var5.getCenterX() + 4, var2, 128, 96) ? 5 : 6).d((int)var5.getCenterX() + 4, var2);
+               SpriteGroupLoader.a("login", "settings", !var9 && !this.b((int)var5.getCenterX() + 4, var2, 128, 96) ? 5 : 6).d((int)var5.getCenterX() + 4, var2);
                this.hH.b("Pre-2007", (int)var5.getCenterX() + 68, var2 + 112, var9 ? 16776960 : 16777215, 0);
                if (b == 1) {
                   boolean var8 = this.b(var10 + 85, 244, 106, 13);
-                  aB_1.a("login", var8 ? 3 : 1).d(var10 + 85, 244);
+                  SpriteGroupLoader.a("login", var8 ? 3 : 1).d(var10 + 85, 244);
                } else if (b == 2) {
-                  aB_1.a("login", 2).d(var10 + 85, 244);
+                  SpriteGroupLoader.a("login", 2).d(var10 + 85, 244);
                }
 
                this.hF.a("Pixel doubling", var10 + 102, 256, 15970623, 0);
@@ -10823,7 +10823,7 @@ public class Client extends b {
                   var3 = var6;
                }
 
-               uwotm8.p.a(0, var3 - var6, var10, var6, 200, var2);
+               uwotm8.Rasterizer2D.a(0, var3 - var6, var10, var6, 200, var2);
                this.hF.a(this.aU, var2 + 4, var3 - 4 - 2, 16777215, 0);
             }
 
@@ -10938,7 +10938,7 @@ public class Client extends b {
                }
             }
          } catch (RuntimeException var5) {
-            uwotm8.al.b("45688, " + var1 + ", 4" + ", " + var5.toString());
+            uwotm8.SignLink.b("45688, " + var1 + ", 4" + ", " + var5.toString());
             throw new RuntimeException();
          }
       }
@@ -10953,9 +10953,9 @@ public class Client extends b {
             var2 = this.cf[var1];
          }
 
-         y var3;
+         Player var3;
          if ((var3 = this.cd[var2]) != null) {
-            this.a((u)var3);
+            this.a((Actor)var3);
          }
       }
 
@@ -10963,13 +10963,13 @@ public class Client extends b {
 
    private void U() {
       if (this.dX == 2) {
-         for(aa var1 = (aa)this.gp.b(); var1 != null; var1 = (aa)this.gp.d()) {
+         for(UnknownClass1 var1 = (UnknownClass1)this.gp.b(); var1 != null; var1 = (UnknownClass1)this.gp.d()) {
             if (var1.d > 0) {
                --var1.d;
             }
 
             if (var1.d == 0) {
-               if (var1.i < 0 || uwotm8.S_1.a(var1.i, var1.k)) {
+               if (var1.i < 0 || uwotm8.MapRegion.a(var1.i, var1.k)) {
                   this.a(var1.h, var1.e, var1.j, var1.k, var1.g, var1.f, var1.i);
                   var1.D();
                }
@@ -10978,7 +10978,7 @@ public class Client extends b {
                   --var1.l;
                }
 
-               if (var1.l == 0 && var1.g > 0 && var1.h > 0 && var1.g <= 102 && var1.h <= 102 && (var1.a < 0 || uwotm8.S_1.a(var1.a, var1.c))) {
+               if (var1.l == 0 && var1.g > 0 && var1.h > 0 && var1.g <= 102 && var1.h <= 102 && (var1.a < 0 || uwotm8.MapRegion.a(var1.a, var1.c))) {
                   this.a(var1.h, var1.e, var1.b, var1.c, var1.g, var1.f, var1.a);
                   var1.l = -1;
                   if (var1.a == var1.i && var1.i == -1) {
@@ -11082,7 +11082,7 @@ public class Client extends b {
             }
 
          } catch (RuntimeException var4) {
-            uwotm8.al.b("47229, 3, " + var1 + ", " + var4.toString());
+            uwotm8.SignLink.b("47229, 3, " + var1 + ", " + var4.toString());
             throw new RuntimeException();
          }
       }
@@ -11096,7 +11096,7 @@ public class Client extends b {
                this.gy.a(var1);
                this.gy.c(var3);
             } catch (RuntimeException var4) {
-               uwotm8.al.b("47229, 3, " + var1 + ", " + var4.toString());
+               uwotm8.SignLink.b("47229, 3, " + var1 + ", " + var4.toString());
                throw new RuntimeException();
             }
          }
@@ -11104,7 +11104,7 @@ public class Client extends b {
    }
 
    public String getParameter(String var1) {
-      Applet var10000 = uwotm8.al.e;
+      Applet var10000 = uwotm8.SignLink.e;
       return super.getParameter(var1);
    }
 
@@ -11143,7 +11143,7 @@ public class Client extends b {
                   var8 = var12[var3++];
                   var9 = var12[var3++];
                   m var13 = uwotm8.m.a(var8);
-                  if (var9 >= 0 && var9 < uwotm8.i.x && (!uwotm8.i.c(var9).g || db)) {
+                  if (var9 >= 0 && var9 < uwotm8.ItemDefinition.x && (!uwotm8.ItemDefinition.c(var9).g || db)) {
                      for(var10 = 0; var10 < var13.w.length; ++var10) {
                         if (var13.w[var10] == var9 + 1) {
                            var6 += var13.x[var10];
@@ -11170,7 +11170,7 @@ public class Client extends b {
 
                if (var5 == 9) {
                   for(var8 = 0; var8 < 25; ++var8) {
-                     if (uwotm8.au.b[var8]) {
+                     if (uwotm8.SkillsConstants.b[var8]) {
                         var6 += this.en[var8];
                      }
                   }
@@ -11181,7 +11181,7 @@ public class Client extends b {
                   int var10000 = var12[var10001];
                   var10001 = var12[var10001];
                   m var14 = uwotm8.m.a(var10000);
-                  if ((var8 = var12[var3++] + 1) >= 0 && var8 < uwotm8.i.x && db) {
+                  if ((var8 = var12[var3++] + 1) >= 0 && var8 < uwotm8.ItemDefinition.x && db) {
                      for(var10 = 0; var10 < var14.w.length; ++var10) {
                         if (var14.w[var10] == var8) {
                            var6 = 999999999;
@@ -11273,8 +11273,8 @@ public class Client extends b {
       int var4;
       if ((var4 = var3 * var3 + var2 * var2) > 4225 && var4 < 90000) {
          int var12 = this.V & 2047;
-         var4 = uwotm8.D_1.D[var12];
-         var12 = uwotm8.D_1.E[var12];
+         var4 = uwotm8.Model.D[var12];
+         var12 = uwotm8.Model.E[var12];
          var4 = (var4 << 8) / 256;
          var12 = (var12 << 8) / 256;
          int var5 = var2 * var4 + var3 * var12 >> 16;
@@ -11295,8 +11295,8 @@ public class Client extends b {
       if (var1 != null) {
          int var4 = this.V & 2047;
          if (var1.b + var1.c + var2 * var2 + var3 * var3 <= 6400) {
-            int var5 = uwotm8.D_1.D[var4];
-            var4 = uwotm8.D_1.E[var4];
+            int var5 = uwotm8.Model.D[var4];
+            var4 = uwotm8.Model.E[var4];
             var5 = (var5 << 8) / 256;
             var4 = (var4 << 8) / 256;
             int var6 = var3 * var5 + var2 * var4 >> 16;
@@ -11309,7 +11309,7 @@ public class Client extends b {
       }
    }
 
-   private void a(u var1, int var2) {
+   private void a(Actor var1, int var2) {
       this.e(var1.V, var2, var1.W);
    }
 
@@ -11319,18 +11319,18 @@ public class Client extends b {
          var1 -= this.bG;
          var2 -= this.bH;
          var3 -= this.bI;
-         int var4 = uwotm8.D_1.D[this.bJ];
-         int var5 = uwotm8.D_1.E[this.bJ];
-         int var6 = uwotm8.D_1.D[this.bK];
-         int var7 = uwotm8.D_1.E[this.bK];
+         int var4 = uwotm8.Model.D[this.bJ];
+         int var5 = uwotm8.Model.E[this.bJ];
+         int var6 = uwotm8.Model.D[this.bK];
+         int var7 = uwotm8.Model.E[this.bK];
          int var8 = var3 * var6 + var1 * var7 >> 16;
          var3 = var3 * var7 - var1 * var6 >> 16;
          var1 = var8;
          var8 = var2 * var5 - var3 * var4 >> 16;
          var3 = var2 * var4 + var3 * var5 >> 16;
          if (var3 >= 50) {
-            this.dd = uwotm8.r.e + (var1 << l) / var3;
-            this.de = uwotm8.r.p + (var8 << l) / var3;
+            this.dd = uwotm8.Rasterizer3D.e + (var1 << l) / var3;
+            this.de = uwotm8.Rasterizer3D.p + (var8 << l) / var3;
          } else {
             this.dd = -1;
             this.de = -1;
@@ -11361,7 +11361,7 @@ public class Client extends b {
       int var2 = (var1 = a == com.runescape.a.a) ? 0 : c - 240;
       int var4 = var1 ? 18 : 22;
       int var3 = uwotm8.aH_1.d() ? 2 : 0;
-      aB_1.a("xpdrop", this.aS == 0 ? var3 + 1 : var3).d(var2, var4);
+      SpriteGroupLoader.a("xpdrop", this.aS == 0 ? var3 + 1 : var3).d(var2, var4);
    }
 
    private void Y() {
@@ -11375,12 +11375,12 @@ public class Client extends b {
       Point var7 = new Point(!var10 ? c - 240 : c - 57, 44);
       int var8 = var1 ? var6.x : var7.x;
       int var9 = var1 ? var6.y : var7.y;
-      aB_1.a("orbs", this.aS == 1 ? (!var10 ? 1 : 3) : (!var10 ? 0 : 2)).d(var8, var9);
-      aB_1.a("orbs", 9).d(var8 + (!var10 ? 27 : 4), var9 + 4);
+      SpriteGroupLoader.a("orbs", this.aS == 1 ? (!var10 ? 1 : 3) : (!var10 ? 0 : 2)).d(var8, var9);
+      SpriteGroupLoader.a("orbs", 9).d(var8 + (!var10 ? 27 : 4), var9 + 4);
       Sprite var11;
-      (var11 = aB_1.a("orbs", 4)).c = var4 < 0 ? 0 : var4;
+      (var11 = SpriteGroupLoader.a("orbs", 4)).c = var4 < 0 ? 0 : var4;
       var11.d(var8 + (!var10 ? 27 : 4), var9 + 4);
-      aB_1.a("orbs", 5).d(var8 + (!var10 ? 33 : 9), var9 + 10);
+      SpriteGroupLoader.a("orbs", 5).d(var8 + (!var10 ? 33 : 9), var9 + 10);
       this.af.a(q(var3), var8 + (!var10 ? 15 : 45), String.valueOf(var2), var9 + 26, true);
    }
 
@@ -11395,12 +11395,12 @@ public class Client extends b {
       Point var7 = new Point(!var10 ? c - 238 : c - 57, 84);
       int var8 = var1 ? var6.x : var7.x;
       int var9 = var1 ? var6.y : var7.y;
-      aB_1.a("orbs", this.aS == 2 ? (!var10 ? 1 : 3) : (!var10 ? 0 : 2)).d(var8, var9);
-      aB_1.a("orbs", 12).d(var8 + (!var10 ? 27 : 4), var9 + 4);
+      SpriteGroupLoader.a("orbs", this.aS == 2 ? (!var10 ? 1 : 3) : (!var10 ? 0 : 2)).d(var8, var9);
+      SpriteGroupLoader.a("orbs", 12).d(var8 + (!var10 ? 27 : 4), var9 + 4);
       Sprite var11;
-      (var11 = aB_1.a("orbs", 4)).c = var4 < 0 ? 0 : var4;
+      (var11 = SpriteGroupLoader.a("orbs", 4)).c = var4 < 0 ? 0 : var4;
       var11.d(var8 + (!var10 ? 27 : 4), var9 + 4);
-      aB_1.a("orbs", 6).d(var8 + (!var10 ? 30 : 7), var9 + 7);
+      SpriteGroupLoader.a("orbs", 6).d(var8 + (!var10 ? 30 : 7), var9 + 7);
       this.af.a(q(var3), var8 + (!var10 ? 15 : 45), String.valueOf(var2), var9 + 26, true);
    }
 
@@ -11415,12 +11415,12 @@ public class Client extends b {
       Point var7 = new Point(!var5 ? c - 222 : c - 57, 124);
       int var8 = var1 ? var6.x : var7.x;
       int var9 = var1 ? var6.y : var7.y;
-      aB_1.a("orbs", this.aS == 3 ? (!var5 ? 1 : 3) : (!var5 ? 0 : 2)).d(var8, var9);
-      aB_1.a("orbs", this.aT ? 15 : 14).d(var8 + (!var5 ? 27 : 4), var9 + 4);
+      SpriteGroupLoader.a("orbs", this.aS == 3 ? (!var5 ? 1 : 3) : (!var5 ? 0 : 2)).d(var8, var9);
+      SpriteGroupLoader.a("orbs", this.aT ? 15 : 14).d(var8 + (!var5 ? 27 : 4), var9 + 4);
       Sprite var11;
-      (var11 = aB_1.a("orbs", 4)).c = var10 < 0 ? 0 : var10;
+      (var11 = SpriteGroupLoader.a("orbs", 4)).c = var10 < 0 ? 0 : var10;
       var11.d(var8 + (!var5 ? 27 : 4), var9 + 4);
-      aB_1.a("orbs", this.aT ? 8 : 7).d(var8 + (!var5 ? 33 : 10), var9 + 8);
+      SpriteGroupLoader.a("orbs", this.aT ? 8 : 7).d(var8 + (!var5 ? 33 : 10), var9 + 8);
       this.af.a(q(var3), var8 + (!var5 ? 15 : 45), String.valueOf(var2), var9 + 26, true);
    }
 
@@ -11435,9 +11435,9 @@ public class Client extends b {
    }
 
    private void a(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9) {
-      aa var10 = null;
+      UnknownClass1 var10 = null;
 
-      for(aa var11 = (aa)this.gp.b(); var11 != null; var11 = (aa)this.gp.d()) {
+      for(UnknownClass1 var11 = (UnknownClass1)this.gp.b(); var11 != null; var11 = (UnknownClass1)this.gp.d()) {
          if (var11.e == var7 && var11.g == var8 && var11.h == var5 && var11.f == var4) {
             var10 = var11;
             break;
@@ -11445,7 +11445,7 @@ public class Client extends b {
       }
 
       if (var10 == null) {
-         (var10 = new aa()).e = var7;
+         (var10 = new UnknownClass1()).e = var7;
          var10.f = var4;
          var10.g = var8;
          var10.h = var5;
@@ -11510,7 +11510,7 @@ public class Client extends b {
       this.hm = true;
    }
 
-   private void c(I_1 var1, int var2) {
+   private void c(Buffer var1, int var2) {
       int var3;
       int var4;
       int var5;
@@ -11524,9 +11524,9 @@ public class Client extends b {
          var6 = var1.g();
          var7 = var1.g();
          var8 = var1.g();
-         M_1 var31;
+         LinkedList var31;
          if (var4 >= 0 && var5 >= 0 && var4 < 104 && var5 < 104 && (var31 = this.bn[this.cu][var4][var5]) != null) {
-            for(w var24 = (w)var31.b(); var24 != null; var24 = (w)var31.d()) {
+            for(Item var24 = (Item)var31.b(); var24 != null; var24 = (Item)var31.d()) {
                if (var24.a == (var6 & 32767) && var24.b == var7) {
                   var24.b = var8;
                   break;
@@ -11558,11 +11558,11 @@ public class Client extends b {
             var7 = var1.x();
             var8 = var1.g();
             if (var5 >= 0 && var6 >= 0 && var5 < 104 && var6 < 104 && var7 != this.bX) {
-               w var30;
-               (var30 = new w()).a = var3;
+               Item var30;
+               (var30 = new Item()).a = var3;
                var30.b = var8;
                if (this.bn[this.cu][var5][var6] == null) {
-                  this.bn[this.cu][var5][var6] = new M_1();
+                  this.bn[this.cu][var5][var6] = new LinkedList();
                }
 
                this.bn[this.cu][var5][var6].a(var30);
@@ -11570,15 +11570,15 @@ public class Client extends b {
             }
 
          } else {
-            w var26;
+            Item var26;
             if (var2 == 156) {
                var3 = var1.s();
                var4 = this.hx + (var3 >> 4 & 7);
                var5 = this.hy + (var3 & 7);
                var6 = var1.g();
-               M_1 var28;
+               LinkedList var28;
                if (var4 >= 0 && var5 >= 0 && var4 < 104 && var5 < 104 && (var28 = this.bn[this.cu][var4][var5]) != null) {
-                  for(var26 = (w)var28.b(); var26 != null; var26 = (w)var28.d()) {
+                  for(var26 = (Item)var28.b(); var26 != null; var26 = (Item)var28.d()) {
                      if (var26.a == (var6 & 32767)) {
                         var26.D();
                         break;
@@ -11615,16 +11615,16 @@ public class Client extends b {
                      if (var9 == 0 && (var33 = this.cO.e(this.cu, var4, var5)) != null) {
                         var15 = var33.h >> 14 & 32767;
                         if (var7 == 2) {
-                           var33.f = new B_1(var15, var8 + 4, 2, var11, var12, var10, var13, var3, false);
-                           var33.g = new B_1(var15, var8 + 1 & 3, 2, var11, var12, var10, var13, var3, false);
+                           var33.f = new RenderableObject(var15, var8 + 4, 2, var11, var12, var10, var13, var3, false);
+                           var33.g = new RenderableObject(var15, var8 + 1 & 3, 2, var11, var12, var10, var13, var3, false);
                         } else {
-                           var33.f = new B_1(var15, var8, var7, var11, var12, var10, var13, var3, false);
+                           var33.f = new RenderableObject(var15, var8, var7, var11, var12, var10, var13, var3, false);
                         }
                      }
 
                      ac var35;
                      if (var9 == 1 && (var35 = this.cO.f(var4, var5, this.cu)) != null) {
-                        var35.f = new B_1(var35.g >> 14 & 32767, 0, 4, var11, var12, var10, var13, var3, false);
+                        var35.f = new RenderableObject(var35.g >> 14 & 32767, 0, 4, var11, var12, var10, var13, var3, false);
                      }
 
                      if (var9 == 2) {
@@ -11634,13 +11634,13 @@ public class Client extends b {
                         }
 
                         if (var37 != null) {
-                           var37.e = new B_1(var37.m >> 14 & 32767, var8, var7, var11, var12, var10, var13, var3, false);
+                           var37.e = new RenderableObject(var37.m >> 14 & 32767, var8, var7, var11, var12, var10, var13, var3, false);
                         }
                      }
 
                      Z_1 var38;
                      if (var9 == 3 && (var38 = this.cO.h(var5, var4, this.cu)) != null) {
-                        var38.d = new B_1(var38.e >> 14 & 32767, var8, 22, var11, var12, var10, var13, var3, false);
+                        var38.d = new RenderableObject(var38.e >> 14 & 32767, var8, 22, var11, var12, var10, var13, var3, false);
                      }
                   }
 
@@ -11660,20 +11660,20 @@ public class Client extends b {
                      byte var14 = var1.f();
                      var15 = var1.g();
                      byte var25 = var1.v();
-                     y var21;
+                     Player var21;
                      if (var6 == this.bX) {
                         var21 = L;
                      } else {
                         var21 = this.cd[var6];
                      }
 
-                     j var34;
-                     if (var21 != null && (var34 = uwotm8.j.a(var15)) != null) {
+                     ObjectDefinition var34;
+                     if (var21 != null && (var34 = uwotm8.ObjectDefinition.a(var15)) != null) {
                         int var16 = this.gH[this.cu][var4][var5];
                         int var17 = this.gH[this.cu][var4 + 1][var5];
                         int var18 = this.gH[this.cu][var4 + 1][var5 + 1];
                         int var19 = this.gH[this.cu][var4][var5 + 1];
-                        D_1 var29;
+                        Model var29;
                         if ((var29 = var34.a(var11, var12, var16, var17, var18, var19, -1)) != null) {
                            this.a(var3 + 1, -1, 0, var13, var5, 0, this.cu, var4, var8 + 1);
                            var21.an = var8 + R;
@@ -11733,7 +11733,7 @@ public class Client extends b {
                      if (var4 >= 0 && var5 >= 0 && var4 < 104 && var5 < 104) {
                         var4 = (var4 << 7) + 64;
                         var5 = (var5 << 7) + 64;
-                        t var27 = new t(this.cu, R, var8, var6, this.b(this.cu, var5, var4) - var7, var5, var4);
+                        AnimableObject var27 = new AnimableObject(this.cu, R, var8, var6, this.b(this.cu, var5, var4) - var7, var5, var4);
                         this.ex.a(var27);
                      }
 
@@ -11744,10 +11744,10 @@ public class Client extends b {
                      var6 = this.hx + (var5 >> 4 & 7);
                      var7 = this.hy + (var5 & 7);
                      if (var6 >= 0 && var7 >= 0 && var6 < 104 && var7 < 104) {
-                        (var26 = new w()).a = var3;
+                        (var26 = new Item()).a = var3;
                         var26.b = var4;
                         if (this.bn[this.cu][var6][var7] == null) {
-                           this.bn[this.cu][var6][var7] = new M_1();
+                           this.bn[this.cu][var6][var7] = new LinkedList();
                         }
 
                         this.bn[this.cu][var6][var7].a(var26);
@@ -11785,8 +11785,8 @@ public class Client extends b {
                            var5 = (var5 << 7) + 64;
                            var6 = (var6 << 7) + 64;
                            var7 = (var7 << 7) + 64;
-                           z var36;
-                           (var36 = new z(var13, var10, var11 + R, var12 + R, var32, this.cu, this.b(this.cu, var5, var4) - var3, var5, var4, var8, var9)).a(var11 + R, var7, this.b(this.cu, var7, var6) - var10, var6);
+                           Projectile var36;
+                           (var36 = new Projectile(var13, var10, var11 + R, var12 + R, var32, this.cu, this.b(this.cu, var5, var4) - var3, var5, var4, var8, var9)).a(var11 + R, var7, this.b(this.cu, var7, var6) - var10, var6);
                            this.dO.a(var36);
                         }
                      }
@@ -11823,10 +11823,10 @@ public class Client extends b {
             var8 = var8 >> 14 & 32767;
             int var10 = var9 & 31;
             var9 >>= 6;
-            j var11;
+            ObjectDefinition var11;
             if (var6 == 0) {
                this.cO.a(var5, var2, var1, (byte)-119);
-               if ((var11 = uwotm8.j.a(var8)) != null && var11.p) {
+               if ((var11 = uwotm8.ObjectDefinition.a(var8)) != null && var11.p) {
                   this.gU[var2].a(var9, var10, var11.i, var5, var1);
                }
             }
@@ -11837,7 +11837,7 @@ public class Client extends b {
 
             if (var6 == 2) {
                this.cO.b(var2, var5, var1);
-               if ((var11 = uwotm8.j.a(var8)) == null) {
+               if ((var11 = uwotm8.ObjectDefinition.a(var8)) == null) {
                   return;
                }
 
@@ -11852,7 +11852,7 @@ public class Client extends b {
 
             if (var6 == 3) {
                this.cO.c(var2, var1, var5);
-               if ((var11 = uwotm8.j.a(var8)) == null) {
+               if ((var11 = uwotm8.ObjectDefinition.a(var8)) == null) {
                   return;
                }
 
@@ -11868,13 +11868,13 @@ public class Client extends b {
                var9 = var2 + 1;
             }
 
-            uwotm8.S_1.a(this.cO, var3, var1, var4, var9, this.gU[var2], this.gH, var5, var7, var2);
+            uwotm8.MapRegion.a(this.cO, var3, var1, var4, var9, this.gU[var2], this.gH, var5, var7, var2);
          }
       }
 
    }
 
-   private void b(int var1, I_1 var2) {
+   private void b(int var1, Buffer var2) {
       this.bv = 0;
       this.cg = 0;
       var2.n();
@@ -11887,15 +11887,15 @@ public class Client extends b {
             this.ch[this.cg++] = 2047;
          } else if (var6 == 1) {
             var7 = var2.i(3);
-            L.a(false, var7);
+            L.walk(false, var7);
             if (var2.i(1) == 1) {
                this.ch[this.cg++] = 2047;
             }
          } else if (var6 == 2) {
             var7 = var2.i(3);
-            L.a(true, var7);
+            L.walk(true, var7);
             int var8 = var2.i(3);
-            L.a(true, var8);
+            L.walk(true, var8);
             if (var2.i(1) == 1) {
                this.ch[this.cg++] = 2047;
             }
@@ -11908,11 +11908,11 @@ public class Client extends b {
 
             var9 = var2.i(7);
             var10 = var2.i(7);
-            L.a(var10, var9, var7 == 1);
+            L.setPosition(var10, var9, var7 == 1);
          }
       }
 
-      I_1 var4 = var2;
+      Buffer var4 = var2;
       Client var3 = this;
       int var5;
       if ((var5 = var2.i(8)) < this.ce) {
@@ -11922,14 +11922,14 @@ public class Client extends b {
       }
 
       if (var5 > var3.ce) {
-    	  uwotm8.al.b(S + " Too many players");
+    	  uwotm8.SignLink.b(S + " Too many players");
          throw new RuntimeException("eek");
       } else {
          var3.ce = 0;
 
          for(var6 = 0; var6 < var5; ++var6) {
             var7 = var3.cf[var6];
-            y var13 = var3.cd[var7];
+            Player var13 = var3.cd[var7];
             if (var4.i(1) == 0) {
                var3.cf[var3.ce++] = var7;
                var13.I = R;
@@ -11941,7 +11941,7 @@ public class Client extends b {
                var3.cf[var3.ce++] = var7;
                var13.I = R;
                var9 = var4.i(3);
-               var13.a(false, var9);
+               var13.walk(false, var9);
                if (var4.i(1) == 1) {
                   var3.ch[var3.cg++] = var7;
                }
@@ -11949,9 +11949,9 @@ public class Client extends b {
                var3.cf[var3.ce++] = var7;
                var13.I = R;
                var9 = var4.i(3);
-               var13.a(true, var9);
+               var13.walk(true, var9);
                var9 = var4.i(3);
-               var13.a(true, var9);
+               var13.walk(true, var9);
                if (var4.i(1) == 1) {
                   var3.ch[var3.cg++] = var7;
                }
@@ -11972,12 +11972,12 @@ public class Client extends b {
          }
 
          if (var2.b != var1) {
-            uwotm8.al.b("Error packet size mismatch in getplayer pos:" + var2.b + " psize:" + var1);
+            uwotm8.SignLink.b("Error packet size mismatch in getplayer pos:" + var2.b + " psize:" + var1);
             throw new RuntimeException("eek");
          } else {
             for(var11 = 0; var11 < this.ce; ++var11) {
                if (this.cd[this.cf[var11]] == null) {
-                  uwotm8.al.b(S + " null entry in pl list - pos:" + var11 + " size:" + this.ce);
+                  uwotm8.SignLink.b(S + " null entry in pl list - pos:" + var11 + " size:" + this.ce);
                   throw new RuntimeException("eek");
                }
             }
@@ -12323,7 +12323,7 @@ public class Client extends b {
                   }
                }
 
-               for(aa var139 = (aa)this.gp.b(); var139 != null; var139 = (aa)this.gp.d()) {
+               for(UnknownClass1 var139 = (UnknownClass1)this.gp.b(); var139 != null; var139 = (UnknownClass1)this.gp.d()) {
                   if (var139.g >= this.hx && var139.g < this.hx + 8 && var139.h >= this.hy && var139.h < this.hy + 8 && var139.e == this.cu) {
                      var139.d = 0;
                   }
@@ -12439,8 +12439,8 @@ public class Client extends b {
                gg.a();
                var119 = a == com.runescape.a.a ? 200 : c / 2 - 55;
                var3 = a == com.runescape.a.a ? 150 : d / 2 - 45;
-               uwotm8.p.c(var119, 130, 22, 16777215, var3);
-               uwotm8.p.b(20, var3 + 1, var119 + 1, 0, 128);
+               uwotm8.Rasterizer2D.c(var119, 130, 22, 16777215, var3);
+               uwotm8.Rasterizer2D.b(20, var3 + 1, var119 + 1, 0, 128);
                this.hz.a(0, "Loading - please wait.", var3 + 18, var119 + 68);
                this.hz.a(16777215, "Loading - please wait.", var3 + 17, var119 + 67);
                gg.a(a == com.runescape.a.a ? 4 : 0, super.ao, a == com.runescape.a.a ? 4 : 0);
@@ -12573,7 +12573,7 @@ public class Client extends b {
                }
 
                for(var119 = 0; var119 < 2048; ++var119) {
-                  y var131;
+                  Player var131;
                   if ((var131 = this.cd[var119]) != null) {
                      for(var3 = 0; var3 < 10; ++var3) {
                         var131.a[var3] -= var4;
@@ -12619,7 +12619,7 @@ public class Client extends b {
                   }
                }
 
-               for(aa var132 = (aa)this.gp.b(); var132 != null; var132 = (aa)this.gp.d()) {
+               for(UnknownClass1 var132 = (UnknownClass1)this.gp.b(); var132 != null; var132 = (UnknownClass1)this.gp.d()) {
                   var132.g -= var4;
                   var132.h -= var123;
                   if (var132.g < 0 || var132.h < 0 || var132.g >= 104 || var132.h >= 104) {
@@ -12797,7 +12797,7 @@ public class Client extends b {
                   try {
                      this.fr = this.eU.l();
                   } catch (Exception var113) {
-                     uwotm8.al.b("cde1");
+                     uwotm8.SignLink.b("cde1");
                   }
                } else {
                   this.fr = "";
@@ -12940,7 +12940,7 @@ public class Client extends b {
                this.gz = this.eU.C();
                this.dI = this.eU.g();
                if (this.gz != 0 && v == -1) {
-                  uwotm8.al.a(uwotm8.StringUtils.a(this.gz));
+                  uwotm8.SignLink.a(uwotm8.StringUtils.a(this.gz));
                   this.ac();
                   this.bW = "";
                   this.ga = false;
@@ -13018,7 +13018,7 @@ public class Client extends b {
 
                if (!var65 && this.hj == 0) {
                   try {
-                     String var145 = uwotm8.av.a(this.dJ - 14, this.eU);
+                     String var145 = uwotm8.ChatMessageCodec.a(this.dJ - 14, this.eU);
                      String var146 = var64 > 0 ? g(var64) : "";
                      if (var119 > 0 && var119 <= 3) {
                         this.a(var145, 7, var146 + uwotm8.StringUtils.c(uwotm8.StringUtils.a(var61)), var119);
@@ -13026,7 +13026,7 @@ public class Client extends b {
                         this.a(var145, 3, var146 + uwotm8.StringUtils.c(uwotm8.StringUtils.a(var61)), var119);
                      }
                   } catch (Exception var114) {
-                     uwotm8.al.b("cde1");
+                     uwotm8.SignLink.b("cde1");
                   }
                }
 
@@ -13207,7 +13207,7 @@ public class Client extends b {
                   if (var68 == 65535) {
                      var70.Z = 0;
                   } else {
-                     i var71 = uwotm8.i.c(var68);
+                     ItemDefinition var71 = uwotm8.ItemDefinition.c(var68);
                      var70.Z = 4;
                      var70.aa = var68;
                      var70.ae = var71.t;
@@ -13349,7 +13349,7 @@ public class Client extends b {
                this.dK = -1;
                return true;
             default:
-               uwotm8.al.b("T1 - " + this.dK + "," + this.dJ + " - " + this.by + "," + this.bz);
+               uwotm8.SignLink.b("T1 - " + this.dK + "," + this.dJ + " - " + this.by + "," + this.bz);
             }
          } catch (IOException var117) {
             this.G();
@@ -13360,7 +13360,7 @@ public class Client extends b {
                var1 = var1 + this.eU.a[var2] + ",";
             }
 
-            uwotm8.al.b(var1);
+            uwotm8.SignLink.b(var1);
          }
 
          this.dK = -1;
@@ -13453,7 +13453,7 @@ public class Client extends b {
       this.gY = 100;
       if (!aW) {
          try {
-            this.gS = new ao();
+            this.gS = new MidiPlayer();
          } catch (Exception var2) {
             var2.printStackTrace();
          }
@@ -13472,13 +13472,13 @@ public class Client extends b {
       this.q = 0;
       this.bl = new int[104][104];
       this.bm = new int[200];
-      this.bn = new M_1[4][104][104];
+      this.bn = new LinkedList[4][104][104];
       this.bo = false;
-      this.br = new I_1(new byte[5000]);
+      this.br = new Buffer(new byte[5000]);
       this.bs = new Npc[16384];
       this.bu = new int[16384];
       this.bw = new int[1000];
-      this.bB = uwotm8.I_1.a();
+      this.bB = uwotm8.Buffer.a();
       this.bC = true;
       v = -1;
       this.bM = new int[25];
@@ -13491,10 +13491,10 @@ public class Client extends b {
       this.ca = "";
       this.cb = 2048;
       this.cc = 2047;
-      this.cd = new y[2048];
+      this.cd = new Player[2048];
       this.cf = new int[2048];
       this.ch = new int[2048];
-      this.ci = new I_1[2048];
+      this.ci = new Buffer[2048];
       this.cn = new int[104][104];
       this.co = new byte[16384];
       this.cv = new int[25];
@@ -13515,7 +13515,7 @@ public class Client extends b {
       this.dd = -1;
       this.de = -1;
       this.y = new int[33];
-      this.z = new c[6];
+      this.z = new Index[6];
       this.A = new int[2000];
       this.dg = false;
       this.dh = 50;
@@ -13533,7 +13533,7 @@ public class Client extends b {
       this.dw = new int[5];
       this.dx = false;
       this.dG = "";
-      this.dO = new M_1();
+      this.dO = new LinkedList();
       this.dS = false;
       this.dT = -1;
       this.ed = new int[5];
@@ -13546,17 +13546,17 @@ public class Client extends b {
       this.eu = new int[152];
       this.gT = new int[152];
       this.C = -1;
-      this.ex = new M_1();
+      this.ex = new LinkedList();
       this.D = new int[33];
       this.ey = new m();
-      this.ez = new k[100];
+      this.ez = new IndexedImage[100];
       this.eB = 5063219;
       this.eD = new int[7];
       this.eJ = new int[1000];
       this.eK = new int[1000];
       this.eS = false;
       this.eT = new String[200];
-      this.eU = uwotm8.I_1.a();
+      this.eU = uwotm8.Buffer.a();
       this.fc = new int[9];
       this.fd = new int[500];
       this.fe = new int[500];
@@ -13583,16 +13583,16 @@ public class Client extends b {
       this.gd = false;
       this.gm = false;
       this.go = 201;
-      this.gp = new M_1();
+      this.gp = new LinkedList();
       this.gu = 128;
       this.W = -1;
-      this.gy = uwotm8.I_1.a();
+      this.gy = uwotm8.Buffer.a();
       this.X = new String[500];
       this.gC = new int[5];
       this.gD = new int[50];
       Z = 100;
       this.gF = "";
-      this.gK = new k[2];
+      this.gK = new IndexedImage[2];
       aa = 3;
       ab = false;
       this.gP = true;

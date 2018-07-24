@@ -32,7 +32,7 @@ public final class Y_1
         this.d = true;
     }
     
-    public static void a(final G_1 g) {
+    public static void a(final Archive g) {
         final ByteBuffer wrap;
         final short short1;
         Y_1.a = new Y_1[short1 = (wrap = ByteBuffer.wrap(g.b("flo2.dat"))).getShort()];

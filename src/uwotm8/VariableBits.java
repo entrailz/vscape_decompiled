@@ -7,9 +7,9 @@ public final class VariableBits
     public int c;
     public int d;
     
-    public static void a(final G_1 g) {
-        final I_1 i;
-        final int g2 = (i = new I_1(g.b("varbit.dat"))).g();
+    public static void a(final Archive g) {
+        final Buffer i;
+        final int g2 = (i = new Buffer(g.b("varbit.dat"))).g();
         if (VariableBits.a == null) {
             VariableBits.a = new VariableBits[g2];
         }
@@ -18,7 +18,7 @@ public final class VariableBits
                 VariableBits.a[j] = new VariableBits();
             }
             final VariableBits aj = uwotm8.VariableBits.a[j];
-            final I_1 k = i;
+            final Buffer k = i;
             final VariableBits aj2 = aj;
             aj.b = k.g();
             aj2.c = k.e();

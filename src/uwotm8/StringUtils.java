@@ -54,7 +54,7 @@ public final class StringUtils
             return new String(array, 12 - n2, n2);
         }
         catch (RuntimeException ex) {
-            al.b("81570, " + n + ", -99" + ", " + ex.toString());
+            SignLink.b("81570, " + n + ", -99" + ", " + ex.toString());
             throw new RuntimeException();
         }
     }

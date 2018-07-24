@@ -8,8 +8,8 @@ public final class VariableParameter
     public int b;
     private boolean e;
     
-    public static void a(final G_1 g) {
-        final I_1 i = new I_1(g.b("varp.dat"));
+    public static void a(final Archive g) {
+        final Buffer i = new Buffer(g.b("varp.dat"));
         VariableParameter.c = 0;
         final int g2 = i.g();
         if (VariableParameter.a == null) {
@@ -23,9 +23,9 @@ public final class VariableParameter
                 VariableParameter.a[j] = new VariableParameter();
             }
             final VariableParameter ak = uwotm8.VariableParameter.a[j];
-            final I_1 k = i;
+            final Buffer k = i;
             final int n = j;
-            final I_1 l = k;
+            final Buffer l = k;
             final VariableParameter ak2 = ak;
             int e;
             while ((e = l.e()) != 0) {

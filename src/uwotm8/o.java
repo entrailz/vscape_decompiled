@@ -2,7 +2,7 @@ package uwotm8;
 
 import java.util.*;
 
-public final class o extends p
+public final class o extends Rasterizer2D
 {
     private byte[][] b;
     private int[] c;
@@ -14,7 +14,7 @@ public final class o extends p
     private Random r;
     private boolean s;
     
-    public o(final boolean b, final String s, final G_1 g) {
+    public o(final boolean b, final String s, final Archive g) {
         this.b = new byte[256][];
         this.c = new int[256];
         this.d = new int[256];
@@ -24,12 +24,12 @@ public final class o extends p
         this.r = new Random();
         this.s = false;
         System.out.println(s);
-        final I_1 i = new I_1(g.b(String.valueOf(s) + ".dat"));
-        final I_1 j;
-        (j = new I_1(g.b("index.dat"))).b = i.g() + 4;
+        final Buffer i = new Buffer(g.b(String.valueOf(s) + ".dat"));
+        final Buffer j;
+        (j = new Buffer(g.b("index.dat"))).b = i.g() + 4;
         final int e;
         if ((e = j.e()) > 0) {
-            final I_1 k = j;
+            final Buffer k = j;
             k.b += 3 * (e - 1);
         }
         for (int l = 0; l < 256; ++l) {
@@ -248,7 +248,7 @@ public final class o extends p
             }
         }
         if (this.s) {
-            uwotm8.p.c(n3 + (int)(this.a * 0.7), 8388608, n - n4, n4);
+            uwotm8.Rasterizer2D.c(n3 + (int)(this.a * 0.7), 8388608, n - n4, n4);
         }
     }
     

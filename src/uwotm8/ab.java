@@ -7,8 +7,8 @@ public final class ab
     public int c;
     public int d;
     public int e;
-    public A f;
-    public A g;
+    public Renderable f;
+    public Renderable g;
     public int h;
     public byte i;
 }

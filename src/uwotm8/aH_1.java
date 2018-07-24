@@ -85,7 +85,7 @@ public final class aH_1
                 }
              }
             if (aH_1.b == 0 || (aH_1.b > 0 && aH_1.g > 0)) {
-                p.a(5919301, 4, 120, 30, 230, aH_1.e - 60);
+                Rasterizer2D.a(5919301, 4, 120, 30, 230, aH_1.e - 60);
                 final String format2 = NumberFormat.getIntegerInstance().format(Client.e().j());
                 final int a = Client.e().ag.a(format2);
                 Client.t.a(1).d(aH_1.e - 60, 4);
@@ -103,7 +103,7 @@ public final class aH_1
     public static void a(final int n, final int n2) {
     	if (n < 23) {
             try {
-               if (!au.b[n]) {
+               if (!SkillsConstants.b[n]) {
                   return;
                }
 

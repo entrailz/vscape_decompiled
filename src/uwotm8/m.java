@@ -5,11 +5,11 @@ import com.runescape.*;
 public final class m
 {
     public static m[][] a;
-    private static G_1 am;
+    private static Archive am;
     private static o[] an;
-    private static l[] ao;
-    private static final J_1 ap;
-    private static final J_1 aq;
+    private static RSFont[] ao;
+    private static final Cache ap;
+    private static final Cache aq;
     public int b;
     public int c;
     public int d;
@@ -84,16 +84,16 @@ public final class m
     private String az;
     
     static {
-        ap = new J_1(200);
-        aq = new J_1(50);
+        ap = new Cache(200);
+        aq = new Cache(50);
     }
     
-    public static void a(G_1 g, final c c, G_1 g2, o[] g3, l[] g4) {
+    public static void a(Archive g, final Index c, Archive g2, o[] g3, RSFont[] g4) {
     	 am = g2;
          an = g3;
          ao = g4;
-         I_1 var15;
-         a = new m[(var15 = new I_1(g.b("interface.idx"))).g()][];
+         Buffer var15;
+         a = new m[(var15 = new Buffer(g.b("interface.idx"))).g()][];
 
          for(int var16 = 0; var16 < a.length; ++var16) {
             int var17 = var15.g();
@@ -108,7 +108,7 @@ public final class m
                   var6 += var15.g();
                }
 
-               I_1 var21 = new I_1(var5);
+               Buffer var21 = new Buffer(var5);
                a[var16] = new m[var18];
 
                for(int var19 = 0; var19 < var18; ++var19) {
@@ -117,7 +117,7 @@ public final class m
                   a[var16][var19].l = var17;
                   a[var16][var19].o = (var17 << 16) + var19;
                   m var10000 = a[var16][var19];
-                  I_1 var9 = var21;
+                  Buffer var9 = var21;
                   m var20 = var10000;
 
                   try {
@@ -280,7 +280,7 @@ public final class m
                               var12 = var23.lastIndexOf(",");
                               var10001 = var23.substring(0, var12);
                               var11 = Integer.parseInt(var23.substring(var12 + 1));
-                              var20.X = aB_1.a(var10001, var11);
+                              var20.X = SpriteGroupLoader.a(var10001, var11);
                            }
 
                            var23 = var9.l();
@@ -289,7 +289,7 @@ public final class m
                               var12 = var23.lastIndexOf(",");
                               var10001 = var23.substring(0, var12);
                               var11 = Integer.parseInt(var23.substring(var12 + 1));
-                              var20.Y = aB_1.a(var10001, var11);
+                              var20.Y = SpriteGroupLoader.a(var10001, var11);
                            }
                         }
 
@@ -394,7 +394,7 @@ public final class m
 
     }
     
-    private static Sprite a(final int n, final G_1 g, final String s) {
+    private static Sprite a(final int n, final Archive g, final String s) {
         final long n2 = (uwotm8.StringUtils.b(s) << 8) + n;
         final Sprite n3;
         if ((n3 = (Sprite)uwotm8.m.ap.a(n2)) != null) {
@@ -403,7 +403,7 @@ public final class m
         Sprite n4;
         try {
             n4 = new Sprite(g, s, n);
-            uwotm8.m.ap.a((N_1)n4, n2);
+            uwotm8.m.ap.a((CacheableNode)n4, n2);
         }
         catch (Exception ex) {
             return null;
@@ -411,17 +411,17 @@ public final class m
         return n4;
     }
     
-    public static void a(final boolean b, final D_1 d) {
+    public static void a(final boolean b, final Model d) {
         if (b) {
             return;
         }
         uwotm8.m.aq.a();
         if (d != null) {
-        	uwotm8.m.aq.a((N_1)d, 327680L);
+        	uwotm8.m.aq.a((CacheableNode)d, 327680L);
         }
     }
     
-    public final D_1 a(final int n, final int n2, final boolean b) {
+    public final Model a(final int n, final int n2, final boolean b) {
         int n3;
         int n4;
         if (b) {
@@ -441,16 +441,16 @@ public final class m
         final int n5 = n3;
         final int n6 = n4;
         final int n7 = n5;
-        N_1 n8;
-        D_1 d;
+        CacheableNode n8;
+        Model d;
         if (n6 == -1) {
-            d = (D_1)(n8 = null);
+            d = (Model)(n8 = null);
         }
         else {
-            D_1 d2;
-            if ((d2 = (D_1)uwotm8.m.aq.a((long)((n7 << 16) + n6))) == null) {
+            Model d2;
+            if ((d2 = (Model)uwotm8.m.aq.a((long)((n7 << 16) + n6))) == null) {
                 if (n7 == 1) {
-                    d2 = uwotm8.D_1.a(n6);
+                    d2 = uwotm8.Model.a(n6);
                 }
                 if (n7 == 2) {
                     d2 = uwotm8.ActorDefinition.a(n6).a();
@@ -459,25 +459,25 @@ public final class m
                     d2 = Client.L.e();
                 }
                 if (n7 == 4) {
-                    d2 = uwotm8.i.c(n6).e(50);
+                    d2 = uwotm8.ItemDefinition.c(n6).e(50);
                 }
                 if (n7 == 5) {
                     d2 = null;
                 }
                 if (d2 != null) {
-                    uwotm8.m.aq.a((N_1)d2, (long)((n7 << 16) + n6));
+                    uwotm8.m.aq.a((CacheableNode)d2, (long)((n7 << 16) + n6));
                 }
             }
-            d = (D_1)(n8 = (N_1)d2);
+            d = (Model)(n8 = (CacheableNode)d2);
         }
-        final D_1 d3 = (D_1)n8;
+        final Model d3 = (Model)n8;
         if (d == null) {
             return null;
         }
         if (n2 == -1 && n == -1 && d3.k == null) {
             return d3;
         }
-        final D_1 d4 = new D_1(true, uwotm8.e.b(n2) & uwotm8.e.b(n), false, d3);
+        final Model d4 = new Model(true, uwotm8.Frame.b(n2) & uwotm8.Frame.b(n), false, d3);
         if (n2 != -1 || n != -1) {
             d4.d();
         }
@@ -491,11 +491,11 @@ public final class m
         return d4;
     }
     
-    public final p a() {
+    public final Rasterizer2D a() {
         if (this.L == 1) {
-            return (p)uwotm8.m.ao[this.ar];
+            return (Rasterizer2D)uwotm8.m.ao[this.ar];
         }
-        return (p)uwotm8.m.an[this.ar];
+        return (Rasterizer2D)uwotm8.m.an[this.ar];
     }
     
     public static m a(int n) {

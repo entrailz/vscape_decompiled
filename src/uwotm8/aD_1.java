@@ -53,8 +53,8 @@ public final class aD_1 extends aE_1
     
     @Override
     public final void a() {
-        final Sprite a = aB_1.a("frame_default", "redstones", 0);
-        final Sprite a2 = aB_1.a("frame_default", "redstones", 1);
+        final Sprite a = SpriteGroupLoader.a("frame_default", "redstones", 0);
+        final Sprite a2 = SpriteGroupLoader.a("frame_default", "redstones", 1);
         final Sprite d;
         (d = a.d()).b();
         final Sprite d2;
@@ -62,7 +62,7 @@ public final class aD_1 extends aE_1
         final Sprite d3;
         (d3 = d2.d()).b();
         this.c = new Sprite[] { a, a2, d, d2, d3 };
-        aD_1.a = aB_1.a("frame_default", "map", 4);
+        aD_1.a = SpriteGroupLoader.a("frame_default", "map", 4);
     }
     
     @Override
@@ -77,11 +77,11 @@ public final class aD_1 extends aE_1
         final int n2 = y2 + 82;
         aD_1.a.a(33, client.V, client.D, 256, client.y, 25, b2.y + ((Client.a == com.runescape.a.a) ? 3 : 4), b2.x + ((Client.a == com.runescape.a.a) ? 28 : 29), 33, 25);
         if (b) {
-        	aB_1.a("frame_default", "map", (Client.a == com.runescape.a.a) ? 1 : 3).d(x, y);
+        	SpriteGroupLoader.a("frame_default", "map", (Client.a == com.runescape.a.a) ? 1 : 3).d(x, y);
             return;
         }
-        uwotm8.p.b(3, n2, n, 16777215, 3);
-        aB_1.a("frame_default", "map", (Client.a == com.runescape.a.a) ? 0 : 2).d(x, y);
+        uwotm8.Rasterizer2D.b(3, n2, n, 16777215, 3);
+        SpriteGroupLoader.a("frame_default", "map", (Client.a == com.runescape.a.a) ? 0 : 2).d(x, y);
     }
     
     @Override
@@ -89,21 +89,21 @@ public final class aD_1 extends aE_1
         final Rectangle t = aD_1.t;
         final boolean b = Client.c >= Client.h;
         if (Client.a == com.runescape.a.a) {
-        	aB_1.a("frame_default", "tabs", 0).d(0, 0);
+        	SpriteGroupLoader.a("frame_default", "tabs", 0).d(0, 0);
             client.r.a(30, 37);
         }
         else {
             final int n = b ? (Client.c - 461) : (Client.c - 231);
             final int n2 = b ? (Client.d - 36) : (Client.d - 73);
-            aB_1.a("frame_default", "tabs", b ? 3 : 2).d(n, n2);
+            SpriteGroupLoader.a("frame_default", "tabs", b ? 3 : 2).d(n, n2);
             if (Client.f) {
                 final int n3 = Client.c - ((int)t.getWidth() + (b ? 0 : 14));
                 final int n4 = (int)t.getHeight();
                 final int n5 = n3 + 7;
                 final int n6 = n2 - (n4 - 7);
-                uwotm8.p.a(5260860, n2 - n4, t.width - 1, t.height - 1, 200, n3);
+                uwotm8.Rasterizer2D.a(5260860, n2 - n4, t.width - 1, t.height - 1, 200, n3);
                 client.r.a(n5, n6);
-                aB_1.a("frame_default", "tabs", 1).d(n3, n2 - n4);
+                SpriteGroupLoader.a("frame_default", "tabs", 1).d(n3, n2 - n4);
             }
         }
         if (client.W == -1) {
@@ -151,7 +151,7 @@ public final class aD_1 extends aE_1
                     b4 = (Client.R % 20 < 10);
                 }
                 if (b4) {
-                	aB_1.a("frame_default", "sideicons", i).d(n13, n14);
+                	SpriteGroupLoader.a("frame_default", "sideicons", i).d(n13, n14);
                 }
             }
         }
@@ -233,24 +233,24 @@ public final class aD_1 extends aE_1
         final int a = this.a(false);
         if (Client.e) {
             if (Client.g) {
-                uwotm8.p.a(13417370, a, 520, 143, 200, 0);
-                aB_1.a("frame_default", "chat", 1).d(0, a);
+                uwotm8.Rasterizer2D.a(13417370, a, 520, 143, 200, 0);
+                SpriteGroupLoader.a("frame_default", "chat", 1).d(0, a);
                 client.s.a(7, a + 6);
             }
             else {
-            	aB_1.a("frame_default", "chat", 0).d(0, a);
+            	SpriteGroupLoader.a("frame_default", "chat", 0).d(0, a);
                 client.s.a(7, a + 6);
             }
         }
         if (Client.g) {
-        	aB_1.a("frame_default", "chat", 2).d(0, Client.d - 23);
+        	SpriteGroupLoader.a("frame_default", "chat", 2).d(0, Client.d - 23);
         }
         final int a2 = this.a(false);
         if (client.q >= 0 & client.q <= 6) {
-        	aB_1.a("frame_default", "chat", 4).d(aD_1.k[client.q], a2 + 142);
+        	SpriteGroupLoader.a("frame_default", "chat", 4).d(aD_1.k[client.q], a2 + 142);
         }
         if (client.p >= 0 & client.p <= 6) {
-        	aB_1.a("frame_default", "chat", (client.p == client.q) ? 5 : 3).d(aD_1.k[client.p], a2 + 142);
+        	SpriteGroupLoader.a("frame_default", "chat", (client.p == client.q) ? 5 : 3).d(aD_1.k[client.p], a2 + 142);
         }
         final int[] array = { client.o, client.aj, client.u, client.m, client.ae, client.n };
         for (int i = 0; i < 7; ++i) {
@@ -427,6 +427,6 @@ public final class aD_1 extends aE_1
     
     @Override
     public final Sprite a(final int n) {
-        return aB_1.a("frame_default", "sideicons", 1);
+        return SpriteGroupLoader.a("frame_default", "sideicons", 1);
     }
 }

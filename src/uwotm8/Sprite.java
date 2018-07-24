@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.image.*;
 import java.awt.*;
 
-public final class Sprite extends p implements Cloneable
+public final class Sprite extends Rasterizer2D implements Cloneable
 {
     private String p;
     public int[] a;
@@ -16,7 +16,7 @@ public final class Sprite extends p implements Cloneable
     public int e;
     
     public Sprite(final int n, final int n2) {
-        this.p = String.valueOf(al.a()) + "sprites/";
+        this.p = String.valueOf(SignLink.a()) + "sprites/";
         this.a = new int[n * n2];
         this.d = n;
         this.b = n;
@@ -28,7 +28,7 @@ public final class Sprite extends p implements Cloneable
     }
     
     public Sprite(final String s) {
-        this.p = String.valueOf(al.a()) + "sprites/";
+        this.p = String.valueOf(SignLink.a()) + "sprites/";
         try {
             final Image image = Toolkit.getDefaultToolkit().getImage(String.valueOf(this.p) + s + ".png");
             final ImageIcon imageIcon = new ImageIcon(image);
@@ -51,39 +51,39 @@ public final class Sprite extends p implements Cloneable
         n = n;
         k += this.q;
         i += this.r;
-        int n2 = k + i * uwotm8.p.g;
+        int n2 = k + i * uwotm8.Rasterizer2D.g;
         int n3 = 0;
         int c = this.c;
         int b = this.b;
-        int n4 = uwotm8.p.g - b;
+        int n4 = uwotm8.Rasterizer2D.g - b;
         int n5 = 0;
-        if (i < uwotm8.p.i) {
-            final int n6 = uwotm8.p.i - i;
+        if (i < uwotm8.Rasterizer2D.i) {
+            final int n6 = uwotm8.Rasterizer2D.i - i;
             c -= n6;
-            i = uwotm8.p.i;
+            i = uwotm8.Rasterizer2D.i;
             n3 = 0 + n6 * b;
-            n2 += n6 * uwotm8.p.g;
+            n2 += n6 * uwotm8.Rasterizer2D.g;
         }
-        if (i + c > uwotm8.p.j) {
-            c -= i + c - uwotm8.p.j;
+        if (i + c > uwotm8.Rasterizer2D.j) {
+            c -= i + c - uwotm8.Rasterizer2D.j;
         }
-        if (k < uwotm8.p.k) {
-            final int n7 = uwotm8.p.k - k;
+        if (k < uwotm8.Rasterizer2D.k) {
+            final int n7 = uwotm8.Rasterizer2D.k - k;
             b -= n7;
-            k = uwotm8.p.k;
+            k = uwotm8.Rasterizer2D.k;
             n3 += n7;
             n2 += n7;
             n5 = n7 + 0;
             n4 += n7;
         }
-        if (k + b > uwotm8.p.l) {
-            final int n8 = k + b - uwotm8.p.l;
+        if (k + b > uwotm8.Rasterizer2D.l) {
+            final int n8 = k + b - uwotm8.Rasterizer2D.l;
             b -= n8;
             n5 += n8;
             n4 += n8;
         }
         if (b > 0 && c > 0) {
-            this.a(b, c, this.a, uwotm8.p.f, n2, n, n3, n5, n4);
+            this.a(b, c, this.a, uwotm8.Rasterizer2D.f, n2, n, n3, n5, n4);
         }
     }
     
@@ -116,33 +116,33 @@ public final class Sprite extends p implements Cloneable
     public final void a(int k, int i) {
         k += this.q;
         i += this.r;
-        int n = k + i * uwotm8.p.g;
+        int n = k + i * uwotm8.Rasterizer2D.g;
         int n2 = 0;
         int c = this.c;
         int b = this.b;
-        int n3 = uwotm8.p.g - b;
+        int n3 = uwotm8.Rasterizer2D.g - b;
         int n4 = 0;
-        if (i < uwotm8.p.i) {
-            final int n5 = uwotm8.p.i - i;
+        if (i < uwotm8.Rasterizer2D.i) {
+            final int n5 = uwotm8.Rasterizer2D.i - i;
             c -= n5;
-            i = uwotm8.p.i;
+            i = uwotm8.Rasterizer2D.i;
             n2 = 0 + n5 * b;
-            n += n5 * uwotm8.p.g;
+            n += n5 * uwotm8.Rasterizer2D.g;
         }
-        if (i + c > uwotm8.p.j) {
-            c -= i + c - uwotm8.p.j;
+        if (i + c > uwotm8.Rasterizer2D.j) {
+            c -= i + c - uwotm8.Rasterizer2D.j;
         }
-        if (k < uwotm8.p.k) {
-            final int n6 = uwotm8.p.k - k;
+        if (k < uwotm8.Rasterizer2D.k) {
+            final int n6 = uwotm8.Rasterizer2D.k - k;
             b -= n6;
-            k = uwotm8.p.k;
+            k = uwotm8.Rasterizer2D.k;
             n2 += n6;
             n += n6;
             n4 = n6 + 0;
             n3 += n6;
         }
-        if (k + b > uwotm8.p.l) {
-            final int n7 = k + b - uwotm8.p.l;
+        if (k + b > uwotm8.Rasterizer2D.l) {
+            final int n7 = k + b - uwotm8.Rasterizer2D.l;
             b -= n7;
             n4 += n7;
             n3 += n7;
@@ -150,7 +150,7 @@ public final class Sprite extends p implements Cloneable
         if (b > 0 && c > 0) {
             final int n8 = b;
             final int n9 = c;
-            final int[] f = uwotm8.p.f;
+            final int[] f = uwotm8.Rasterizer2D.f;
             final int[] a = this.a;
             final int n10 = n;
             final int n11 = n2;
@@ -190,11 +190,11 @@ public final class Sprite extends p implements Cloneable
         }
     }
     
-    public Sprite(final G_1 g, final String s, int i) {
-        this.p = String.valueOf(al.a()) + "sprites/";
-        final I_1 j = new I_1(g.b(String.valueOf(s) + ".dat"));
-        final I_1 k;
-        (k = new I_1(g.b("index.dat"))).b = j.g();
+    public Sprite(final Archive g, final String s, int i) {
+        this.p = String.valueOf(SignLink.a()) + "sprites/";
+        final Buffer j = new Buffer(g.b(String.valueOf(s) + ".dat"));
+        final Buffer k;
+        (k = new Buffer(g.b("index.dat"))).b = j.g();
         this.d = k.g();
         this.e = k.g();
         final int e;
@@ -206,11 +206,11 @@ public final class Sprite extends p implements Cloneable
             }
         }
         for (int n = 0; n < i; ++n) {
-            final I_1 m = k;
+            final Buffer m = k;
             m.b += 2;
-            final I_1 i2 = j;
+            final Buffer i2 = j;
             i2.b += k.g() * k.g();
-            final I_1 i3 = k;
+            final Buffer i3 = k;
             ++i3.b;
         }
         this.q = k.e();
@@ -285,33 +285,33 @@ public final class Sprite extends p implements Cloneable
     public final void b(int k, int i) {
         k += this.q;
         i += this.r;
-        int n = k + i * uwotm8.p.g;
+        int n = k + i * uwotm8.Rasterizer2D.g;
         int n2 = 0;
         int c = this.c;
         int b = this.b;
-        int n3 = uwotm8.p.g - b;
+        int n3 = uwotm8.Rasterizer2D.g - b;
         int n4 = 0;
-        if (i < uwotm8.p.i) {
-            final int n5 = uwotm8.p.i - i;
+        if (i < uwotm8.Rasterizer2D.i) {
+            final int n5 = uwotm8.Rasterizer2D.i - i;
             c -= n5;
-            i = uwotm8.p.i;
+            i = uwotm8.Rasterizer2D.i;
             n2 = 0 + n5 * b;
-            n += n5 * uwotm8.p.g;
+            n += n5 * uwotm8.Rasterizer2D.g;
         }
-        if (i + c > uwotm8.p.j) {
-            c -= i + c - uwotm8.p.j;
+        if (i + c > uwotm8.Rasterizer2D.j) {
+            c -= i + c - uwotm8.Rasterizer2D.j;
         }
-        if (k < uwotm8.p.k) {
-            final int n6 = uwotm8.p.k - k;
+        if (k < uwotm8.Rasterizer2D.k) {
+            final int n6 = uwotm8.Rasterizer2D.k - k;
             b -= n6;
-            k = uwotm8.p.k;
+            k = uwotm8.Rasterizer2D.k;
             n2 += n6;
             n += n6;
             n4 = n6 + 0;
             n3 += n6;
         }
-        if (k + b > uwotm8.p.l) {
-            final int n7 = k + b - uwotm8.p.l;
+        if (k + b > uwotm8.Rasterizer2D.l) {
+            final int n7 = k + b - uwotm8.Rasterizer2D.l;
             b -= n7;
             n4 += n7;
             n3 += n7;
@@ -324,7 +324,7 @@ public final class Sprite extends p implements Cloneable
             final int n12 = n2;
             final int n13 = n3;
             final int[] a = this.a;
-            final int[] f = uwotm8.p.f;
+            final int[] f = uwotm8.Rasterizer2D.f;
             final int[] array = a;
             final int n14 = n13;
             int n15 = n12;
@@ -353,33 +353,33 @@ public final class Sprite extends p implements Cloneable
     public final void c(int k, int i) {
         k += this.q;
         i += this.r;
-        int n = k + i * uwotm8.p.g;
+        int n = k + i * uwotm8.Rasterizer2D.g;
         int n2 = 0;
         int c = this.c;
         int b = this.b;
-        int n3 = uwotm8.p.g - b;
+        int n3 = uwotm8.Rasterizer2D.g - b;
         int n4 = 0;
-        if (i < uwotm8.p.i) {
-            final int n5 = uwotm8.p.i - i;
+        if (i < uwotm8.Rasterizer2D.i) {
+            final int n5 = uwotm8.Rasterizer2D.i - i;
             c -= n5;
-            i = uwotm8.p.i;
+            i = uwotm8.Rasterizer2D.i;
             n2 = 0 + n5 * b;
-            n += n5 * uwotm8.p.g;
+            n += n5 * uwotm8.Rasterizer2D.g;
         }
-        if (i + c > uwotm8.p.j) {
-            c -= i + c - uwotm8.p.j;
+        if (i + c > uwotm8.Rasterizer2D.j) {
+            c -= i + c - uwotm8.Rasterizer2D.j;
         }
-        if (k < uwotm8.p.k) {
-            final int n6 = uwotm8.p.k - k;
+        if (k < uwotm8.Rasterizer2D.k) {
+            final int n6 = uwotm8.Rasterizer2D.k - k;
             b -= n6;
-            k = uwotm8.p.k;
+            k = uwotm8.Rasterizer2D.k;
             n2 += n6;
             n += n6;
             n4 = n6 + 0;
             n3 += n6;
         }
-        if (k + b > uwotm8.p.l) {
-            final int n7 = k + b - uwotm8.p.l;
+        if (k + b > uwotm8.Rasterizer2D.l) {
+            final int n7 = k + b - uwotm8.Rasterizer2D.l;
             b -= n7;
             n4 += n7;
             n3 += n7;
@@ -387,7 +387,7 @@ public final class Sprite extends p implements Cloneable
         if (b > 0 && c > 0) {
             final int n8 = n2;
             final int n9 = b;
-            final int[] f = uwotm8.p.f;
+            final int[] f = uwotm8.Rasterizer2D.f;
             final int[] a = this.a;
             final int n10 = n4;
             final int n11 = c;
@@ -422,39 +422,39 @@ public final class Sprite extends p implements Cloneable
     public final void d(int k, int i) {
         k += this.q;
         i += this.r;
-        int n = k + i * uwotm8.p.g;
+        int n = k + i * uwotm8.Rasterizer2D.g;
         int n2 = 0;
         int c = this.c;
         int b = this.b;
-        int n3 = uwotm8.p.g - b;
+        int n3 = uwotm8.Rasterizer2D.g - b;
         int n4 = 0;
-        if (i < uwotm8.p.i) {
-            final int n5 = uwotm8.p.i - i;
+        if (i < uwotm8.Rasterizer2D.i) {
+            final int n5 = uwotm8.Rasterizer2D.i - i;
             c -= n5;
-            i = uwotm8.p.i;
+            i = uwotm8.Rasterizer2D.i;
             n2 = 0 + n5 * b;
-            n += n5 * uwotm8.p.g;
+            n += n5 * uwotm8.Rasterizer2D.g;
         }
-        if (i + c > uwotm8.p.j) {
-            c -= i + c - uwotm8.p.j;
+        if (i + c > uwotm8.Rasterizer2D.j) {
+            c -= i + c - uwotm8.Rasterizer2D.j;
         }
-        if (k < uwotm8.p.k) {
-            final int n6 = uwotm8.p.k - k;
+        if (k < uwotm8.Rasterizer2D.k) {
+            final int n6 = uwotm8.Rasterizer2D.k - k;
             b -= n6;
-            k = uwotm8.p.k;
+            k = uwotm8.Rasterizer2D.k;
             n2 += n6;
             n += n6;
             n4 = n6 + 0;
             n3 += n6;
         }
-        if (k + b > uwotm8.p.l) {
-            final int n7 = k + b - uwotm8.p.l;
+        if (k + b > uwotm8.Rasterizer2D.l) {
+            final int n7 = k + b - uwotm8.Rasterizer2D.l;
             b -= n7;
             n4 += n7;
             n3 += n7;
         }
         if (b > 0 && c > 0) {
-            a(uwotm8.p.f, this.a, n2, n, b, c, n3, n4);
+            a(uwotm8.Rasterizer2D.f, this.a, n2, n, b, c, n3, n4);
         }
     }
     
@@ -491,39 +491,39 @@ public final class Sprite extends p implements Cloneable
         --i;
         k += this.q;
         i += this.r;
-        int n6 = k + i * uwotm8.p.g;
+        int n6 = k + i * uwotm8.Rasterizer2D.g;
         int n7 = 0;
         n = n3;
         int n8 = n2;
-        int n9 = uwotm8.p.g - n8;
+        int n9 = uwotm8.Rasterizer2D.g - n8;
         int n10 = 0;
-        if (i < uwotm8.p.i) {
-            final int n11 = uwotm8.p.i - i;
+        if (i < uwotm8.Rasterizer2D.i) {
+            final int n11 = uwotm8.Rasterizer2D.i - i;
             n -= n11;
-            i = uwotm8.p.i;
+            i = uwotm8.Rasterizer2D.i;
             n7 = 0 + n11 * n8;
-            n6 += n11 * uwotm8.p.g;
+            n6 += n11 * uwotm8.Rasterizer2D.g;
         }
-        if (i + n > uwotm8.p.j) {
-            n -= i + n - uwotm8.p.j;
+        if (i + n > uwotm8.Rasterizer2D.j) {
+            n -= i + n - uwotm8.Rasterizer2D.j;
         }
-        if (k < uwotm8.p.k) {
-            final int n12 = uwotm8.p.k - k;
+        if (k < uwotm8.Rasterizer2D.k) {
+            final int n12 = uwotm8.Rasterizer2D.k - k;
             n8 -= n12;
-            k = uwotm8.p.k;
+            k = uwotm8.Rasterizer2D.k;
             n7 += n12;
             n6 += n12;
             n10 = n12 + 0;
             n9 += n12;
         }
-        if (k + n8 > uwotm8.p.l) {
-            final int n13 = k + n8 - uwotm8.p.l;
+        if (k + n8 > uwotm8.Rasterizer2D.l) {
+            final int n13 = k + n8 - uwotm8.Rasterizer2D.l;
             n8 -= n13;
             n10 += n13;
             n9 += n13;
         }
         if (n8 > 0 && n > 0) {
-            a(uwotm8.p.f, array, n7, n6, n8, n, n9, n10);
+            a(uwotm8.Rasterizer2D.f, array, n7, n6, n8, n, n9, n10);
         }
     }
     
@@ -580,7 +580,7 @@ public final class Sprite extends p implements Cloneable
             n2 = n2 * n3 >> 8;
             n3 = (n6 << 16) + (n7 * n9 + n5 * n2);
             n4 = (n4 << 16) + (n7 * n2 - n5 * n9);
-            n5 = j + i * uwotm8.p.g;
+            n5 = j + i * uwotm8.Rasterizer2D.g;
             int n10;
             int n11;
             for (i = 0; i < n; ++i) {
@@ -589,13 +589,13 @@ public final class Sprite extends p implements Cloneable
                 n10 = n3 + n2 * j;
                 n11 = n4 - n9 * j;
                 for (j = -array[i]; j < 0; ++j) {
-                    uwotm8.p.f[n6++] = this.a[(n10 >> 16) + (n11 >> 16) * this.b];
+                    uwotm8.Rasterizer2D.f[n6++] = this.a[(n10 >> 16) + (n11 >> 16) * this.b];
                     n10 += n2;
                     n11 -= n9;
                 }
                 n3 += n9;
                 n4 += n2;
-                n5 += uwotm8.p.g;
+                n5 += uwotm8.Rasterizer2D.g;
             }
         }
         catch (Exception ex) {}
@@ -609,7 +609,7 @@ public final class Sprite extends p implements Cloneable
             final int n5 = n3 << 8 >> 8;
             int n6 = 983040 + (n4 * -10 + n5 * -10);
             int n7 = 983040 + (n5 * -10 - n4 * -10);
-            int n8 = j + i * uwotm8.p.g;
+            int n8 = j + i * uwotm8.Rasterizer2D.g;
             int n9;
             int n10;
             int n11;
@@ -620,7 +620,7 @@ public final class Sprite extends p implements Cloneable
                 n11 = n7;
                 for (j = -20; j < 0; ++j) {
                     if ((n12 = this.a[(n10 >> 16) + (n11 >> 16) * this.b]) != 0) {
-                        uwotm8.p.f[n9++] = n12;
+                        uwotm8.Rasterizer2D.f[n9++] = n12;
                     }
                     else {
                         ++n9;
@@ -630,14 +630,14 @@ public final class Sprite extends p implements Cloneable
                 }
                 n6 += n4;
                 n7 += n5;
-                n8 += uwotm8.p.g;
+                n8 += uwotm8.Rasterizer2D.g;
             }
         }
         catch (Exception ex) {}
     }
     
     public Sprite(final byte[] array) {
-        this.p = String.valueOf(al.a()) + "sprites/";
+        this.p = String.valueOf(SignLink.a()) + "sprites/";
         try {
             final Image image = Toolkit.getDefaultToolkit().createImage(array);
             final ImageIcon imageIcon = new ImageIcon(image);

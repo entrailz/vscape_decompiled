@@ -55,9 +55,9 @@ public final class aC_1 extends aE_1
     
     @Override
     public final void a() {
-        final Sprite a = aB_1.a("frame_classic", "redstones", 0);
-        final Sprite a2 = aB_1.a("frame_classic", "redstones", 1);
-        final Sprite a3 = aB_1.a("frame_classic", "redstones", 2);
+        final Sprite a = SpriteGroupLoader.a("frame_classic", "redstones", 0);
+        final Sprite a2 = SpriteGroupLoader.a("frame_classic", "redstones", 1);
+        final Sprite a3 = SpriteGroupLoader.a("frame_classic", "redstones", 2);
         final Sprite d;
         (d = a2.d()).b();
         final Sprite d2;
@@ -73,7 +73,7 @@ public final class aC_1 extends aE_1
         final Sprite d7;
         (d7 = d2.d()).c();
         this.c = new Sprite[] { a, a2, a3, d, d2, d3, d4, d5, d6, d7 };
-        aC_1.a = aB_1.a("frame_classic", "map", 4);
+        aC_1.a = SpriteGroupLoader.a("frame_classic", "map", 4);
     }
     
     @Override
@@ -88,11 +88,11 @@ public final class aC_1 extends aE_1
         final int n2 = y2 + 82;
         aC_1.a.a(33, client.V, client.D, 256, client.y, 25, b2.y + ((Client.a == com.runescape.a.a) ? 3 : 4), b2.x + ((Client.a == com.runescape.a.a) ? 28 : 29), 33, 25);
         if (b) {
-        	aB_1.a("frame_classic", "map", (Client.a == com.runescape.a.a) ? 1 : 3).d(x, y);
+        	SpriteGroupLoader.a("frame_classic", "map", (Client.a == com.runescape.a.a) ? 1 : 3).d(x, y);
             return;
         }
-        uwotm8.p.b(3, n2, n, 16777215, 3);
-        aB_1.a("frame_classic", "map", (Client.a == com.runescape.a.a) ? 0 : 2).d(x, y);
+        uwotm8.Rasterizer2D.b(3, n2, n, 16777215, 3);
+        SpriteGroupLoader.a("frame_classic", "map", (Client.a == com.runescape.a.a) ? 0 : 2).d(x, y);
     }
     
     @Override
@@ -100,21 +100,21 @@ public final class aC_1 extends aE_1
         final Rectangle u = aC_1.u;
         final boolean b = Client.c >= Client.h;
         if (Client.a == com.runescape.a.a) {
-        	aB_1.a("frame_classic", "tabs", 0).d(0, 0);
+        	SpriteGroupLoader.a("frame_classic", "tabs", 0).d(0, 0);
             client.r.a(30, 37);
         }
         else {
             final int n = b ? (Client.c - 462) : (Client.c - 231);
             final int n2 = b ? (Client.d - 36) : (Client.d - 72);
-            aB_1.a("frame_classic", "tabs", b ? 4 : 3).d(n, n2);
+            SpriteGroupLoader.a("frame_classic", "tabs", b ? 4 : 3).d(n, n2);
             if (Client.f) {
                 final int n3 = (int)u.getWidth() + (b ? 0 : 14);
                 final int n4 = (int)u.getHeight();
                 final int n5 = n3 - 7;
                 final int n6 = n4 - 7;
-                aB_1.a("frame_classic", "tabs", 1).a(Client.c - n3, n2 - n4, 200);
+                SpriteGroupLoader.a("frame_classic", "tabs", 1).a(Client.c - n3, n2 - n4, 200);
                 client.r.a(Client.c - (n5 - 1), n2 - n6);
-                aB_1.a("frame_classic", "tabs", 2).d(Client.c - n3, n2 - n4);
+                SpriteGroupLoader.a("frame_classic", "tabs", 2).d(Client.c - n3, n2 - n4);
             }
         }
         if (client.W == -1) {
@@ -133,7 +133,7 @@ public final class aC_1 extends aE_1
                         if (!b2 && Client.aa > 6) {
                             n9 += 36;
                         }
-                        aB_1.a("frame_classic", "tabs", 5).d(n8 + 33 * (b2 ? Client.aa : (Client.aa % 7)), n9);
+                        SpriteGroupLoader.a("frame_classic", "tabs", 5).d(n8 + 33 * (b2 ? Client.aa : (Client.aa % 7)), n9);
                     }
                 }
             }
@@ -159,7 +159,7 @@ public final class aC_1 extends aE_1
                     b4 = (Client.R % 20 < 10);
                 }
                 if (b4) {
-                	aB_1.a("frame_classic", "sideicons", i).d(n12, n13);
+                	SpriteGroupLoader.a("frame_classic", "sideicons", i).d(n12, n13);
                 }
             }
         }
@@ -241,24 +241,24 @@ public final class aC_1 extends aE_1
         final int a = this.a(false);
         if (Client.e) {
             if (Client.g) {
-            	aB_1.a("frame_classic", "chat", 1).a(0, a - 1, 200);
-            	aB_1.a("frame_classic", "chat", 2).d(0, a - 1);
+            	SpriteGroupLoader.a("frame_classic", "chat", 1).a(0, a - 1, 200);
+            	SpriteGroupLoader.a("frame_classic", "chat", 2).d(0, a - 1);
                 client.s.a(7, a + 6);
             }
             else {
-            	aB_1.a("frame_classic", "chat", 0).d(0, a);
+            	SpriteGroupLoader.a("frame_classic", "chat", 0).d(0, a);
                 client.s.a(7, a + 6);
             }
         }
         if (Client.g) {
-        	aB_1.a("frame_classic", "chat", 3).d(5, Client.d - 23);
+        	SpriteGroupLoader.a("frame_classic", "chat", 3).d(5, Client.d - 23);
         }
         final int a2 = this.a(false);
         if (client.q >= 0 & client.q <= 6) {
-        	aB_1.a("frame_classic", "chat", 5).d(aC_1.k[client.q], a2 + 142);
+        	SpriteGroupLoader.a("frame_classic", "chat", 5).d(aC_1.k[client.q], a2 + 142);
         }
         if (client.p >= 0 & client.p <= 6) {
-        	aB_1.a("frame_classic", "chat", (client.p == client.q) ? 6 : 4).d(aC_1.k[client.p], a2 + 142);
+        	SpriteGroupLoader.a("frame_classic", "chat", (client.p == client.q) ? 6 : 4).d(aC_1.k[client.p], a2 + 142);
         }
         final int[] array = { client.o, client.aj, client.u, client.m, client.ae, client.n };
         for (int i = 0; i < 7; ++i) {
@@ -438,6 +438,6 @@ public final class aC_1 extends aE_1
     
     @Override
     public final Sprite a(final int n) {
-        return aB_1.a("frame_classic", "sideicons", 1);
+        return SpriteGroupLoader.a("frame_classic", "sideicons", 1);
     }
 }

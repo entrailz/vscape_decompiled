@@ -17,9 +17,9 @@ public final class Animation {
    public int m = -1;
    public int n = 1;
 
-   public static void a(G_1 var0) {
-      I_1 var8;
-      int var1 = (var8 = new I_1(var0.b("seq.dat"))).g();
+   public static void a(Archive var0) {
+      Buffer var8;
+      int var1 = (var8 = new Buffer(var0.b("seq.dat"))).g();
       if (a == null) {
          a = new Animation[var1 + 5000];
       }
@@ -30,7 +30,7 @@ public final class Animation {
          }
 
          Animation var10000 = a[var2];
-         I_1 var4 = var8;
+         Buffer var4 = var8;
          Animation var3 = var10000;
 
          while(true) {
@@ -223,7 +223,7 @@ public final class Animation {
 
    public final int a(int var1) {
       int var2;
-      if ((var2 = this.o[var1]) == 0 && uwotm8.e.a(this.c[var1]) != null) {
+      if ((var2 = this.o[var1]) == 0 && uwotm8.Frame.a(this.c[var1]) != null) {
          var2 = this.o[var1] = 0;
       }
 

@@ -21,7 +21,7 @@ public final class Settings
     public static int[] m;
     
     static {
-        Settings.n = String.valueOf(al.a()) + "settings.ini";
+        Settings.n = String.valueOf(SignLink.a()) + "settings.ini";
         Settings.a = "";
         Settings.b = "";
         Settings.c = com.runescape.a.a;

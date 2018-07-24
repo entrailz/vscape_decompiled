@@ -10,7 +10,7 @@ public final class ActorDefinition {
    private int v = -1;
    public int d = -1;
    private int w = -1;
-   private static I_1 x;
+   private static Buffer x;
    public int e = -1;
    private int y = 1834;
    public String f;
@@ -38,7 +38,7 @@ public final class ActorDefinition {
    private int I;
    public boolean s = false;
    private int[] J;
-   public static J_1 t = new J_1(30);
+   public static Cache t = new Cache(30);
 
    public static ActorDefinition a(int var0) {
       for(int var1 = 0; var1 < 20; ++var1) {
@@ -52,7 +52,7 @@ public final class ActorDefinition {
       x.b = A[var0];
       var7.b = var0;
       var7.l = (long)var0;
-      I_1 var2 = x;
+      Buffer var2 = x;
       ActorDefinition var6 = var7;
 
       while(true) {
@@ -259,7 +259,7 @@ public final class ActorDefinition {
       }
    }
 
-   public final D_1 a() {
+   public final Model a() {
       while(this.r != null) {
          ActorDefinition var1;
          if ((var1 = this.b()) == null) {
@@ -276,7 +276,7 @@ public final class ActorDefinition {
 
          int var2;
          for(var2 = 0; var2 < this.B.length; ++var2) {
-            if (!uwotm8.D_1.b(this.B[var2])) {
+            if (!uwotm8.Model.b(this.B[var2])) {
                var3 = true;
             }
          }
@@ -284,17 +284,17 @@ public final class ActorDefinition {
          if (var3) {
             return null;
          } else {
-            D_1[] var5 = new D_1[this.B.length];
+            Model[] var5 = new Model[this.B.length];
 
             for(int var4 = 0; var4 < this.B.length; ++var4) {
-               var5[var4] = uwotm8.D_1.a(this.B[var4]);
+               var5[var4] = uwotm8.Model.a(this.B[var4]);
             }
 
-            D_1 var6;
+            Model var6;
             if (var5.length == 1) {
                var6 = var5[0];
             } else {
-               var6 = new D_1(var5.length, var5);
+               var6 = new Model(var5.length, var5);
             }
 
             if (this.C != null) {
@@ -324,10 +324,10 @@ public final class ActorDefinition {
       return var1 >= 0 && var1 < this.r.length && this.r[var1] != -1 ? a(this.r[var1]) : null;
    }
 
-   public static void a(G_1 var0) {
-      x = new I_1(var0.b("npc.dat"));
-      I_1 var3;
-      A = new int[a = (var3 = new I_1(var0.b("npc.idx"))).g()];
+   public static void a(Archive var0) {
+      x = new Buffer(var0.b("npc.dat"));
+      Buffer var3;
+      A = new int[a = (var3 = new Buffer(var0.b("npc.idx"))).g()];
       int var1 = 2;
 
       int var2;
@@ -355,7 +355,7 @@ public final class ActorDefinition {
       x = null;
    }
 
-   public final D_1 a(int var1, int var2, int[] var3) {
+   public final Model a(int var1, int var2, int[] var3) {
       while(this.r != null) {
          ActorDefinition var4;
          if ((var4 = this.b()) == null) {
@@ -367,12 +367,12 @@ public final class ActorDefinition {
          //this = var4;
       }
 
-      D_1 var6;
-      if ((var6 = (D_1)t.a(this.l)) == null) {
+      Model var6;
+      if ((var6 = (Model)t.a(this.l)) == null) {
          boolean var5 = false;
 
          for(int var7 = 0; var7 < this.J.length; ++var7) {
-            if (!uwotm8.D_1.b(this.J[var7])) {
+            if (!uwotm8.Model.b(this.J[var7])) {
                var5 = true;
             }
          }
@@ -381,17 +381,17 @@ public final class ActorDefinition {
             return null;
          }
 
-         D_1[] var8 = new D_1[this.J.length];
+         Model[] var8 = new Model[this.J.length];
 
          int var9;
          for(var9 = 0; var9 < this.J.length; ++var9) {
-            var8[var9] = uwotm8.D_1.a(this.J[var9]);
+            var8[var9] = uwotm8.Model.a(this.J[var9]);
          }
 
          if (var8.length == 1) {
             var6 = var8[0];
          } else {
-            var6 = new D_1(var8.length, var8);
+            var6 = new Model(var8.length, var8);
          }
 
          if (this.C != null) {
@@ -405,8 +405,8 @@ public final class ActorDefinition {
          t.a(var6, this.l);
       }
 
-      D_1 var10;
-      (var10 = uwotm8.D_1.a).a(var6, uwotm8.e.b(var2) & uwotm8.e.b(var1));
+      Model var10;
+      (var10 = uwotm8.Model.a).a(var6, uwotm8.Frame.b(var2) & uwotm8.Frame.b(var1));
       if (var2 != -1 && var1 != -1) {
          var10.a(var3, var1, var2);
       } else if (var2 != -1) {
